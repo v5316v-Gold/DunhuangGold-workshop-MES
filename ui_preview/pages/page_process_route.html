@@ -1,0 +1,215 @@
+<div class="page-header">
+    <h1>工艺路线模板</h1>
+    <div class="actions">
+        <button class="btn"><span>📋</span> 复制</button>
+        <button class="btn btn-primary"><span>➕</span> 新建</button>
+    </div>
+</div>
+
+<div class="notice">
+    💡 工艺路线总损耗率 = 1 - Π(1 - li/100) — 串联叠加公式。例: 油压 9 道总损耗 <strong>8.71%</strong>, 失蜡 11 道 <strong>18.29%</strong>。
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>工艺路线列表</h3>
+    </div>
+    <div class="card-body dense">
+        <table class="data">
+            <thead>
+                <tr>
+                    <th>编码</th>
+                    <th>名称</th>
+                    <th>工艺</th>
+                    <th>变体</th>
+                    <th class="center">工序数</th>
+                    <th class="number">合计工时 (h)</th>
+                    <th class="number">合计损耗 (%)</th>
+                    <th>状态</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>OWP_STD</code></td>
+                    <td>油压标准 9 道</td>
+                    <td><span class="badge badge-info">油压</span></td>
+                    <td>标准</td>
+                    <td class="center">9</td>
+                    <td class="number">8.6700</td>
+                    <td class="number"><span class="text-danger">8.7142</span></td>
+                    <td><span class="badge badge-success">启用</span></td>
+                </tr>
+                <tr>
+                    <td><code>LWC_STD</code></td>
+                    <td>失蜡标准 11 道</td>
+                    <td><span class="badge badge-gold">失蜡</span></td>
+                    <td>标准</td>
+                    <td class="center">11</td>
+                    <td class="number">19.6500</td>
+                    <td class="number"><span class="text-danger">18.2859</span></td>
+                    <td><span class="badge badge-success">启用</span></td>
+                </tr>
+                <tr>
+                    <td><code>LWC_SIMPLE</code></td>
+                    <td>失蜡简化 9 道</td>
+                    <td><span class="badge badge-gold">失蜡</span></td>
+                    <td>精简</td>
+                    <td class="center">9</td>
+                    <td class="number">14.3500</td>
+                    <td class="number"><span class="text-danger">17.8234</span></td>
+                    <td><span class="badge badge-success">启用</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- 详情: LWC_STD 失蜡标准 11 道 -->
+<div class="card">
+    <div class="card-header">
+        <h3>LWC_STD — 失蜡标准 11 道(含镶石)</h3>
+        <span class="text-muted" style="margin-left: auto; font-size: 12px;">
+            合计损耗 18.29% · 合计工时 19.65h
+        </span>
+    </div>
+    <div class="card-body dense">
+        <table class="data">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>工序代码</th>
+                    <th>工序</th>
+                    <th>设备</th>
+                    <th class="number">工时 (h)</th>
+                    <th class="number">单工序损耗 (%)</th>
+                    <th class="number">累计损耗 (%)</th>
+                    <th class="center">可选</th>
+                    <th>备注</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>10</td>
+                    <td><code>LWC01</code></td>
+                    <td>设计</td>
+                    <td>-</td>
+                    <td class="number">6.0000</td>
+                    <td class="number">0.0000</td>
+                    <td class="number">0.0000</td>
+                    <td class="center">-</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>20</td>
+                    <td><code>LWC02</code></td>
+                    <td>起版</td>
+                    <td>工作台</td>
+                    <td class="number">3.0000</td>
+                    <td class="number">0.0000</td>
+                    <td class="number">0.0000</td>
+                    <td class="center">-</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>30</td>
+                    <td><code>LWC03</code></td>
+                    <td>雕蜡 / 3D 打印</td>
+                    <td>3D 打印机 (SLA/DLP)</td>
+                    <td class="number">0.7500</td>
+                    <td class="number">1.5000</td>
+                    <td class="number">1.5000</td>
+                    <td class="center">-</td>
+                    <td>回收蜡</td>
+                </tr>
+                <tr>
+                    <td>40</td>
+                    <td><code>LWC04</code></td>
+                    <td>树</td>
+                    <td>工作台</td>
+                    <td class="number">0.3000</td>
+                    <td class="number">0.0000</td>
+                    <td class="number">1.5000</td>
+                    <td class="center">-</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>50</td>
+                    <td><code>LWC05</code></td>
+                    <td>灌石膏 / 脱蜡 / 焙烧</td>
+                    <td>真空灌浆机</td>
+                    <td class="number">6.0000</td>
+                    <td class="number">0.0000</td>
+                    <td class="number">1.5000</td>
+                    <td class="center">-</td>
+                    <td>-</td>
+                </tr>
+                <tr style="background: #FFEBEE;">
+                    <td>60</td>
+                    <td><code>LWC06</code></td>
+                    <td><strong>熔金浇铸</strong></td>
+                    <td>失蜡炉</td>
+                    <td class="number">0.7500</td>
+                    <td class="number"><span class="text-danger text-bold">10.0000</span></td>
+                    <td class="number"><span class="text-danger text-bold">11.3500</span></td>
+                    <td class="center">-</td>
+                    <td>主损耗节点 · 浇口回炉</td>
+                </tr>
+                <tr>
+                    <td>70</td>
+                    <td><code>LWC07</code></td>
+                    <td>冲石膏 / 拆树</td>
+                    <td>工作台</td>
+                    <td class="number">0.3000</td>
+                    <td class="number">0.5000</td>
+                    <td class="number">11.7933</td>
+                    <td class="center">-</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>80</td>
+                    <td><code>LWC08</code></td>
+                    <td>执模</td>
+                    <td>激光焊机</td>
+                    <td class="number">1.0000</td>
+                    <td class="number">5.0000</td>
+                    <td class="number">16.2036</td>
+                    <td class="center">-</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>90</td>
+                    <td><code>LWC09</code></td>
+                    <td>镶石 (可选)</td>
+                    <td>显微镜</td>
+                    <td class="number">1.0000</td>
+                    <td class="number">1.0000</td>
+                    <td class="number">17.0416</td>
+                    <td class="center">✓</td>
+                    <td>可外协</td>
+                </tr>
+                <tr>
+                    <td>100</td>
+                    <td><code>LWC10</code></td>
+                    <td>抛光</td>
+                    <td>磁力抛光机</td>
+                    <td class="number">0.4000</td>
+                    <td class="number">1.5000</td>
+                    <td class="number">18.2860</td>
+                    <td class="center">-</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>110</td>
+                    <td><code>LWC11</code></td>
+                    <td>印记 / 检验入库</td>
+                    <td>激光打字机</td>
+                    <td class="number">0.1500</td>
+                    <td class="number">0.0000</td>
+                    <td class="number">18.2860</td>
+                    <td class="center">-</td>
+                    <td>专检</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

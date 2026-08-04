@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- ============================================================
+             油压工艺 9 道
+             ============================================================ -->
+        <record id="op_owp01" model="gold.process.operation">
+            <field name="code">OWP01</field>
+            <field name="name">设计开模</field>
+            <field name="process_type">oil_press</field>
+            <field name="sequence">10</field>
+            <field name="standard_time_hours">6.0000</field>
+            <field name="standard_loss_rate">0.0000</field>
+            <field name="equipment_category"></field>
+            <field name="collect_weight">0</field>
+            <field name="collect_dimension">0</field>
+        </record>
+        <record id="op_owp02" model="gold.process.operation">
+            <field name="code">OWP02</field>
+            <field name="name">备料</field>
+            <field name="process_type">oil_press</field>
+            <field name="sequence">20</field>
+            <field name="standard_time_hours">0.5000</field>
+            <field name="standard_loss_rate">0.0000</field>
+            <field name="equipment_category">blanking_machine</field>
+            <field name="collect_weight">1</field>
+        </record>
+        <record id="op_owp03" model="gold.process.operation">
+            <field name="code">OWP03</field>
+            <field name="name">落料</field>
+            <field name="process_type">oil_press</field>
+            <field name="sequence">30</field>
+            <field name="standard_time_hours">0.2000</field>
+            <field name="standard_loss_rate">0.5000</field>
+            <field name="equipment_category">blanking_machine</field>
+            <field name="collect_weight">1</field>
+        </record>
+        <record id="op_owp04" model="gold.process.operation">
+            <field name="code">OWP04</field>
+            <field name="name">油压成形</field>
+            <field name="process_type">oil_press</field>
+            <field name="sequence">40</field>
+            <field name="standard_time_hours">0.3000</field>
+            <field name="standard_loss_rate">1.5000</field>
+            <field name="equipment_category">oil_press_machine</field>
+            <field name="collect_weight">1</field>
+        </record>
+        <record id="op_owp05" model="gold.process.operation">
+            <field name="code">OWP05</field>
+            <field name="name">切边 / 修边</field>
+            <field name="process_type">oil_press</field>
+            <field name="sequence">50</field>
+            <field name="standard_time_hours">0.3000</field>
+            <field name="standard_loss_rate">1.5000</field>
+            <field name="equipment_category">trimming_machine</field>
+            <field name="collect_weight">1</field>
+        </record>
+        <record id="op_owp06" model="gold.process.operation">
+            <field name="code">OWP06</field>
+            <field name="name">执模</field>
+            <field name="process_type">oil_press</field>
+            <field name="sequence">60</field>
+            <field name="standard_time_hours">0.7500</field>
+            <field name="standard_loss_rate">4.0000</field>
+            <field name="equipment_category">bench</field>
+            <field name="collect_weight">1</field>
+        </record>
+        <record id="op_owp07" model="gold.process.operation">
+            <field name="code">OWP07</field>
+            <field name="name">抛光</field>
+            <field name="process_type">oil_press</field>
+            <field name="sequence">70</field>
+            <field name="standard_time_hours">0.4000</field>
+            <field name="standard_loss_rate">1.5000</field>
+            <field name="equipment_category">polishing_machine</field>
+            <field name="collect_weight">1</field>
+        </record>
+        <record id="op_owp08" model="gold.process.operation">
+            <field name="code">OWP08</field>
+            <field name="name">印记</field>
+            <field name="process_type">oil_press</field>
+            <field name="sequence">80</field>
+            <field name="standard_time_hours">0.1000</field>
+            <field name="standard_loss_rate">0.0000</field>
+            <field name="equipment_category">laser_marker</field>
+            <field name="collect_weight">0</field>
+            <field name="need_quality_check">0</field>
+        </record>
+        <record id="op_owp09" model="gold.process.operation">
+            <field name="code">OWP09</field>
+            <field name="name">检验入库</field>
+            <field name="process_type">oil_press</field>
+            <field name="sequence">90</field>
+            <field name="standard_time_hours">0.1200</field>
+            <field name="standard_loss_rate">0.0000</field>
+            <field name="equipment_category">xrf</field>
+            <field name="need_quality_check">1</field>
+            <field name="collect_weight">1</field>
+        </record>
+
+        <!-- ============================================================
+             失蜡工艺 11 道
+             ============================================================ -->
+        <record id="op_lwc01" model="gold.process.operation">
+            <field name="code">LWC01</field>
+            <field name="name">设计</field>
+            <field name="process_type">lost_wax</field>
+            <field name="sequence">10</field>
+            <field name="standard_time_hours">6.0000</field>
+            <field name="standard_loss_rate">0.0000</field>
+            <field name="collect_weight">0</field>
+        </record>
+        <record id="op_lwc02" model="gold.process.operation">
+            <field name="code">LWC02</field>
+            <field name="name">起版</field>
+            <field name="process_type">lost_wax</field>
+            <field name="sequence">20</field>
+            <field name="standard_time_hours">3.0000</field>
+            <field name="standard_loss_rate">0.0000</field>
+            <field name="equipment_category">bench</field>
+        </record>
+        <record id="op_lwc03" model="gold.process.operation">
+            <field name="code">LWC03</field>
+            <field name="name">雕蜡 / 3D 打印</field>
+            <field name="process_type">lost_wax</field>
+            <field name="sequence">30</field>
+            <field name="standard_time_hours">0.7500</field>
+            <field name="standard_loss_rate">1.5000</field>
+            <field name="equipment_category">sla_printer</field>
+            <field name="collect_weight">1</field>
+            <field name="returnable_wax">1</field>
+        </record>
+        <record id="op_lwc04" model="gold.process.operation">
+            <field name="code">LWC04</field>
+            <field name="name">树</field>
+            <field name="process_type">lost_wax</field>
+            <field name="sequence">40</field>
+            <field name="standard_time_hours">0.3000</field>
+            <field name="standard_loss_rate">0.0000</field>
+            <field name="equipment_category">bench</field>
+        </record>
+        <record id="op_lwc05" model="gold.process.operation">
+            <field name="code">LWC05</field>
+            <field name="name">灌石膏 / 脱蜡 / 焙烧</field>
+            <field name="process_type">lost_wax</field>
+            <field name="sequence">50</field>
+            <field name="standard_time_hours">6.0000</field>
+            <field name="standard_loss_rate">0.0000</field>
+            <field name="equipment_category">vacuum_investor</field>
+        </record>
+        <record id="op_lwc06" model="gold.process.operation">
+            <field name="code">LWC06</field>
+            <field name="name">熔金浇铸</field>
+            <field name="process_type">lost_wax</field>
+            <field name="sequence">60</field>
+            <field name="standard_time_hours">0.7500</field>
+            <field name="standard_loss_rate">10.0000</field>
+            <field name="equipment_category">lost_wax_furnace</field>
+            <field name="collect_weight">1</field>
+            <field name="returnable_gold">1</field>
+        </record>
+        <record id="op_lwc07" model="gold.process.operation">
+            <field name="code">LWC07</field>
+            <field name="name">冲石膏 / 拆树</field>
+            <field name="process_type">lost_wax</field>
+            <field name="sequence">70</field>
+            <field name="standard_time_hours">0.3000</field>
+            <field name="standard_loss_rate">0.5000</field>
+            <field name="equipment_category">bench</field>
+            <field name="collect_weight">1</field>
+        </record>
+        <record id="op_lwc08" model="gold.process.operation">
+            <field name="code">LWC08</field>
+            <field name="name">执模</field>
+            <field name="process_type">lost_wax</field>
+            <field name="sequence">80</field>
+            <field name="standard_time_hours">1.0000</field>
+            <field name="standard_loss_rate">5.0000</field>
+            <field name="equipment_category">laser_welder</field>
+            <field name="collect_weight">1</field>
+        </record>
+        <record id="op_lwc09" model="gold.process.operation">
+            <field name="code">LWC09</field>
+            <field name="name">镶石 (可选)</field>
+            <field name="process_type">lost_wax</field>
+            <field name="sequence">90</field>
+            <field name="standard_time_hours">1.0000</field>
+            <field name="standard_loss_rate">1.0000</field>
+            <field name="equipment_category">microscope</field>
+            <field name="collect_weight">1</field>
+            <field name="can_outsource">1</field>
+        </record>
+        <record id="op_lwc10" model="gold.process.operation">
+            <field name="code">LWC10</field>
+            <field name="name">抛光</field>
+            <field name="process_type">lost_wax</field>
+            <field name="sequence">100</field>
+            <field name="standard_time_hours">0.4000</field>
+            <field name="standard_loss_rate">1.5000</field>
+            <field name="equipment_category">magnetic_polisher</field>
+            <field name="collect_weight">1</field>
+        </record>
+        <record id="op_lwc11" model="gold.process.operation">
+            <field name="code">LWC11</field>
+            <field name="name">印记 / 检验入库</field>
+            <field name="process_type">lost_wax</field>
+            <field name="sequence">110</field>
+            <field name="standard_time_hours">0.1500</field>
+            <field name="standard_loss_rate">0.0000</field>
+            <field name="equipment_category">laser_marker</field>
+            <field name="need_quality_check">1</field>
+            <field name="collect_weight">1</field>
+        </record>
+
+        <!-- ============================================================
+             共用工序
+             ============================================================ -->
+        <record id="op_common_sort" model="gold.process.operation">
+            <field name="code">COM_SORT</field>
+            <field name="name">分拣</field>
+            <field name="process_type">common</field>
+            <field name="sequence">1000</field>
+            <field name="standard_time_hours">0.1000</field>
+            <field name="standard_loss_rate">0.0000</field>
+        </record>
+        <record id="op_common_qc" model="gold.process.operation">
+            <field name="code">COM_QC</field>
+            <field name="name">专检</field>
+            <field name="process_type">common</field>
+            <field name="sequence">1010</field>
+            <field name="standard_time_hours">0.1000</field>
+            <field name="standard_loss_rate">0.0000</field>
+            <field name="need_quality_check">1</field>
+        </record>
+        <record id="op_common_pack" model="gold.process.operation">
+            <field name="code">COM_PACK</field>
+            <field name="name">包装</field>
+            <field name="process_type">common</field>
+            <field name="sequence">1020</field>
+            <field name="standard_time_hours">0.1500</field>
+            <field name="standard_loss_rate">0.0000</field>
+        </record>
+    </data>
+</odoo>

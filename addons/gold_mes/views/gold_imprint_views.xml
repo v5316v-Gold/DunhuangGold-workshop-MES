@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_gold_imprint_tree" model="ir.ui.view">
+            <field name="name">gold.imprint.tree</field>
+            <field name="model">gold.imprint</field>
+            <field name="arch" type="xml">
+                <tree string="印记记录" decoration-danger="ocr_mismatch">
+                    <field name="name"/>
+                    <field name="imprint_time"/>
+                    <field name="production_id"/>
+                    <field name="product_id"/>
+                    <field name="piece_sn"/>
+                    <field name="imprint_type"/>
+                    <field name="material_code"/>
+                    <field name="purity_code"/>
+                    <field name="factory_code"/>
+                    <field name="assay_code"/>
+                    <field name="imprint_content"/>
+                    <field name="imprint_position"/>
+                    <field name="operator_id"/>
+                    <field name="reviewer_id"/>
+                    <field name="encoder_id"/>
+                    <field name="ocr_verified" widget="boolean_toggle"/>
+                    <field name="ocr_mismatch" widget="boolean_toggle"/>
+                    <field name="ngtc_cert_no"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_gold_imprint_form" model="ir.ui.view">
+            <field name="name">gold.imprint.form</field>
+            <field name="model">gold.imprint</field>
+            <field name="arch" type="xml">
+                <form string="印记记录">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1><field name="name" placeholder="印记记录号"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="production_id"/>
+                                <field name="product_id"/>
+                                <field name="piece_sn"/>
+                                <field name="imprint_type"/>
+                                <field name="imprint_position"/>
+                            </group>
+                            <group>
+                                <field name="equipment_id"/>
+                                <field name="imprint_time"/>
+                                <field name="ngtc_cert_no"/>
+                            </group>
+                        </group>
+                        <group string="印记内容 (GB 11887-2012 §4.1)">
+                            <group>
+                                <field name="material_code" placeholder="Au / Pt / Pd / Ag"/>
+                                <field name="purity_code" placeholder="足金999 / 18K 750 / PT950"/>
+                            </group>
+                            <group>
+                                <field name="factory_code" placeholder="厂印"/>
+                                <field name="assay_code" placeholder="检测中心印记"/>
+                            </group>
+                        </group>
+                        <group string="完整印记">
+                            <field name="imprint_content" readonly="True"
+                                style="font-size: 24px; font-weight: bold; color: #B8860B;"
+                                widget="char"/>
+                        </group>
+                        <group string="三级分离 (操作员 / 复核员 / 编码员)">
+                            <group>
+                                <field name="operator_id"/>
+                                <field name="reviewer_id"/>
+                                <field name="encoder_id"/>
+                            </group>
+                        </group>
+                        <group string="OCR 校验">
+                            <group>
+                                <field name="ocr_verified" widget="boolean_toggle"/>
+                                <field name="ocr_verified_time"/>
+                                <field name="ocr_mismatch" widget="boolean_toggle"/>
+                                <field name="ocr_image" widget="image"/>
+                            </group>
+                        </group>
+                        <group string="NGTC 证书">
+                            <field name="ngtc_cert_image" widget="image"/>
+                        </group>
+                        <field name="note" placeholder="备注"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_gold_imprint" model="ir.actions.act_window">
+            <field name="name">印记记录</field>
+            <field name="res_model">gold.imprint</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

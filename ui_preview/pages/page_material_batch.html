@@ -1,0 +1,192 @@
+<div class="page-header">
+    <h1>金料批次</h1>
+    <div class="actions">
+        <button class="btn">🔍 扫码查找</button>
+        <button class="btn">📊 库存估值</button>
+        <button class="btn btn-primary">➕ 入库</button>
+    </div>
+</div>
+
+<div class="kpi-grid">
+    <div class="kpi-card gold">
+        <div class="label">可用库存</div>
+        <div class="value gold">8,149.500 <span style="font-size: 14px;">g</span></div>
+        <div class="sub">¥ 32,847,000</div>
+    </div>
+    <div class="kpi-card">
+        <div class="label">总价值</div>
+        <div class="value">¥ 32.8M</div>
+        <div class="sub">按当前金价</div>
+    </div>
+    <div class="kpi-card">
+        <div class="label">待检验</div>
+        <div class="value">0</div>
+        <div class="sub">库存 100% 已检</div>
+    </div>
+    <div class="kpi-card">
+        <div class="label">回收料</div>
+        <div class="value">350.500 g</div>
+        <div class="sub">单独批次</div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>金料批次列表</h3>
+        <div class="text-muted" style="margin-left: auto; font-size: 12px;">精度 0.001g (NUMERIC 18,6)</div>
+    </div>
+    <div class="card-body dense">
+        <table class="data">
+            <thead>
+                <tr>
+                    <th>批次号</th>
+                    <th>物料</th>
+                    <th>成色</th>
+                    <th class="number">净重 (g)</th>
+                    <th class="number">可用 (g)</th>
+                    <th class="number">已消耗 (g)</th>
+                    <th>来源</th>
+                    <th class="number">当前价</th>
+                    <th class="number">当前价值</th>
+                    <th>检验</th>
+                    <th>状态</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>GL20260805-00001</code></td>
+                    <td>足金 9999 板料</td>
+                    <td>99.99%</td>
+                    <td class="number">5,000.000</td>
+                    <td class="number">5,000.000</td>
+                    <td class="number">0.000</td>
+                    <td><span class="badge badge-info">供应商</span></td>
+                    <td class="number">582.50</td>
+                    <td class="number currency">2,912,500.00</td>
+                    <td><span class="badge badge-success">合格</span></td>
+                    <td><span class="badge badge-success">可用</span></td>
+                </tr>
+                <tr>
+                    <td><code>GL20260805-00002</code></td>
+                    <td>足金 9999 板料</td>
+                    <td>99.99%</td>
+                    <td class="number">3,200.000</td>
+                    <td class="number">2,800.000</td>
+                    <td class="number">400.000</td>
+                    <td><span class="badge badge-info">供应商</span></td>
+                    <td class="number">582.50</td>
+                    <td class="number currency">1,631,000.00</td>
+                    <td><span class="badge badge-success">合格</span></td>
+                    <td><span class="badge badge-success">可用</span></td>
+                </tr>
+                <tr>
+                    <td><code>GL20260805-00003</code></td>
+                    <td>18K 金 板料</td>
+                    <td>75.00%</td>
+                    <td class="number">2,000.000</td>
+                    <td class="number">1,500.000</td>
+                    <td class="number">500.000</td>
+                    <td><span class="badge badge-info">供应商</span></td>
+                    <td class="number">442.00</td>
+                    <td class="number currency">663,000.00</td>
+                    <td><span class="badge badge-success">合格</span></td>
+                    <td><span class="badge badge-success">可用</span></td>
+                </tr>
+                <tr>
+                    <td><code>GL20260804-00005</code></td>
+                    <td>PT950 铂金 板料</td>
+                    <td>95.00%</td>
+                    <td class="number">800.000</td>
+                    <td class="number">798.000</td>
+                    <td class="number">2.000</td>
+                    <td><span class="badge badge-info">供应商</span></td>
+                    <td class="number">320.00</td>
+                    <td class="number currency">255,360.00</td>
+                    <td><span class="badge badge-success">合格</span></td>
+                    <td><span class="badge badge-success">可用</span></td>
+                </tr>
+                <tr>
+                    <td><code>HS20260801-00001</code></td>
+                    <td>回收料</td>
+                    <td>99.50%</td>
+                    <td class="number">350.500</td>
+                    <td class="number">350.500</td>
+                    <td class="number">0.000</td>
+                    <td><span class="badge badge-gold">旧金回收</span></td>
+                    <td class="number">570.85</td>
+                    <td class="number currency">200,083.43</td>
+                    <td><span class="badge badge-success">合格</span></td>
+                    <td><span class="badge badge-success">可用</span></td>
+                </tr>
+                <tr>
+                    <td><code>GL20260803-00002</code></td>
+                    <td>足金 9999 板料</td>
+                    <td>99.99%</td>
+                    <td class="number">2,500.000</td>
+                    <td class="number">0.000</td>
+                    <td class="number">2,500.000</td>
+                    <td><span class="badge badge-info">供应商</span></td>
+                    <td class="number">582.50</td>
+                    <td class="number currency">0.00</td>
+                    <td><span class="badge badge-success">合格</span></td>
+                    <td><span class="badge badge-muted">已耗尽</span></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr style="background: var(--bg); font-weight: 600;">
+                    <td colspan="3">合计</td>
+                    <td class="number">13,850.500</td>
+                    <td class="number">10,448.500</td>
+                    <td class="number">3,402.000</td>
+                    <td colspan="3" class="number currency">5,661,943.43</td>
+                    <td colspan="2"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>重量平衡监控</h3>
+    </div>
+    <div class="card-body">
+        <div class="notice info">
+            ✨ 所有批次重量平衡检查:<br>
+            <code>净重 = 可用 + 已分配 + 已消耗</code>,差异阈值 <strong>0.005g</strong>。
+        </div>
+        <table class="data">
+            <thead>
+                <tr>
+                    <th>批次号</th>
+                    <th class="number">净重</th>
+                    <th class="number">可用</th>
+                    <th class="number">已分配</th>
+                    <th class="number">已消耗</th>
+                    <th class="number">差异</th>
+                    <th>状态</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>GL20260805-00001</code></td>
+                    <td class="number">5,000.000</td>
+                    <td class="number">5,000.000</td>
+                    <td class="number">0.000</td>
+                    <td class="number">0.000</td>
+                    <td class="number">0.000</td>
+                    <td><span class="badge badge-success">✓ 平衡</span></td>
+                </tr>
+                <tr>
+                    <td><code>GL20260805-00002</code></td>
+                    <td class="number">3,200.000</td>
+                    <td class="number">2,800.000</td>
+                    <td class="number">0.000</td>
+                    <td class="number">400.000</td>
+                    <td class="number">0.000</td>
+                    <td><span class="badge badge-success">✓ 平衡</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

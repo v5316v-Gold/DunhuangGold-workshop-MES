@@ -1,0 +1,182 @@
+<div class="page-header">
+    <h1>模具台账</h1>
+    <div class="actions">
+        <button class="btn">📊 寿命看板</button>
+        <button class="btn">🔧 保养计划</button>
+        <button class="btn btn-primary">➕ 新建</button>
+    </div>
+</div>
+
+<div class="kpi-grid">
+    <div class="kpi-card success">
+        <div class="label">模具总数</div>
+        <div class="value">5</div>
+        <div class="sub">油压 5 / 油压 0</div>
+    </div>
+    <div class="kpi-card gold">
+        <div class="label">在用</div>
+        <div class="value">3</div>
+        <div class="sub">油压机挂载</div>
+    </div>
+    <div class="kpi-card" style="border-left-color: var(--warning);">
+        <div class="label">寿命预警</div>
+        <div class="value" style="color: var(--warning);">2</div>
+        <div class="sub">剩余 ≤ 10%</div>
+    </div>
+    <div class="kpi-card" style="border-left-color: var(--danger);">
+        <div class="label">已报废</div>
+        <div class="value" style="color: var(--danger);">0</div>
+        <div class="sub">自动报废</div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>模具列表</h3>
+    </div>
+    <div class="card-body dense">
+        <table class="data">
+            <thead>
+                <tr>
+                    <th>模具编号</th>
+                    <th>模具名称</th>
+                    <th>类型</th>
+                    <th>厂商</th>
+                    <th>对应款式</th>
+                    <th>额定寿命</th>
+                    <th>已用</th>
+                    <th>剩余</th>
+                    <th>状态</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="background: var(--gold-bg);">
+                    <td><code>MLD-00001</code></td>
+                    <td>古法金素圈戒指钢模</td>
+                    <td>钢模</td>
+                    <td>深圳精模</td>
+                    <td>古法金素圈戒指</td>
+                    <td>1,000,000</td>
+                    <td>350,000</td>
+                    <td>
+                        <div class="progress" style="width: 120px;">
+                            <div class="progress-bar success" style="width: 65%;"></div>
+                        </div>
+                        <span class="text-muted" style="font-size: 11px;">650,000 (65%)</span>
+                    </td>
+                    <td><span class="badge badge-success">在用</span></td>
+                </tr>
+                <tr>
+                    <td><code>MLD-00002</code></td>
+                    <td>古法金葫芦挂坠钢模</td>
+                    <td>钢模</td>
+                    <td>深圳精模</td>
+                    <td>古法金葫芦挂坠</td>
+                    <td>800,000</td>
+                    <td>200,000</td>
+                    <td>
+                        <div class="progress" style="width: 120px;">
+                            <div class="progress-bar success" style="width: 75%;"></div>
+                        </div>
+                        <span class="text-muted" style="font-size: 11px;">600,000 (75%)</span>
+                    </td>
+                    <td><span class="badge badge-success">在用</span></td>
+                </tr>
+                <tr>
+                    <td><code>MLD-00003</code></td>
+                    <td>5G 黄金无氰电铸模</td>
+                    <td>硬质合金</td>
+                    <td>东莞精密</td>
+                    <td>5G 黄金链节</td>
+                    <td>500,000</td>
+                    <td>120,000</td>
+                    <td>
+                        <div class="progress" style="width: 120px;">
+                            <div class="progress-bar success" style="width: 76%;"></div>
+                        </div>
+                        <span class="text-muted" style="font-size: 11px;">380,000 (76%)</span>
+                    </td>
+                    <td><span class="badge badge-gold">闲置</span></td>
+                </tr>
+                <tr style="background: #FFF3E0;">
+                    <td><code>MLD-00004</code></td>
+                    <td>古法金如意手镯钢模</td>
+                    <td>钢模</td>
+                    <td>深圳精模</td>
+                    <td>古法金如意手镯</td>
+                    <td>300,000</td>
+                    <td>285,000</td>
+                    <td>
+                        <div class="progress" style="width: 120px;">
+                            <div class="progress-bar warning" style="width: 5%;"></div>
+                        </div>
+                        <span class="text-warning text-bold" style="font-size: 11px;">15,000 (5%) ⚠</span>
+                    </td>
+                    <td><span class="badge badge-warning">预警</span></td>
+                </tr>
+                <tr style="background: #FFEBEE;">
+                    <td><code>MLD-00005</code></td>
+                    <td>古法金万事如意钢模</td>
+                    <td>钢模</td>
+                    <td>深圳精模</td>
+                    <td>古法金万事如意摆件</td>
+                    <td>200,000</td>
+                    <td>198,000</td>
+                    <td>
+                        <div class="progress" style="width: 120px;">
+                            <div class="progress-bar danger" style="width: 1%;"></div>
+                        </div>
+                        <span class="text-danger text-bold" style="font-size: 11px;">2,000 (1%) 🔴</span>
+                    </td>
+                    <td><span class="badge badge-danger">即将报废</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>保养记录 - MLD-00001</h3>
+    </div>
+    <div class="card-body dense">
+        <table class="data">
+            <thead>
+                <tr>
+                    <th>日期</th>
+                    <th>已用次数</th>
+                    <th>保养内容</th>
+                    <th>配件</th>
+                    <th>费用</th>
+                    <th>操作员</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2026-04-01</td>
+                    <td>300,000</td>
+                    <td>拆模清洗 + 抛光修复</td>
+                    <td>抛光蜡 50g</td>
+                    <td class="number">¥ 200.00</td>
+                    <td>张师傅</td>
+                </tr>
+                <tr>
+                    <td>2026-02-15</td>
+                    <td>200,000</td>
+                    <td>拆模清洗 + 抛光修复</td>
+                    <td>抛光蜡 50g</td>
+                    <td class="number">¥ 200.00</td>
+                    <td>张师傅</td>
+                </tr>
+                <tr>
+                    <td>2026-01-01</td>
+                    <td>100,000</td>
+                    <td>初始检验</td>
+                    <td>-</td>
+                    <td class="number">¥ 0.00</td>
+                    <td>陈师傅</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_gold_price_engine_tree" model="ir.ui.view">
+            <field name="name">gold.price.engine.tree</field>
+            <field name="model">gold.price.engine</field>
+            <field name="arch" type="xml">
+                <tree string="金价" decoration_success="price_change &gt; 0" decoration_danger="price_change &lt; 0">
+                    <field name="price_time"/>
+                    <field name="source"/>
+                    <field name="gold_type"/>
+                    <field name="price_open" digits="[18,4]"/>
+                    <field name="price_high" digits="[18,4]"/>
+                    <field name="price_low" digits="[18,4]"/>
+                    <field name="price_close" digits="[18,4]"/>
+                    <field name="price_change" digits="[18,4]"/>
+                    <field name="price_change_pct" digits="[8,4]" widget="percentage"/>
+                    <field name="is_settlement" widget="boolean_toggle"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_gold_price_engine_form" model="ir.ui.view">
+            <field name="name">gold.price.engine.form</field>
+            <field name="model">gold.price.engine</field>
+            <field name="arch" type="xml">
+                <form string="金价">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="price_time"/>
+                                <field name="source"/>
+                                <field name="gold_type"/>
+                                <field name="is_settlement"/>
+                            </group>
+                            <group>
+                                <field name="unit"/>
+                                <field name="volume_kg" digits="[16,4]"/>
+                                <field name="open_interest" digits="[16,4]"/>
+                            </group>
+                        </group>
+                        <group string="价格">
+                            <group>
+                                <field name="price_open" digits="[18,4]"/>
+                                <field name="price_high" digits="[18,4]"/>
+                            </group>
+                            <group>
+                                <field name="price_low" digits="[18,4]"/>
+                                <field name="price_close" digits="[18,4]"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="price_change" digits="[18,4]"/>
+                            <field name="price_change_pct" digits="[8,4]" widget="percentage"/>
+                        </group>
+                        <field name="note" placeholder="备注"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_gold_price_engine_graph" model="ir.ui.view">
+            <field name="name">gold.price.engine.graph</field>
+            <field name="model">gold.price.engine</field>
+            <field name="arch" type="xml">
+                <graph string="金价走势" type="line" sample="1">
+                    <field name="price_time" type="row" interval="day"/>
+                    <field name="price_close" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <record id="action_gold_price_engine" model="ir.actions.act_window">
+            <field name="name">实时金价</field>
+            <field name="res_model">gold.price.engine</field>
+            <field name="view_mode">tree,form,graph</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_gold_loss_trace_tree" model="ir.ui.view">
+            <field name="name">gold.loss.trace.tree</field>
+            <field name="model">gold.loss.trace</field>
+            <field name="arch" type="xml">
+                <tree string="损耗追溯" decoration-danger="is_over_loss" decoration-success="review_status == 'resolved'">
+                    <field name="name"/>
+                    <field name="trace_time"/>
+                    <field name="production_id"/>
+                    <field name="operation_id"/>
+                    <field name="input_weight_g" digits="[18,6]"/>
+                    <field name="output_weight_g" digits="[18,6]"/>
+                    <field name="loss_g" digits="[18,6]"/>
+                    <field name="loss_rate" digits="[6,4]" widget="percentage"/>
+                    <field name="standard_loss_rate" digits="[6,4]" widget="percentage"/>
+                    <field name="loss_diff_pct" digits="[6,4]" widget="percentage"/>
+                    <field name="is_over_loss" widget="boolean_toggle"/>
+                    <field name="review_status" widget="badge"
+                        decoration-info="review_status == 'pending'"
+                        decoration-warning="review_status == 'in_progress'"
+                        decoration-success="review_status == 'resolved'"
+                        decoration-muted="review_status == 'ignored'"/>
+                    <field name="reviewer_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_gold_loss_trace_form" model="ir.ui.view">
+            <field name="name">gold.loss.trace.form</field>
+            <field name="model">gold.loss.trace</field>
+            <field name="arch" type="xml">
+                <form string="损耗追溯">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1><field name="name" placeholder="追溯单号"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="production_id"/>
+                                <field name="operation_id"/>
+                                <field name="workorder_id"/>
+                                <field name="report_id"/>
+                                <field name="trace_time"/>
+                                <field name="reviewer_id"/>
+                            </group>
+                            <group>
+                                <field name="input_weight_g" digits="[18,6]"/>
+                                <field name="output_weight_g" digits="[18,6]"/>
+                                <field name="loss_g" digits="[18,6]"/>
+                                <field name="loss_rate" digits="[6,4]" widget="percentage"/>
+                                <field name="standard_loss_rate" digits="[6,4]" widget="percentage"/>
+                                <field name="loss_diff_pct" digits="[6,4]" widget="percentage"/>
+                                <field name="is_over_loss" widget="boolean_toggle"/>
+                            </group>
+                        </group>
+                        <group string="复盘">
+                            <field name="review_status"/>
+                            <field name="review_note" placeholder="复盘结论 / 根因 / 改进措施"/>
+                        </group>
+                        <field name="note" placeholder="备注"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_gold_loss_trace" model="ir.actions.act_window">
+            <field name="name">损耗追溯</field>
+            <field name="res_model">gold.loss.trace</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

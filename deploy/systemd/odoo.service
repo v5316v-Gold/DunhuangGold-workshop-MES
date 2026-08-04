@@ -1,0 +1,40 @@
+[Unit]
+Description=Odoo 17 - 贵金属车间 ERP
+Documentation=https://www.odoo.com/documentation/17.0/
+After=network.target postgresql.service
+Requires=postgresql.service
+
+[Service]
+Type=notify
+User=odoo
+Group=odoo
+RuntimeDirectory=odoo
+RuntimeDirectoryMode=0750
+
+# 进程
+ExecStart=/usr/bin/odoo --config=/etc/odoo/odoo.conf --logfile=/var/log/odoo/odoo.log
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=mixed
+TimeoutStopSec=10
+
+# 自动重启
+Restart=on-failure
+RestartSec=10s
+
+# 资源限制
+LimitNOFILE=65536
+LimitNPROC=4096
+
+# 安全加固
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+ReadWritePaths=/var/lib/odoo /var/log/odoo /mnt/odoo
+
+# 环境
+Environment="LANG=zh_CN.UTF-8"
+Environment="LC_ALL=zh_CN.UTF-8"
+
+[Install]
+WantedBy=multi-user.target

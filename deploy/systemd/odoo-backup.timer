@@ -1,0 +1,12 @@
+[Unit]
+Description=Odoo 17 - 数据库备份定时器
+Requires=odoo-backup.service
+
+[Timer]
+# 每天凌晨 2 点
+OnCalendar=*-*-* 02:00:00
+Persistent=true
+Unit=odoo-backup.service
+
+[Install]
+WantedBy=timers.target

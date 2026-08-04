@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- 贵金属分类体系: 顶层节点 -->
+        <record id="product_category_gold_metal" model="product.category">
+            <field name="name">贵金属物料 / Gold Material</field>
+            <field name="parent_id" ref="product.product_category_all"/>
+        </record>
+        <record id="product_category_gold_material" model="product.category">
+            <field name="name">金料 / Gold Material</field>
+            <field name="parent_id" ref="product_category_gold_metal"/>
+        </record>
+        <record id="product_category_k_gold" model="product.category">
+            <field name="name">K 金 / K Gold</field>
+            <field name="parent_id" ref="product_category_gold_metal"/>
+        </record>
+        <record id="product_category_platinum" model="product.category">
+            <field name="name">铂金 / Platinum</field>
+            <field name="parent_id" ref="product_category_gold_metal"/>
+        </record>
+        <record id="product_category_palladium" model="product.category">
+            <field name="name">钯金 / Palladium</field>
+            <field name="parent_id" ref="product_category_gold_metal"/>
+        </record>
+        <record id="product_category_silver" model="product.category">
+            <field name="name">银 / Silver</field>
+            <field name="parent_id" ref="product_category_gold_metal"/>
+        </record>
+        <record id="product_category_recycle" model="product.category">
+            <field name="name">回收料 / Recycled</field>
+            <field name="parent_id" ref="product_category_gold_metal"/>
+        </record>
+
+        <!-- 辅材 -->
+        <record id="product_category_aux_solder" model="product.category">
+            <field name="name">焊料 / Solder</field>
+            <field name="parent_id" ref="product.product_category_all"/>
+        </record>
+        <record id="product_category_aux_stone" model="product.category">
+            <field name="name">宝石 / Stones</field>
+            <field name="parent_id" ref="product.product_category_all"/>
+        </record>
+        <record id="product_category_aux_pack" model="product.category">
+            <field name="name">包装 / Packaging</field>
+            <field name="parent_id" ref="product.product_category_all"/>
+        </record>
+        <record id="product_category_aux_chem" model="product.category">
+            <field name="name">化工 / Chemical</field>
+            <field name="parent_id" ref="product.product_category_all"/>
+        </record>
+
+        <!-- 成品 -->
+        <record id="product_category_finished_oil_press" model="product.category">
+            <field name="name">油压成品 / Oil-press Finished</field>
+            <field name="parent_id" ref="product.product_category_all"/>
+        </record>
+        <record id="product_category_finished_lost_wax" model="product.category">
+            <field name="name">失蜡成品 / Lost-wax Finished</field>
+            <field name="parent_id" ref="product.product_category_all"/>
+        </record>
+    </data>
+</odoo>

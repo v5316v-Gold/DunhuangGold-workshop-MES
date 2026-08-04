@@ -1,0 +1,160 @@
+<div class="page-header">
+    <h1>旧金回收</h1>
+    <div class="actions">
+        <button class="btn">📊 回收统计</button>
+        <button class="btn btn-primary">➕ 新建</button>
+    </div>
+</div>
+
+<div class="statusbar">
+    <span class="step active">草稿</span>
+    <span class="step">化验中</span>
+    <span class="step">已报价</span>
+    <span class="step">客户确认</span>
+    <span class="step">提纯中</span>
+    <span class="step">已入库</span>
+</div>
+
+<div class="notice">
+    💡 公式: 回收金额 = 净重 × 含量 × 当日金价 × 折价系数。<br>
+    反洗钱: ≥5万自动大额标记,≥1万触发报告流。
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>回收单列表</h3>
+    </div>
+    <div class="card-body dense">
+        <table class="data">
+            <thead>
+                <tr>
+                    <th>回收单号</th>
+                    <th>客户</th>
+                    <th>身份证</th>
+                    <th>物料</th>
+                    <th class="number">净重 (g)</th>
+                    <th class="number">含量</th>
+                    <th class="number">金价</th>
+                    <th class="number">回收金额</th>
+                    <th>大额</th>
+                    <th>状态</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>HS20260801-00001</code></td>
+                    <td>张女士</td>
+                    <td>****1234</td>
+                    <td>足金</td>
+                    <td class="number">350.500</td>
+                    <td class="number">99.50%</td>
+                    <td class="number">578.50</td>
+                    <td class="number currency">196,083.43</td>
+                    <td><span class="badge badge-warning">大额</span></td>
+                    <td><span class="badge badge-success">已入库</span></td>
+                </tr>
+                <tr>
+                    <td><code>HS20260728-00003</code></td>
+                    <td>王先生</td>
+                    <td>****5678</td>
+                    <td>18K</td>
+                    <td class="number">52.300</td>
+                    <td class="number">75.20%</td>
+                    <td class="number">438.20</td>
+                    <td class="number currency">17,228.74</td>
+                    <td>-</td>
+                    <td><span class="badge badge-success">已入库</span></td>
+                </tr>
+                <tr>
+                    <td><code>HS20260725-00002</code></td>
+                    <td>李先生</td>
+                    <td>****9012</td>
+                    <td>足金</td>
+                    <td class="number">120.000</td>
+                    <td class="number">99.85%</td>
+                    <td class="number">576.50</td>
+                    <td class="number currency">67,210.93</td>
+                    <td><span class="badge badge-warning">大额</span></td>
+                    <td><span class="badge badge-success">已入库</span></td>
+                </tr>
+                <tr>
+                    <td><code>HS20260720-00001</code></td>
+                    <td>陈女士</td>
+                    <td>****3456</td>
+                    <td>PT950</td>
+                    <td class="number">45.800</td>
+                    <td class="number">95.00%</td>
+                    <td class="number">318.00</td>
+                    <td class="number currency">13,842.30</td>
+                    <td>-</td>
+                    <td><span class="badge badge-success">已入库</span></td>
+                </tr>
+                <tr style="background: var(--gold-bg);">
+                    <td><code>HS20260715-00001</code></td>
+                    <td>赵先生</td>
+                    <td>****7890</td>
+                    <td>足金</td>
+                    <td class="number">800.000</td>
+                    <td class="number">99.95%</td>
+                    <td class="number">575.00</td>
+                    <td class="number currency">447,576.00</td>
+                    <td><span class="badge badge-danger">大额</span></td>
+                    <td><span class="badge badge-warning">已报价</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>回收单详情 - HS20260801-00001</h3>
+        <span class="text-muted" style="margin-left: auto; font-size: 12px;">已入库</span>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-6">
+                <h4>客户信息</h4>
+                <table class="data">
+                    <tr><td>客户</td><td>张女士</td></tr>
+                    <tr><td>身份证</td><td>****1234</td></tr>
+                    <tr><td>电话</td><td>138****5678</td></tr>
+                    <tr><td>地址</td><td>广东省深圳市罗湖区</td></tr>
+                </table>
+            </div>
+            <div class="col-6">
+                <h4>化验结果</h4>
+                <table class="data">
+                    <tr><td>毛重</td><td class="number">365.500 g</td></tr>
+                    <tr><td>皮重</td><td class="number">15.000 g</td></tr>
+                    <tr><td>净重</td><td class="number">350.500 g</td></tr>
+                    <tr><td>XRF 含量</td><td class="number">99.30%</td></tr>
+                    <tr><td>火试 含量</td><td class="number">99.50%</td></tr>
+                    <tr><td>最终含量</td><td class="number">99.50%</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-6">
+                <h4>估价</h4>
+                <table class="data">
+                    <tr><td>当日金价</td><td class="number">¥ 578.50/g</td></tr>
+                    <tr><td>折价系数</td><td>0.97</td></tr>
+                    <tr><td>纯金重</td><td class="number">348.748 g</td></tr>
+                    <tr><td>回收金额</td><td class="number currency text-gold text-bold">¥ 196,083.43</td></tr>
+                </table>
+            </div>
+            <div class="col-6">
+                <h4>合规</h4>
+                <table class="data">
+                    <tr><td>大额标记</td><td><span class="badge badge-warning">是</span></td></tr>
+                    <tr><td>AML 报告</td><td>已生成报告 NH-2026-0801-001</td></tr>
+                    <tr><td>检验</td><td><span class="badge badge-success">合格</span></td></tr>
+                    <tr><td>化纯</td><td>已提纯</td></tr>
+                    <tr><td>入库批次</td><td><code>HS20260801-00001</code> (回收料)</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

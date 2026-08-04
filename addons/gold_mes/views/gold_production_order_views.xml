@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_mrp_production_form_inherit_gold" model="ir.ui.view">
+            <field name="name">mrp.production.form.inherit.gold</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+            <field name="arch" type="xml">
+                <field name="origin" position="after">
+                    <field name="gold_process_type"/>
+                    <field name="gold_route_id" string="工艺路线"/>
+                    <field name="gold_mold_id"
+                        invisible="gold_process_type != 'oil_press'"/>
+                    <field name="gold_wax_model_id"
+                        invisible="gold_process_type != 'lost_wax'"/>
+                </field>
+                <notebook position="inside">
+                    <page string="金料" name="gold_material">
+                        <group>
+                            <group>
+                                <field name="gold_customer_order_no"/>
+                                <field name="gold_locked_price" digits="[18,4]"/>
+                                <field name="gold_locked_until"/>
+                            </group>
+                            <group>
+                                <field name="gold_state" widget="statusbar"
+                                    statusbar_visible="draft,confirmed,in_progress,to_close,done"/>
+                                <field name="gold_current_operation_id"/>
+                                <field name="gold_current_workstation_id"/>
+                            </group>
+                        </group>
+                        <group string="重量追溯">
+                            <group>
+                                <field name="gold_planned_weight_g" digits="[18,6]"/>
+                                <field name="gold_actual_weight_g" digits="[18,6]"/>
+                                <field name="gold_actual_cast_weight_g" digits="[18,6]"/>
+                            </group>
+                            <group>
+                                <field name="gold_planned_loss_rate" digits="[6,4]" widget="percentage"/>
+                                <field name="gold_actual_loss_rate" digits="[6,4]" widget="percentage"/>
+                                <field name="gold_loss_diff_pct" digits="[6,4]" widget="percentage"/>
+                                <field name="gold_actual_loss_g" digits="[18,6]"/>
+                            </group>
+                        </group>
+                        <group string="报工统计">
+                            <group>
+                                <field name="gold_report_count"/>
+                                <field name="gold_quality_check_count"/>
+                                <field name="gold_total_input_g" digits="[18,6]"/>
+                                <field name="gold_total_output_g" digits="[18,6]"/>
+                            </group>
+                        </group>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+
+        <record id="view_mrp_production_tree_inherit_gold" model="ir.ui.view">
+            <field name="name">mrp.production.tree.inherit.gold</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_tree_view"/>
+            <field name="arch" type="xml">
+                <field name="state" position="after">
+                    <field name="gold_process_type"/>
+                    <field name="gold_state" widget="badge"
+                        decoration-info="gold_state == 'draft'"
+                        decoration-success="gold_state in ['in_progress', 'done']"
+                        decoration-warning="gold_state == 'to_close'"
+                        decoration-danger="gold_state == 'cancelled'"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

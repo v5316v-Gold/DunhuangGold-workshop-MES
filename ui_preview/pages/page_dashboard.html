@@ -1,0 +1,204 @@
+<div class="dashboard-bg">
+    <h1 style="text-align:center; margin-bottom: 8px;">🏭 贵金属车间看板</h1>
+    <p style="text-align:center; margin-bottom: 24px;">
+        <span class="badge badge-success">● 在线</span>
+        <span style="margin-left: 8px; color: #888;">2026-08-05 06:32:15 · 油压 + 失蜡 · 实时刷新</span>
+    </p>
+
+    <!-- KPI 4 项 -->
+    <div class="kpi-grid">
+        <div class="kpi-card">
+            <div class="label">当日完工</div>
+            <div class="value">12</div>
+            <div class="sub">订单数 / 工厂日产能 80</div>
+        </div>
+        <div class="kpi-card gold">
+            <div class="label">进行中</div>
+            <div class="value gold">5</div>
+            <div class="sub">生产线</div>
+        </div>
+        <div class="kpi-card" style="border-left-color: var(--danger);">
+            <div class="label">超耗预警</div>
+            <div class="value" style="color: var(--danger);">3</div>
+            <div class="sub">当日 · 需复盘</div>
+        </div>
+        <div class="kpi-card" style="border-left-color: var(--warning);">
+            <div class="label">模具预警</div>
+            <div class="value" style="color: var(--warning);">2</div>
+            <div class="sub">剩余 ≤ 10% 寿命</div>
+        </div>
+    </div>
+
+    <!-- 工艺分布 + 金价 -->
+    <div class="kpi-grid" style="grid-template-columns: 1fr 1fr;">
+        <div class="card">
+            <div class="card-header">
+                <h3>工艺分布(进行中订单)</h3>
+            </div>
+            <div class="card-body">
+                <div class="process-bar" style="margin-bottom: 12px;">
+                    <div class="process-bar-item oil_press" style="width: 60%;">
+                        <span class="count">3</span> 油压
+                    </div>
+                    <div class="process-bar-item lost_wax" style="width: 40%;">
+                        <span class="count">2</span> 失蜡
+                    </div>
+                </div>
+                <div class="text-muted" style="display:flex; justify-content:space-between;">
+                    <span>油压线: 3 单</span>
+                    <span>失蜡线: 2 单</span>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h3>实时金价</h3>
+                <span class="badge badge-success" style="margin-left: auto;">+0.3%</span>
+            </div>
+            <div class="card-body">
+                <div style="text-align: center;">
+                    <div style="font-size: 32px; font-weight: 600; color: #FFD700;">
+                        ¥ 582.50
+                    </div>
+                    <div class="text-muted" style="font-size: 12px;">SGE Au99.99 收盘 · 2026-08-05 10:30</div>
+                </div>
+                <hr style="border-color: rgba(184,134,11,0.3); margin: 12px 0;">
+                <div class="flex" style="justify-content: space-between;">
+                    <div>
+                        <div class="text-muted" style="font-size: 11px;">库存总估值</div>
+                        <div style="font-size: 16px; color: #FFD700;">¥ 32,847,000</div>
+                    </div>
+                    <div>
+                        <div class="text-muted" style="font-size: 11px;">今日涨跌</div>
+                        <div style="font-size: 16px; color: #28A745;">+¥ 1.86/g</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 7 天损耗趋势 -->
+    <div class="card">
+        <div class="card-header">
+            <h3>7 天损耗趋势</h3>
+            <span class="text-muted" style="margin-left: auto; font-size: 12px;">点击柱状图查看工序级</span>
+        </div>
+        <div class="card-body">
+            <table class="data">
+                <thead>
+                    <tr>
+                        <th>日期</th>
+                        <th>报工次数</th>
+                        <th>平均损耗率</th>
+                        <th>超耗次数</th>
+                        <th>趋势</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2026-08-05 (今日)</td>
+                        <td>15</td>
+                        <td>3.85%</td>
+                        <td><span class="text-danger text-bold">3</span></td>
+                        <td><div class="progress" style="width: 100px;"><div class="progress-bar danger" style="width: 38.5%;"></div></div></td>
+                    </tr>
+                    <tr>
+                        <td>2026-08-04</td>
+                        <td>22</td>
+                        <td>2.92%</td>
+                        <td>1</td>
+                        <td><div class="progress" style="width: 100px;"><div class="progress-bar success" style="width: 29.2%;"></div></div></td>
+                    </tr>
+                    <tr>
+                        <td>2026-08-03</td>
+                        <td>18</td>
+                        <td>3.15%</td>
+                        <td>0</td>
+                        <td><div class="progress" style="width: 100px;"><div class="progress-bar success" style="width: 31.5%;"></div></div></td>
+                    </tr>
+                    <tr>
+                        <td>2026-08-02</td>
+                        <td>20</td>
+                        <td>2.51%</td>
+                        <td>0</td>
+                        <td><div class="progress" style="width: 100px;"><div class="progress-bar success" style="width: 25.1%;"></div></div></td>
+                    </tr>
+                    <tr>
+                        <td>2026-08-01</td>
+                        <td>25</td>
+                        <td>3.42%</td>
+                        <td>2</td>
+                        <td><div class="progress" style="width: 100px;"><div class="progress-bar warning" style="width: 34.2%;"></div></div></td>
+                    </tr>
+                    <tr>
+                        <td>2026-07-31</td>
+                        <td>17</td>
+                        <td>2.78%</td>
+                        <td>0</td>
+                        <td><div class="progress" style="width: 100px;"><div class="progress-bar success" style="width: 27.8%;"></div></div></td>
+                    </tr>
+                    <tr>
+                        <td>2026-07-30</td>
+                        <td>19</td>
+                        <td>3.05%</td>
+                        <td>1</td>
+                        <td><div class="progress" style="width: 100px;"><div class="progress-bar warning" style="width: 30.5%;"></div></div></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="notice" style="margin-top: 16px;">
+                ⚠️ <strong>今日超耗较多</strong>: 建议复盘 LWC06 (熔金浇铸) 工序 — 浇口率 12.5% 偏高(target 10%)
+            </div>
+        </div>
+    </div>
+
+    <!-- 设备状态 -->
+    <div class="kpi-grid" style="grid-template-columns: 1fr 1fr;">
+        <div class="card">
+            <div class="card-header">
+                <h3>设备状态分布</h3>
+            </div>
+            <div class="card-body">
+                <div class="flex gap-3" style="flex-wrap: wrap;">
+                    <div><span class="badge badge-success">运行 12</span></div>
+                    <div><span class="badge badge-gold">空闲 3</span></div>
+                    <div><span class="badge badge-warning">保养 1</span></div>
+                    <div><span class="badge badge-danger">故障 1</span></div>
+                </div>
+                <hr style="margin: 12px 0;">
+                <div class="text-muted">
+                    <strong>总设备:</strong> 17 台 · OEE 均值 <span class="text-gold">73.5%</span>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h3>金料库存</h3>
+            </div>
+            <div class="card-body">
+                <table class="data">
+                    <tr>
+                        <td>足金 9999</td>
+                        <td class="number currency">5,000.000 g</td>
+                        <td>¥ 2,912,500</td>
+                    </tr>
+                    <tr>
+                        <td>18K 金</td>
+                        <td class="number currency">2,000.000 g</td>
+                        <td>¥ 884,000</td>
+                    </tr>
+                    <tr>
+                        <td>PT950 铂金</td>
+                        <td class="number currency">800.000 g</td>
+                        <td>¥ 256,000</td>
+                    </tr>
+                    <tr>
+                        <td>回收料</td>
+                        <td class="number currency">350.500 g</td>
+                        <td>¥ 184,915</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

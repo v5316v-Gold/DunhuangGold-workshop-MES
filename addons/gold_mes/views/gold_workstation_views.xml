@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_gold_workstation_tree" model="ir.ui.view">
+            <field name="name">gold.workstation.tree</field>
+            <field name="model">gold.workstation</field>
+            <field name="arch" type="xml">
+                <tree string="工位">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="workstation_type"/>
+                    <field name="process_type"/>
+                    <field name="leader_id"/>
+                    <field name="location"/>
+                    <field name="active" widget="boolean_toggle"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_gold_workstation_form" model="ir.ui.view">
+            <field name="name">gold.workstation.form</field>
+            <field name="model">gold.workstation</field>
+            <field name="arch" type="xml">
+                <form string="工位">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1><field name="name" placeholder="工位名称"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="code"/>
+                                <field name="workstation_type"/>
+                                <field name="process_type"/>
+                            </group>
+                            <group>
+                                <field name="leader_id"/>
+                                <field name="location"/>
+                                <field name="active" widget="boolean_toggle"/>
+                            </group>
+                        </group>
+                        <group string="设备">
+                            <field name="equipment_ids" nolabel="1"/>
+                        </group>
+                        <group string="允许工序">
+                            <field name="operation_ids" nolabel="1" widget="many2many_tags"/>
+                        </group>
+                        <field name="note" placeholder="备注"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_gold_workstation" model="ir.actions.act_window">
+            <field name="name">工位</field>
+            <field name="res_model">gold.workstation</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

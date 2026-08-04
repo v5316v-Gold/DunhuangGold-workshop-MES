@@ -1,0 +1,330 @@
+<div class="page-header">
+    <h1>设备台账</h1>
+    <div class="actions">
+        <button class="btn"><span>📊</span> OEE 看板</button>
+        <button class="btn"><span>🔍</span> 校准检测</button>
+        <button class="btn btn-primary"><span>➕</span> 新建</button>
+    </div>
+</div>
+
+<div class="kpi-grid">
+    <div class="kpi-card success">
+        <div class="label">运行</div>
+        <div class="value">12</div>
+        <div class="sub">OEE 平均 73.5%</div>
+    </div>
+    <div class="kpi-card gold">
+        <div class="label">空闲</div>
+        <div class="value">3</div>
+        <div class="sub">可投入</div>
+    </div>
+    <div class="kpi-card" style="border-left-color: var(--warning);">
+        <div class="label">保养</div>
+        <div class="value" style="color: var(--warning);">1</div>
+        <div class="sub">定期</div>
+    </div>
+    <div class="kpi-card" style="border-left-color: var(--danger);">
+        <div class="label">故障</div>
+        <div class="value" style="color: var(--danger);">1</div>
+        <div class="sub">需维修</div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>设备列表</h3>
+        <div class="text-muted" style="margin-left: auto; font-size: 12px;">17 台 / 4 类</div>
+    </div>
+    <div class="card-body dense">
+        <table class="data">
+            <thead>
+                <tr>
+                    <th>代号</th>
+                    <th>设备名称</th>
+                    <th>类别</th>
+                    <th>工艺</th>
+                    <th>厂商 / 型号</th>
+                    <th>协议</th>
+                    <th>通讯</th>
+                    <th>状态</th>
+                    <th>OEE</th>
+                    <th>校准</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>OBP-001</code></td>
+                    <td>油压机 #1</td>
+                    <td>油压机</td>
+                    <td>油压</td>
+                    <td>扬州锻压 YH21-200</td>
+                    <td>OPC UA</td>
+                    <td>192.168.10.11:4840</td>
+                    <td><span class="badge badge-success">运行</span></td>
+                    <td>
+                        <div class="progress" style="width: 80px;">
+                            <div class="progress-bar success" style="width: 78%;"></div>
+                        </div>
+                    </td>
+                    <td>2026-04-01</td>
+                </tr>
+                <tr>
+                    <td><code>OBP-002</code></td>
+                    <td>油压机 #2</td>
+                    <td>油压机</td>
+                    <td>油压</td>
+                    <td>扬州锻压 YH21-200</td>
+                    <td>OPC UA</td>
+                    <td>192.168.10.12:4840</td>
+                    <td><span class="badge badge-gold">空闲</span></td>
+                    <td>
+                        <div class="progress" style="width: 80px;">
+                            <div class="progress-bar success" style="width: 81%;"></div>
+                        </div>
+                    </td>
+                    <td>2026-04-01</td>
+                </tr>
+                <tr>
+                    <td><code>BAL-001</code></td>
+                    <td>电子天平 #1 (0.001g)</td>
+                    <td>电子天平</td>
+                    <td>共用</td>
+                    <td>梅特勒-托利多 XPR205</td>
+                    <td>RS-232</td>
+                    <td>COM1</td>
+                    <td><span class="badge badge-success">运行</span></td>
+                    <td>
+                        <div class="progress" style="width: 80px;">
+                            <div class="progress-bar success" style="width: 92%;"></div>
+                        </div>
+                    </td>
+                    <td>2026-07-05</td>
+                </tr>
+                <tr>
+                    <td><code>BAL-002</code></td>
+                    <td>电子天平 #2</td>
+                    <td>电子天平</td>
+                    <td>共用</td>
+                    <td>梅特勒-托利多 XPR205</td>
+                    <td>RS-232</td>
+                    <td>COM2</td>
+                    <td><span class="badge badge-success">运行</span></td>
+                    <td>
+                        <div class="progress" style="width: 80px;">
+                            <div class="progress-bar success" style="width: 90%;"></div>
+                        </div>
+                    </td>
+                    <td>2026-07-05</td>
+                </tr>
+                <tr>
+                    <td><code>XRF-001</code></td>
+                    <td>XRF 含量检测仪 #1</td>
+                    <td>XRF</td>
+                    <td>共用</td>
+                    <td>德国斯派克 XEPOS</td>
+                    <td>文件 API</td>
+                    <td>-</td>
+                    <td><span class="badge badge-gold">空闲</span></td>
+                    <td>
+                        <div class="progress" style="width: 80px;">
+                            <div class="progress-bar success" style="width: 85%;"></div>
+                        </div>
+                    </td>
+                    <td>2026-06-15</td>
+                </tr>
+                <tr>
+                    <td><code>LWF-001</code></td>
+                    <td>失蜡炉 #1</td>
+                    <td>失蜡炉</td>
+                    <td>失蜡</td>
+                    <td>德国 BEGO Nautilus</td>
+                    <td>OPC UA</td>
+                    <td>192.168.10.21:4840</td>
+                    <td><span class="badge badge-success">运行</span></td>
+                    <td>
+                        <div class="progress" style="width: 80px;">
+                            <div class="progress-bar success" style="width: 76%;"></div>
+                        </div>
+                    </td>
+                    <td>2026-05-20</td>
+                </tr>
+                <tr>
+                    <td><code>LWF-002</code></td>
+                    <td>失蜡炉 #2</td>
+                    <td>失蜡炉</td>
+                    <td>失蜡</td>
+                    <td>德国 BEGO Nautilus</td>
+                    <td>OPC UA</td>
+                    <td>192.168.10.22:4840</td>
+                    <td><span class="badge badge-warning">保养</span></td>
+                    <td>
+                        <div class="progress" style="width: 80px;">
+                            <div class="progress-bar warning" style="width: 70%;"></div>
+                        </div>
+                    </td>
+                    <td>2026-08-01</td>
+                </tr>
+                <tr>
+                    <td><code>CC-001</code></td>
+                    <td>离心铸造机 #1</td>
+                    <td>离心铸造机</td>
+                    <td>失蜡</td>
+                    <td>德国 BEGO</td>
+                    <td>OPC UA</td>
+                    <td>192.168.10.31:4840</td>
+                    <td><span class="badge badge-success">运行</span></td>
+                    <td>
+                        <div class="progress" style="width: 80px;">
+                            <div class="progress-bar success" style="width: 74%;"></div>
+                        </div>
+                    </td>
+                    <td>2026-05-20</td>
+                </tr>
+                <tr>
+                    <td><code>VI-001</code></td>
+                    <td>真空灌浆机</td>
+                    <td>真空灌浆机</td>
+                    <td>失蜡</td>
+                    <td>德国 BEGO</td>
+                    <td>OPC UA</td>
+                    <td>192.168.10.41:4840</td>
+                    <td><span class="badge badge-success">运行</span></td>
+                    <td>
+                        <div class="progress" style="width: 80px;">
+                            <div class="progress-bar success" style="width: 80%;"></div>
+                        </div>
+                    </td>
+                    <td>2026-05-15</td>
+                </tr>
+                <tr>
+                    <td><code>BO-001</code></td>
+                    <td>焙烧炉</td>
+                    <td>焙烧炉</td>
+                    <td>失蜡</td>
+                    <td>德国 BEGO</td>
+                    <td>OPC UA</td>
+                    <td>192.168.10.51:4840</td>
+                    <td><span class="badge badge-success">运行</span></td>
+                    <td>
+                        <div class="progress" style="width: 80px;">
+                            <div class="progress-bar success" style="width: 82%;"></div>
+                        </div>
+                    </td>
+                    <td>2026-05-15</td>
+                </tr>
+                <tr>
+                    <td><code>SLP-001</code></td>
+                    <td>3D 打印机 (SLA)</td>
+                    <td>3D 打印机</td>
+                    <td>失蜡</td>
+                    <td>Form 3+</td>
+                    <td>HTTP</td>
+                    <td>192.168.10.61</td>
+                    <td><span class="badge badge-success">运行</span></td>
+                    <td>
+                        <div class="progress" style="width: 80px;">
+                            <div class="progress-bar success" style="width: 88%;"></div>
+                        </div>
+                    </td>
+                    <td>2026-07-01</td>
+                </tr>
+                <tr>
+                    <td><code>DLPC-001</code></td>
+                    <td>3D 打印机 (DLP)</td>
+                    <td>3D 打印机</td>
+                    <td>失蜡</td>
+                    <td>Anycubic Photon Mono X</td>
+                    <td>HTTP</td>
+                    <td>192.168.10.62</td>
+                    <td><span class="badge badge-gold">空闲</span></td>
+                    <td>
+                        <div class="progress" style="width: 80px;">
+                            <div class="progress-bar success" style="width: 85%;"></div>
+                        </div>
+                    </td>
+                    <td>2026-07-01</td>
+                </tr>
+                <tr>
+                    <td><code>WB-001</code></td>
+                    <td>雕蜡机</td>
+                    <td>雕蜡机</td>
+                    <td>失蜡</td>
+                    <td>Roland DWX-52D</td>
+                    <td>Modbus</td>
+                    <td>192.168.10.71:502</td>
+                    <td><span class="badge badge-success">运行</span></td>
+                    <td>
+                        <div class="progress" style="width: 80px;">
+                            <div class="progress-bar success" style="width: 79%;"></div>
+                        </div>
+                    </td>
+                    <td>2026-06-01</td>
+                </tr>
+                <tr>
+                    <td><code>LW-001</code></td>
+                    <td>激光焊机 #1</td>
+                    <td>激光焊机</td>
+                    <td>共用</td>
+                    <td>德国 Rofin</td>
+                    <td>HTTP</td>
+                    <td>192.168.10.81</td>
+                    <td><span class="badge badge-success">运行</span></td>
+                    <td>
+                        <div class="progress" style="width: 80px;">
+                            <div class="progress-bar success" style="width: 86%;"></div>
+                        </div>
+                    </td>
+                    <td>2026-06-01</td>
+                </tr>
+                <tr>
+                    <td><code>LM-001</code></td>
+                    <td>激光打字机 #1</td>
+                    <td>激光打字机</td>
+                    <td>共用</td>
+                    <td>德国 Rofin</td>
+                    <td>HTTP</td>
+                    <td>192.168.10.82</td>
+                    <td><span class="badge badge-success">运行</span></td>
+                    <td>
+                        <div class="progress" style="width: 80px;">
+                            <div class="progress-bar success" style="width: 84%;"></div>
+                        </div>
+                    </td>
+                    <td>2026-06-01</td>
+                </tr>
+                <tr>
+                    <td><code>POL-001</code></td>
+                    <td>抛光机 #1</td>
+                    <td>抛光机</td>
+                    <td>共用</td>
+                    <td>德国 Bieber</td>
+                    <td>计数器</td>
+                    <td>干接点</td>
+                    <td><span class="badge badge-success">运行</span></td>
+                    <td>
+                        <div class="progress" style="width: 80px;">
+                            <div class="progress-bar success" style="width: 75%;"></div>
+                        </div>
+                    </td>
+                    <td>2026-04-15</td>
+                </tr>
+                <tr>
+                    <td><code>PT-001</code></td>
+                    <td>电镀槽 #1</td>
+                    <td>电镀槽</td>
+                    <td>共用</td>
+                    <td>德国 Heraeus</td>
+                    <td>Modbus</td>
+                    <td>192.168.10.91:502</td>
+                    <td><span class="badge badge-danger">故障</span></td>
+                    <td>
+                        <div class="progress" style="width: 80px;">
+                            <div class="progress-bar danger" style="width: 30%;"></div>
+                        </div>
+                    </td>
+                    <td>2026-04-15</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

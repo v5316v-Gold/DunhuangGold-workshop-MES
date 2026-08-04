@@ -1,0 +1,142 @@
+<div class="page-header">
+    <h1>蜡模管理</h1>
+    <div class="actions">
+        <button class="btn">📊 库存</button>
+        <button class="btn btn-primary">➕ 新建</button>
+    </div>
+</div>
+
+<div class="statusbar">
+    <span class="step active">草稿</span>
+    <span class="step">库存</span>
+    <span class="step">已组树</span>
+    <span class="step">浇铸完成</span>
+    <span class="step">报废</span>
+</div>
+
+<div class="kpi-grid">
+    <div class="kpi-card">
+        <div class="label">库存蜡模</div>
+        <div class="value">42</div>
+        <div class="sub">库存</div>
+    </div>
+    <div class="kpi-card gold">
+        <div class="label">已组树</div>
+        <div class="value">3</div>
+        <div class="sub">待浇铸</div>
+    </div>
+    <div class="kpi-card success">
+        <div class="label">已浇铸</div>
+        <div class="value">127</div>
+    <div class="sub">本日</div>
+    </div>
+    <div class="kpi-card">
+        <div class="label">回收蜡</div>
+        <div class="value">158.5 g</div>
+        <div class="sub">本月</div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>蜡模列表</h3>
+    </div>
+    <div class="card-body dense">
+        <table class="data">
+            <thead>
+                <tr>
+                    <th>蜡模编号</th>
+                    <th>名称</th>
+                    <th>款式</th>
+                    <th>来源</th>
+                    <th class="number">重量 (g)</th>
+                    <th>SLA 参数</th>
+                    <th>3D 打印机</th>
+                    <th>状态</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>WAX-00001</code></td>
+                    <td>18K 钻石戒指蜡模</td>
+                    <td>18K 金钻石戒指</td>
+                    <td><span class="badge badge-info">SLA 打印</span></td>
+                    <td class="number">0.500</td>
+                    <td>25μm / 8.5s</td>
+                    <td>SLP-001</td>
+                    <td><span class="badge badge-success">库存</span></td>
+                </tr>
+                <tr>
+                    <td><code>WAX-00002</code></td>
+                    <td>PT950 雪花吊坠蜡模</td>
+                    <td>PT950 雪花吊坠</td>
+                    <td><span class="badge badge-info">SLA 打印</span></td>
+                    <td class="number">0.350</td>
+                    <td>25μm / 8.0s</td>
+                    <td>SLP-001</td>
+                    <td><span class="badge badge-success">库存</span></td>
+                </tr>
+                <tr>
+                    <td><code>WAX-00003</code></td>
+                    <td>5G 黄金链节蜡模</td>
+                    <td>5G 黄金链节</td>
+                    <td><span class="badge badge-info">DLP 打印</span></td>
+                    <td class="number">0.150</td>
+                    <td>50μm / 5.0s</td>
+                    <td>DLPC-001</td>
+                    <td><span class="badge badge-warning">已组树</span></td>
+                </tr>
+                <tr>
+                    <td><code>WAX-00004</code></td>
+                    <td>古法金葫芦挂坠蜡模</td>
+                    <td>古法金葫芦挂坠</td>
+                    <td><span class="badge badge-gold">橡胶模</span></td>
+                    <td class="number">0.800</td>
+                    <td>橡胶模 200 次</td>
+                    <td>-</td>
+                    <td><span class="badge badge-success">库存</span></td>
+                </tr>
+                <tr style="background: var(--gold-bg);">
+                    <td><code>WAX-00005</code></td>
+                    <td>古法金手镯蜡模</td>
+                    <td>古法金手镯</td>
+                    <td><span class="badge badge-info">SLA 打印</span></td>
+                    <td class="number">2.500</td>
+                    <td>25μm / 9.0s</td>
+                    <td>SLP-001</td>
+                    <td><span class="badge badge-warning">已组树</span></td>
+                </tr>
+                <tr>
+                    <td><code>WAX-00006</code></td>
+                    <td>古法金佛公蜡模</td>
+                    <td>古法金佛公</td>
+                    <td><span class="badge badge-info">SLA 打印</span></td>
+                    <td class="number">0.750</td>
+                    <td>25μm / 8.5s</td>
+                    <td>SLP-001</td>
+                    <td><span class="badge badge-success">库存</span></td>
+                </tr>
+                <tr>
+                    <td><code>WAX-00007</code></td>
+                    <td>18K 海浪耳钉蜡模</td>
+                    <td>18K 海浪耳钉</td>
+                    <td><span class="badge badge-info">DLP 打印</span></td>
+                    <td class="number">0.220</td>
+                    <td>50μm / 5.0s</td>
+                    <td>DLPC-001</td>
+                    <td><span class="badge badge-success">库存</span></td>
+                </tr>
+                <tr style="background: #FFEBEE;">
+                    <td><code>WAX-00008</code></td>
+                    <td>古法金如意手镯蜡模</td>
+                    <td>古法金如意手镯</td>
+                    <td><span class="badge badge-gold">橡胶模</span></td>
+                    <td class="number">2.200</td>
+                    <td>变形</td>
+                    <td>-</td>
+                    <td><span class="badge badge-danger">报废</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

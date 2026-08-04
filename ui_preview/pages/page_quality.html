@@ -1,0 +1,173 @@
+<div class="page-header">
+    <h1>质检记录</h1>
+    <div class="actions">
+        <button class="btn">📄 PDF 报告</button>
+        <button class="btn">📤 导出</button>
+        <button class="btn btn-primary">➕ 新建</button>
+    </div>
+</div>
+
+<div class="kpi-grid">
+    <div class="kpi-card success">
+        <div class="label">今日合格</div>
+        <div class="value">28</div>
+        <div class="sub">合格率 96.5%</div>
+    </div>
+    <div class="kpi-card" style="border-left-color: var(--danger);">
+        <div class="label">不合格</div>
+        <div class="value" style="color: var(--danger);">1</div>
+        <div class="sub">需返工</div>
+    </div>
+    <div class="kpi-card gold">
+        <div class="label">让步接收</div>
+        <div class="value">2</div>
+        <div class="sub">- 公差内</div>
+    </div>
+    <div class="kpi-card">
+        <div class="label">本月检测</div>
+        <div class="value">847</div>
+        <div class="sub">+12% YoY</div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>质检记录</h3>
+    </div>
+    <div class="card-body dense">
+        <table class="data">
+            <thead>
+                <tr>
+                    <th>质检单</th>
+                    <th>时间</th>
+                    <th>类型</th>
+                    <th>订单</th>
+                    <th class="number">重量 (g)</th>
+                    <th class="number">含量</th>
+                    <th>印记</th>
+                    <th>表面</th>
+                    <th>综合</th>
+                    <th>检验员</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>QC20260805-00028</code></td>
+                    <td>06:30</td>
+                    <td><span class="badge badge-gold">成品</span></td>
+                    <td>MO-00425</td>
+                    <td class="number">5.180</td>
+                    <td class="number">75.05%</td>
+                    <td><span class="badge badge-success">✓</span></td>
+                    <td>良</td>
+                    <td><span class="badge badge-success">合格</span></td>
+                    <td>陈师傅</td>
+                </tr>
+                <tr>
+                    <td><code>QC20260805-00027</code></td>
+                    <td>06:25</td>
+                    <td><span class="badge badge-gold">成品</span></td>
+                    <td>MO-00425</td>
+                    <td class="number">5.195</td>
+                    <td class="number">74.98%</td>
+                    <td><span class="badge badge-success">✓</span></td>
+                    <td>良</td>
+                    <td><span class="badge badge-success">合格</span></td>
+                    <td>陈师傅</td>
+                </tr>
+                <tr>
+                    <td><code>QC20260805-00026</code></td>
+                    <td>06:20</td>
+                    <td><span class="badge badge-gold">成品</span></td>
+                    <td>MO-00422</td>
+                    <td class="number">5.205</td>
+                    <td class="number">99.92%</td>
+                    <td><span class="badge badge-success">✓</span></td>
+                    <td>良</td>
+                    <td><span class="badge badge-success">合格</span></td>
+                    <td>陈师傅</td>
+                </tr>
+                <tr>
+                    <td><code>QC20260805-00025</code></td>
+                    <td>06:15</td>
+                    <td><span class="badge badge-info">过程</span></td>
+                    <td>MO-00420</td>
+                    <td class="number">5.420</td>
+                    <td class="number">99.95%</td>
+                    <td>-</td>
+                    <td>良</td>
+                    <td><span class="badge badge-success">合格</span></td>
+                    <td>陈师傅</td>
+                </tr>
+                <tr style="background: #FFEBEE;">
+                    <td><code>QC20260805-00024</code></td>
+                    <td>06:05</td>
+                    <td><span class="badge badge-gold">成品</span></td>
+                    <td>MO-00418</td>
+                    <td class="number">5.330</td>
+                    <td class="number">74.80%</td>
+                    <td><span class="text-danger">✗</span></td>
+                    <td>轻微</td>
+                    <td><span class="badge badge-danger">不合格</span></td>
+                    <td>陈师傅</td>
+                </tr>
+                <tr>
+                    <td><code>QC20260805-00023</code></td>
+                    <td>06:00</td>
+                    <td><span class="badge badge-info">过程</span></td>
+                    <td>MO-00415</td>
+                    <td class="number">5.500</td>
+                    <td class="number">99.93%</td>
+                    <td>-</td>
+                    <td>良</td>
+                    <td><span class="badge badge-warning">让步</span></td>
+                    <td>陈师傅</td>
+                </tr>
+                <tr>
+                    <td><code>QC20260805-00022</code></td>
+                    <td>05:55</td>
+                    <td><span class="badge badge-info">来料</span></td>
+                    <td>GL-00002</td>
+                    <td class="number">2,000.000</td>
+                    <td class="number">74.99%</td>
+                    <td><span class="badge badge-success">✓</span></td>
+                    <td>良</td>
+                    <td><span class="badge badge-success">合格</span></td>
+                    <td>陈师傅</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>质检详情 - QC20260805-00028</h3>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-6">
+                <h4>基础信息</h4>
+                <table class="data">
+                    <tr><td>质检单</td><td><code>QC20260805-00028</code></td></tr>
+                    <tr><td>类型</td><td>成品</td></tr>
+                    <tr><td>订单</td><td>MO-00425 (18K 金钻石戒指 ×10)</td></tr>
+                    <tr><td>检验员</td><td>陈师傅</td></tr>
+                    <tr><td>时间</td><td>2026-08-05 06:30</td></tr>
+                </table>
+            </div>
+            <div class="col-6">
+                <h4>四维判定</h4>
+                <table class="data">
+                    <tr><td>重量</td><td class="number">5.180 g</td><td><span class="badge badge-success">✓</span></td></tr>
+                    <tr><td>含量</td><td class="number">75.05% ≥ 75.00%</td><td><span class="badge badge-success">✓</span></td></tr>
+                    <tr><td>印记</td><td>已打</td><td><span class="badge badge-success">✓</span></td></tr>
+                    <tr><td>表面</td><td>良</td><td><span class="badge badge-success">✓</span></td></tr>
+                </table>
+                <div class="summary">
+                    <div class="total">✓ 综合判定: 合格</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

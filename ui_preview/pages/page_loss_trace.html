@@ -1,0 +1,146 @@
+<div class="page-header">
+    <h1>损耗追溯</h1>
+    <div class="actions">
+        <button class="btn">📊 损耗分析</button>
+        <button class="btn">📤 导出</button>
+        <button class="btn btn-primary">➕ 复盘</button>
+    </div>
+</div>
+
+<div class="notice warning">
+    ⚠️ 当日 <strong>3</strong> 条超耗记录需复盘:
+    LWC06 熔金浇铸(12.50% vs 10% 定额) · LWC08 执模(7.00% vs 5% 定额) · LWC03 雕蜡(6.25% vs 1.5% 定额)。
+</div>
+
+<div class="kpi-grid">
+    <div class="kpi-card success">
+        <div class="label">合格</div>
+        <div class="value">12</div>
+        <div class="sub">在阈值内</div>
+    </div>
+    <div class="kpi-card" style="border-left-color: var(--danger);">
+        <div class="label">超耗</div>
+        <div class="value" style="color: var(--danger);">3</div>
+        <div class="sub">待复盘</div>
+    </div>
+    <div class="kpi-card" style="border-left-color: var(--warning);">
+        <div class="label">待复盘</div>
+        <div class="value" style="color: var(--warning);">3</div>
+        <div class="sub">8D 报告</div>
+    </div>
+    <div class="kpi-card">
+        <div class="label">已处理</div>
+        <div class="value">127</div>
+        <div class="sub">本月</div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>超耗记录</h3>
+    </div>
+    <div class="card-body dense">
+        <table class="data">
+            <thead>
+                <tr>
+                    <th>追溯单</th>
+                    <th>时间</th>
+                    <th>生产订单</th>
+                    <th>工序</th>
+                    <th class="number">投料 (g)</th>
+                    <th class="number">产出 (g)</th>
+                    <th class="number">损耗</th>
+                    <th class="number">损耗率</th>
+                    <th class="number">定额</th>
+                    <th class="number">差异</th>
+                    <th>复盘</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="background: #FFEBEE;">
+                    <td><code>TR20260805-00009</code></td>
+                    <td>06:00</td>
+                    <td>MO-00422</td>
+                    <td><strong style="color: var(--danger);">LWC06 熔金浇铸</strong></td>
+                    <td class="number">120.000</td>
+                    <td class="number">105.000</td>
+                    <td class="number">15.000</td>
+                    <td class="number text-danger text-bold">12.50%</td>
+                    <td class="number">10.00%</td>
+                    <td class="number text-danger">+2.50%</td>
+                    <td><span class="badge badge-warning">待复盘</span></td>
+                </tr>
+                <tr style="background: #FFEBEE;">
+                    <td><code>TR20260805-00008</code></td>
+                    <td>04:00</td>
+                    <td>MO-00412</td>
+                    <td><strong style="color: var(--danger);">LWC08 执模</strong></td>
+                    <td class="number">5.000</td>
+                    <td class="number">4.650</td>
+                    <td class="number">0.350</td>
+                    <td class="number text-danger text-bold">7.00%</td>
+                    <td class="number">5.00%</td>
+                    <td class="number text-danger">+2.00%</td>
+                    <td><span class="badge badge-warning">复盘中</span></td>
+                </tr>
+                <tr style="background: #FFEBEE;">
+                    <td><code>TR20260805-00007</code></td>
+                    <td>02:00</td>
+                    <td>MO-00402</td>
+                    <td><strong style="color: var(--danger);">LWC03 雕蜡</strong></td>
+                    <td class="number">0.800</td>
+                    <td class="number">0.750</td>
+                    <td class="number">0.050</td>
+                    <td class="number text-danger text-bold">6.25%</td>
+                    <td class="number">1.50%</td>
+                    <td class="number text-danger">+4.75%</td>
+                    <td><span class="badge badge-warning">待复盘</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>复盘详情 - TR20260805-00009 (LWC06 熔金浇铸)</h3>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-6">
+                <h4>追溯数据</h4>
+                <table class="data">
+                    <tr><td>追溯单号</td><td><code>TR20260805-00009</code></td></tr>
+                    <tr><td>时间</td><td>2026-08-05 06:00</td></tr>
+                    <tr><td>生产订单</td><td>MO-00422</td></tr>
+                    <tr><td>工序</td><td>LWC06 熔金浇铸</td></tr>
+                    <tr><td>投料 (g)</td><td class="number">120.000</td></tr>
+                    <tr><td>产出 (g)</td><td class="number">105.000</td></tr>
+                    <tr><td>损耗</td><td class="number">15.000 g</td></tr>
+                    <tr><td>实际损耗率</td><td class="number text-danger">12.50%</td></tr>
+                    <tr><td>定额损耗率</td><td class="number">10.00%</td></tr>
+                    <tr><td>差异</td><td class="number text-danger">+2.50%</td></tr>
+                </table>
+            </div>
+            <div class="col-6">
+                <h4>复盘结论</h4>
+                <div class="notice warning">
+                    <strong>原因分析:</strong><br>
+                    1. 失蜡炉 LWF-001 真空度偏低(本月 1 次校准后仍然波动)<br>
+                    2. 离心铸造机 CC-001 加速度未达工艺要求<br>
+                    3. 蜡模排气道设计不够
+                </div>
+                <h4 style="margin-top: 16px;">改进措施</h4>
+                <ul style="padding-left: 20px; font-size: 13px;">
+                    <li>失蜡炉重新校准(本周内)</li>
+                    <li>检修离心机</li>
+                    <li>优化蜡模排气道</li>
+                </ul>
+                <div class="flex gap-2 mt-2">
+                    <button class="btn">📝 填写 8D</button>
+                    <button class="btn">🔄 重新复盘</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

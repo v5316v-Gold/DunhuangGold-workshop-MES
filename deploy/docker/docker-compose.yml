@@ -1,0 +1,113 @@
+# 贵金属车间 ERP - Docker Compose 编排
+# 包含: PostgreSQL / Odoo / nginx(可选)
+# 启动: docker-compose up -d
+# 停止: docker-compose down
+# 备份: docker-compose exec postgres pg_dump -U odoo gold_mes > backup.sql
+
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: gold_mes_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: gold_mes
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-odoo}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/pgdata
+      - ./postgres/init:/docker-entrypoint-initdb.d:ro
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U odoo -d gold_mes"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - gold_mes_net
+
+  odoo:
+    build:
+      context: .
+      dockerfile: deploy/docker/Dockerfile
+    container_name: gold_mes_odoo
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      HOSTNAME: postgres
+      PASSWORD: ${POSTGRES_PASSWORD:-odoo}
+      ODOO_ADMIN_PWD: ${ODOO_ADMIN_PWD:-admin}
+    volumes:
+      - ./addons/gold_mes:/mnt/odoo/addons/gold_mes:ro
+      - odoo_filestore:/mnt/odoo/filestore
+      - odoo_sessions:/mnt/odoo/sessions
+      - ./deploy/docker/odoo.conf:/etc/odoo/odoo.conf:ro
+      - ./deploy/docker/entrypoint.sh:/entrypoint.sh:ro
+    ports:
+      - "8069:8069"
+      - "8072:8072"
+    networks:
+      - gold_mes_net
+    entrypoint: ["/bin/bash", "/entrypoint.sh"]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8069/web/health"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 120s
+
+  nginx:
+    image: nginx:1.25-alpine
+    container_name: gold_mes_nginx
+    restart: unless-stopped
+    depends_on:
+      - odoo
+    volumes:
+      - ./deploy/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./deploy/nginx/conf.d:/etc/nginx/conf.d:ro
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - gold_mes_net
+
+  # 备份服务(可选, cron 化)
+  backup:
+    image: postgres:15-alpine
+    container_name: gold_mes_backup
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    environment:
+      PGPASSWORD: ${POSTGRES_PASSWORD:-odoo}
+    volumes:
+      - ./backups:/backups
+    entrypoint: >
+      sh -c "
+        while true; do
+          echo \"[INFO] 备份开始: $(date)\"
+          pg_dump -h postgres -U odoo -Fc gold_mes > /backups/gold_mes_$$(date +%Y%m%d_%H%M%S).dump
+          echo \"[INFO] 备份完成, 清理 30 天前\"
+          find /backups -name '*.dump' -mtime +30 -delete
+          sleep 86400
+        done
+      "
+    networks:
+      - gold_mes_net
+
+volumes:
+  postgres_data:
+    driver: local
+  odoo_filestore:
+    driver: local
+  odoo_sessions:
+    driver: local
+
+networks:
+  gold_mes_net:
+    driver: bridge

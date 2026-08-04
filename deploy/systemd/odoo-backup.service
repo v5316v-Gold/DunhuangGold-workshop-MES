@@ -1,0 +1,8 @@
+[Unit]
+Description=Odoo 17 - 数据库备份
+After=postgresql.service
+
+[Service]
+Type=oneshot
+User=odoo
+ExecStart=/usr/local/bin/odoo-backup.sh

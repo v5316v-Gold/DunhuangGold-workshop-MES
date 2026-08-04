@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_gold_xrf_record_tree" model="ir.ui.view">
+            <field name="name">gold.xrf.record.tree</field>
+            <field name="model">gold.xrf.record</field>
+            <field name="arch" type="xml">
+                <tree string="XRF 检测" decoration-danger="not is_passed" decoration-success="is_passed">
+                    <field name="name"/>
+                    <field name="detection_time"/>
+                    <field name="production_id"/>
+                    <field name="product_id"/>
+                    <field name="batch_id"/>
+                    <field name="equipment_id"/>
+                    <field name="method"/>
+                    <field name="gold_pct" digits="[6,4]" widget="percentage"/>
+                    <field name="platinum_pct" digits="[6,4]" widget="percentage"/>
+                    <field name="palladium_pct" digits="[6,4]" widget="percentage"/>
+                    <field name="silver_pct" digits="[6,4]" widget="percentage"/>
+                    <field name="main_metal_pct" digits="[6,4]" widget="percentage"/>
+                    <field name="standard_pct" digits="[6,4]" widget="percentage"/>
+                    <field name="is_passed" widget="boolean_toggle"/>
+                    <field name="operator_id"/>
+                    <field name="approver_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_gold_xrf_record_form" model="ir.ui.view">
+            <field name="name">gold.xrf.record.form</field>
+            <field name="model">gold.xrf.record</field>
+            <field name="arch" type="xml">
+                <form string="XRF 检测">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1><field name="name" placeholder="检测编号"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="production_id"/>
+                                <field name="product_id"/>
+                                <field name="batch_id"/>
+                                <field name="equipment_id"/>
+                                <field name="method"/>
+                            </group>
+                            <group>
+                                <field name="detection_time"/>
+                                <field name="operator_id"/>
+                                <field name="approver_id"/>
+                                <field name="duration_seconds"/>
+                                <field name="is_passed" widget="boolean_toggle"/>
+                            </group>
+                        </group>
+                        <group string="金属含量 (GB/T 18043-2013)">
+                            <group>
+                                <field name="gold_pct" digits="[6,4]" widget="percentage"/>
+                                <field name="platinum_pct" digits="[6,4]" widget="percentage"/>
+                                <field name="palladium_pct" digits="[6,4]" widget="percentage"/>
+                            </group>
+                            <group>
+                                <field name="silver_pct" digits="[6,4]" widget="percentage"/>
+                                <field name="copper_pct" digits="[6,4]" widget="percentage"/>
+                                <field name="zinc_pct" digits="[6,4]" widget="percentage"/>
+                                <field name="nickel_pct" digits="[6,4]" widget="percentage"/>
+                            </group>
+                        </group>
+                        <group string="判定">
+                            <group>
+                                <field name="main_metal_pct" digits="[6,4]" widget="percentage"/>
+                                <field name="standard_pct" digits="[6,4]" widget="percentage"/>
+                                <field name="is_passed" widget="boolean_toggle"/>
+                            </group>
+                        </group>
+                        <group string="谱图">
+                            <field name="spectrum_image" widget="image"/>
+                            <field name="spectrum_filename"/>
+                        </group>
+                        <field name="note" placeholder="备注"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_gold_xrf_record" model="ir.actions.act_window">
+            <field name="name">XRF 检测</field>
+            <field name="res_model">gold.xrf.record</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

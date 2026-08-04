@@ -1,0 +1,89 @@
+<div class="page-header">
+    <h1>工位</h1>
+    <div class="actions">
+        <button class="btn"><span>📊</span> 看板</button>
+        <button class="btn btn-primary"><span>➕</span> 新建</button>
+    </div>
+</div>
+
+<div class="kpi-grid">
+    <div class="kpi-card gold">
+        <div class="label">工位总数</div>
+        <div class="value">4</div>
+        <div class="sub">油压 1 / 失蜡 1 / 精加工 1 / 质检 1</div>
+    </div>
+    <div class="kpi-card success">
+        <div class="label">运行中</div>
+        <div class="value">3</div>
+        <div class="sub">实时作业</div>
+    </div>
+    <div class="kpi-card info">
+        <div class="label">关联设备</div>
+        <div class="value">17</div>
+        <div class="sub">总设备数</div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>工位列表</h3>
+    </div>
+    <div class="card-body dense">
+        <table class="data">
+            <thead>
+                <tr>
+                    <th>工位编码</th>
+                    <th>工位名称</th>
+                    <th>类型</th>
+                    <th>工艺</th>
+                    <th>位置</th>
+                    <th>班组长</th>
+                    <th>设备</th>
+                    <th>状态</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>WS-OWP</code></td>
+                    <td>油压工位</td>
+                    <td><span class="badge badge-info">油压</span></td>
+                    <td>油压</td>
+                    <td>A 区-1</td>
+                    <td>张师傅</td>
+                    <td><span class="badge badge-outline">3 台</span></td>
+                    <td><span class="badge badge-success">运行</span></td>
+                </tr>
+                <tr>
+                    <td><code>WS-LWC</code></td>
+                    <td>失蜡工位</td>
+                    <td><span class="badge badge-gold">铸造</span></td>
+                    <td>失蜡</td>
+                    <td>B 区-1</td>
+                    <td>李师傅</td>
+                    <td><span class="badge badge-outline">5 台</span></td>
+                    <td><span class="badge badge-success">运行</span></td>
+                </tr>
+                <tr>
+                    <td><code>WS-FIN</code></td>
+                    <td>精加工工位</td>
+                    <td><span class="badge badge-outline">精加工</span></td>
+                    <td>共用</td>
+                    <td>C 区-1</td>
+                    <td>王师傅</td>
+                    <td><span class="badge badge-outline">5 台</span></td>
+                    <td><span class="badge badge-success">运行</span></td>
+                </tr>
+                <tr>
+                    <td><code>WS-QC</code></td>
+                    <td>质检工位</td>
+                    <td><span class="badge badge-warning">质检</span></td>
+                    <td>共用</td>
+                    <td>D 区-1</td>
+                    <td>陈师傅</td>
+                    <td><span class="badge badge-outline">4 台</span></td>
+                    <td><span class="badge badge-gold">空闲</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- ============================================================
+             油压标准 9 道
+             ============================================================ -->
+        <record id="route_owp_std" model="gold.process.route">
+            <field name="code">OWP_STD</field>
+            <field name="name">油压标准 9 道</field>
+            <field name="process_type">oil_press</field>
+            <field name="variant">standard</field>
+            <field name="sequence">10</field>
+        </record>
+
+        <record id="route_owp_std_line1" model="gold.process.route.line">
+            <field name="route_id" ref="route_owp_std"/>
+            <field name="operation_id" ref="op_owp01"/>
+            <field name="sequence">10</field>
+        </record>
+        <record id="route_owp_std_line2" model="gold.process.route.line">
+            <field name="route_id" ref="route_owp_std"/>
+            <field name="operation_id" ref="op_owp02"/>
+            <field name="sequence">20</field>
+        </record>
+        <record id="route_owp_std_line3" model="gold.process.route.line">
+            <field name="route_id" ref="route_owp_std"/>
+            <field name="operation_id" ref="op_owp03"/>
+            <field name="sequence">30</field>
+        </record>
+        <record id="route_owp_std_line4" model="gold.process.route.line">
+            <field name="route_id" ref="route_owp_std"/>
+            <field name="operation_id" ref="op_owp04"/>
+            <field name="sequence">40</field>
+        </record>
+        <record id="route_owp_std_line5" model="gold.process.route.line">
+            <field name="route_id" ref="route_owp_std"/>
+            <field name="operation_id" ref="op_owp05"/>
+            <field name="sequence">50</field>
+        </record>
+        <record id="route_owp_std_line6" model="gold.process.route.line">
+            <field name="route_id" ref="route_owp_std"/>
+            <field name="operation_id" ref="op_owp06"/>
+            <field name="sequence">60</field>
+        </record>
+        <record id="route_owp_std_line7" model="gold.process.route.line">
+            <field name="route_id" ref="route_owp_std"/>
+            <field name="operation_id" ref="op_owp07"/>
+            <field name="sequence">70</field>
+        </record>
+        <record id="route_owp_std_line8" model="gold.process.route.line">
+            <field name="route_id" ref="route_owp_std"/>
+            <field name="operation_id" ref="op_owp08"/>
+            <field name="sequence">80</field>
+        </record>
+        <record id="route_owp_std_line9" model="gold.process.route.line">
+            <field name="route_id" ref="route_owp_std"/>
+            <field name="operation_id" ref="op_owp09"/>
+            <field name="sequence">90</field>
+        </record>
+
+        <!-- ============================================================
+             失蜡标准 11 道
+             ============================================================ -->
+        <record id="route_lwc_std" model="gold.process.route">
+            <field name="code">LWC_STD</field>
+            <field name="name">失蜡标准 11 道</field>
+            <field name="process_type">lost_wax</field>
+            <field name="variant">standard</field>
+            <field name="sequence">20</field>
+        </record>
+        <record id="route_lwc_std_line1" model="gold.process.route.line">
+            <field name="route_id" ref="route_lwc_std"/>
+            <field name="operation_id" ref="op_lwc01"/>
+            <field name="sequence">10</field>
+        </record>
+        <record id="route_lwc_std_line2" model="gold.process.route.line">
+            <field name="route_id" ref="route_lwc_std"/>
+            <field name="operation_id" ref="op_lwc02"/>
+            <field name="sequence">20</field>
+        </record>
+        <record id="route_lwc_std_line3" model="gold.process.route.line">
+            <field name="route_id" ref="route_lwc_std"/>
+            <field name="operation_id" ref="op_lwc03"/>
+            <field name="sequence">30</field>
+        </record>
+        <record id="route_lwc_std_line4" model="gold.process.route.line">
+            <field name="route_id" ref="route_lwc_std"/>
+            <field name="operation_id" ref="op_lwc04"/>
+            <field name="sequence">40</field>
+        </record>
+        <record id="route_lwc_std_line5" model="gold.process.route.line">
+            <field name="route_id" ref="route_lwc_std"/>
+            <field name="operation_id" ref="op_lwc05"/>
+            <field name="sequence">50</field>
+        </record>
+        <record id="route_lwc_std_line6" model="gold.process.route.line">
+            <field name="route_id" ref="route_lwc_std"/>
+            <field name="operation_id" ref="op_lwc06"/>
+            <field name="sequence">60</field>
+        </record>
+        <record id="route_lwc_std_line7" model="gold.process.route.line">
+            <field name="route_id" ref="route_lwc_std"/>
+            <field name="operation_id" ref="op_lwc07"/>
+            <field name="sequence">70</field>
+        </record>
+        <record id="route_lwc_std_line8" model="gold.process.route.line">
+            <field name="route_id" ref="route_lwc_std"/>
+            <field name="operation_id" ref="op_lwc08"/>
+            <field name="sequence">80</field>
+        </record>
+        <record id="route_lwc_std_line9" model="gold.process.route.line">
+            <field name="route_id" ref="route_lwc_std"/>
+            <field name="operation_id" ref="op_lwc09"/>
+            <field name="sequence">90</field>
+            <field name="is_optional">1</field>
+        </record>
+        <record id="route_lwc_std_line10" model="gold.process.route.line">
+            <field name="route_id" ref="route_lwc_std"/>
+            <field name="operation_id" ref="op_lwc10"/>
+            <field name="sequence">100</field>
+        </record>
+        <record id="route_lwc_std_line11" model="gold.process.route.line">
+            <field name="route_id" ref="route_lwc_std"/>
+            <field name="operation_id" ref="op_lwc11"/>
+            <field name="sequence">110</field>
+        </record>
+
+        <!-- ============================================================
+             失蜡简化 9 道 (省略 树 / 拆树 / 起版)
+             ============================================================ -->
+        <record id="route_lwc_simple" model="gold.process.route">
+            <field name="code">LWC_SIMPLE</field>
+            <field name="name">失蜡简化 9 道</field>
+            <field name="process_type">lost_wax</field>
+            <field name="variant">simple</field>
+            <field name="sequence">21</field>
+        </record>
+        <record id="route_lwc_simple_line1" model="gold.process.route.line">
+            <field name="route_id" ref="route_lwc_simple"/>
+            <field name="operation_id" ref="op_lwc01"/>
+            <field name="sequence">10</field>
+        </record>
+        <record id="route_lwc_simple_line2" model="gold.process.route.line">
+            <field name="route_id" ref="route_lwc_simple"/>
+            <field name="operation_id" ref="op_lwc03"/>
+            <field name="sequence">30</field>
+        </record>
+        <record id="route_lwc_simple_line3" model="gold.process.route.line">
+            <field name="route_id" ref="route_lwc_simple"/>
+            <field name="operation_id" ref="op_lwc05"/>
+            <field name="sequence">50</field>
+        </record>
+        <record id="route_lwc_simple_line4" model="gold.process.route.line">
+            <field name="route_id" ref="route_lwc_simple"/>
+            <field name="operation_id" ref="op_lwc06"/>
+            <field name="sequence">60</field>
+        </record>
+        <record id="route_lwc_simple_line5" model="gold.process.route.line">
+            <field name="route_id" ref="route_lwc_simple"/>
+            <field name="operation_id" ref="op_lwc07"/>
+            <field name="sequence">70</field>
+        </record>
+        <record id="route_lwc_simple_line6" model="gold.process.route.line">
+            <field name="route_id" ref="route_lwc_simple"/>
+            <field name="operation_id" ref="op_lwc08"/>
+            <field name="sequence">80</field>
+        </record>
+        <record id="route_lwc_simple_line7" model="gold.process.route.line">
+            <field name="route_id" ref="route_lwc_simple"/>
+            <field name="operation_id" ref="op_lwc10"/>
+            <field name="sequence">100</field>
+        </record>
+        <record id="route_lwc_simple_line8" model="gold.process.route.line">
+            <field name="route_id" ref="route_lwc_simple"/>
+            <field name="operation_id" ref="op_lwc11"/>
+            <field name="sequence">110</field>
+        </record>
+
+    </data>
+</odoo>

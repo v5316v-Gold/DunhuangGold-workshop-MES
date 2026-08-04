@@ -1,0 +1,49 @@
+<div class="page-header">
+    <h1>采购订单 (预留)</h1>
+    <div class="actions">
+        <button class="btn btn-primary">➕ 新建</button>
+    </div>
+</div>
+
+<div class="notice info">
+    💡 <strong>本模块为预留:</strong> 当前车间 ERP 范围聚焦生产,采购订单由下游系统(Odoo purchase_app)接管。本占位页面展示该模块接入点。
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>接口方案</h3>
+    </div>
+    <div class="card-body">
+        <table class="data">
+            <tr>
+                <td>接入模块</td>
+                <td>Odoo purchase_app</td>
+            </tr>
+            <tr>
+                <td>数据流</td>
+                <td>采购订单 → 入库单 → 金料批次 (gold.material.batch)</td>
+            </tr>
+            <tr>
+                <td>触发</td>
+                <td>金料到货 → 自动生成入库单 → 化验 → 入库为批次</td>
+            </tr>
+            <tr>
+                <td>金料专属字段</td>
+                <td>批次号 / 成色 / 含量 / 实时金价 / 折价系数</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>界面占位</h3>
+    </div>
+    <div class="card-body">
+        <div style="text-align: center; padding: 64px; color: var(--text-muted);">
+            <div style="font-size: 48px;">📦</div>
+            <h3>采购订单 — 由下游系统管理</h3>
+            <p>本车间 ERP 接收结果,生成金料批次</p>
+        </div>
+    </div>
+</div>

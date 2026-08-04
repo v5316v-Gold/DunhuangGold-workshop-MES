@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- 演示工位 -->
+        <record id="ws_oil_press_demo" model="gold.workstation">
+            <field name="code">WS-OWP</field>
+            <field name="name">油压工位</field>
+            <field name="workstation_type">oil_press</field>
+            <field name="process_type">oil_press</field>
+            <field name="location">A 区-1</field>
+            <field name="operation_ids" eval="[(6, 0, [ref('op_owp02'), ref('op_owp03'), ref('op_owp04'), ref('op_owp05'), ref('op_owp06')])]"/>
+        </record>
+
+        <record id="ws_lost_wax_demo" model="gold.workstation">
+            <field name="code">WS-LWC</field>
+            <field name="name">失蜡工位</field>
+            <field name="workstation_type">casting</field>
+            <field name="process_type">lost_wax</field>
+            <field name="location">B 区-1</field>
+            <field name="operation_ids" eval="[(6, 0, [ref('op_lwc03'), ref('op_lwc04'), ref('op_lwc05'), ref('op_lwc06'), ref('op_lwc07')])]"/>
+        </record>
+
+        <record id="ws_finishing_demo" model="gold.workstation">
+            <field name="code">WS-FIN</field>
+            <field name="name">精加工工位</field>
+            <field name="workstation_type">finishing</field>
+            <field name="process_type">common</field>
+            <field name="location">C 区-1</field>
+        </record>
+
+        <record id="ws_qc_demo" model="gold.workstation">
+            <field name="code">WS-QC</field>
+            <field name="name">质检工位</field>
+            <field name="workstation_type">qc</field>
+            <field name="process_type">common</field>
+            <field name="location">D 区-1</field>
+        </record>
+
+        <!-- 演示设备 -->
+        <record id="equip_oil_press_001" model="gold.equipment">
+            <field name="code">OBP-001</field>
+            <field name="name">油压机 #1</field>
+            <field name="category">oil_press_machine</field>
+            <field name="process_type">oil_press</field>
+            <field name="manufacturer">扬州锻压</field>
+            <field name="model">YH21-200</field>
+            <field name="serial_no">YH21200-2026001</field>
+            <field name="workshop_id" ref="ws_oil_press_demo"/>
+            <field name="protocol">opc_ua</field>
+            <field name="ip_address">192.168.10.11</field>
+            <field name="port">4840</field>
+            <field name="device_node_id">ns=2;s=OilPress001</field>
+        </record>
+
+        <record id="equip_balance_001" model="gold.equipment">
+            <field name="code">BAL-001</field>
+            <field name="name">电子天平 #1 (0.001g)</field>
+            <field name="category">balance</field>
+            <field name="process_type">common</field>
+            <field name="manufacturer">梅特勒-托利多</field>
+            <field name="model">XPR205</field>
+            <field name="serial_no">XPR205-20260001</field>
+            <field name="workshop_id" ref="ws_oil_press_demo"/>
+            <field name="protocol">rs232</field>
+            <field name="ip_address">COM1</field>
+            <field name="last_calibration_date" eval="(DateTime.now() - timedelta(days=30)).strftime('%Y-%m-%d')"/>
+            <field name="next_calibration_date" eval="(DateTime.now() + timedelta(days=60)).strftime('%Y-%m-%d')"/>
+        </record>
+
+        <record id="equip_xrf_001" model="gold.equipment">
+            <field name="code">XRF-001</field>
+            <field name="name">XRF 含量检测仪 #1</field>
+            <field name="category">xrf</field>
+            <field name="process_type">common</field>
+            <field name="manufacturer">德国斯派克</field>
+            <field name="model">XEPOS</field>
+            <field name="serial_no">XEPOS-2026001</field>
+            <field name="workshop_id" ref="ws_qc_demo"/>
+        </record>
+
+        <record id="equip_lost_wax_001" model="gold.equipment">
+            <field name="code">LWF-001</field>
+            <field name="name">失蜡炉 #1</field>
+            <field name="category">lost_wax_furnace</field>
+            <field name="process_type">lost_wax</field>
+            <field name="manufacturer">德国 BEGO</field>
+            <field name="model">Nautilus</field>
+            <field name="serial_no">NAUTILUS-2026001</field>
+            <field name="workshop_id" ref="ws_lost_wax_demo"/>
+            <field name="protocol">opc_ua</field>
+            <field name="ip_address">192.168.10.21</field>
+            <field name="port">4840</field>
+        </record>
+
+        <!-- 演示物料 -->
+        <record id="product_gold_au9999" model="product.product">
+            <field name="name">足金 9999 板料</field>
+            <field name="categ_id" ref="product_category_gold_material"/>
+            <field name="default_code">AU9999-PLATE</field>
+            <field name="gold_purity">99.99</field>
+            <field name="gold_imprint_code">足金999</field>
+            <field name="type">product</field>
+            <field name="uom_id" ref="uom.product_uom_gram"/>
+            <field name="uom_po_id" ref="uom.product_uom_gram"/>
+            <field name="list_price">580.0</field>
+            <field name="standard_price">580.0</field>
+        </record>
+
+        <record id="product_gold_18k" model="product.product">
+            <field name="name">18K 金 板料</field>
+            <field name="categ_id" ref="product_category_k_gold"/>
+            <field name="default_code">AU750-PLATE</field>
+            <field name="gold_purity">75.00</field>
+            <field name="gold_imprint_code">18K</field>
+            <field name="type">product</field>
+            <field name="uom_id" ref="uom.product_uom_gram"/>
+            <field name="uom_po_id" ref="uom.product_uom_gram"/>
+            <field name="list_price">440.0</field>
+            <field name="standard_price">440.0</field>
+        </record>
+
+        <record id="product_pt950" model="product.product">
+            <field name="name">PT950 铂金 板料</field>
+            <field name="categ_id" ref="product_category_platinum"/>
+            <field name="default_code">PT950-PLATE</field>
+            <field name="gold_purity">95.00</field>
+            <field name="gold_imprint_code">Pt950</field>
+            <field name="type">product</field>
+            <field name="uom_id" ref="uom.product_uom_gram"/>
+            <field name="uom_po_id" ref="uom.product_uom_gram"/>
+            <field name="list_price">320.0</field>
+            <field name="standard_price">320.0</field>
+        </record>
+
+        <!-- 演示成品 -->
+        <record id="product_ring_oil_press" model="product.product">
+            <field name="name">古法金素圈戒指 (油压)</field>
+            <field name="categ_id" ref="product_category_finished_oil_press"/>
+            <field name="default_code">RING-OWP-001</field>
+            <field name="gold_purity">99.90</field>
+            <field name="gold_imprint_code">足金</field>
+            <field name="gold_process_type">oil_press</field>
+            <field name="gold_route_id" ref="route_owp_std"/>
+            <field name="gold_standard_weight_g">5.200</field>
+            <field name="type">product</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="list_price">3500.0</field>
+        </record>
+
+        <record id="product_ring_lost_wax" model="product.product">
+            <field name="name">18K 金钻石戒指 (失蜡)</field>
+            <field name="categ_id" ref="product_category_finished_lost_wax"/>
+            <field name="default_code">RING-LWC-001</field>
+            <field name="gold_purity">75.00</field>
+            <field name="gold_imprint_code">18K</field>
+            <field name="gold_process_type">lost_wax</field>
+            <field name="gold_route_id" ref="route_lwc_std"/>
+            <field name="gold_standard_weight_g">4.800</field>
+            <field name="type">product</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="list_price">8500.0</field>
+        </record>
+
+        <!-- 演示金料批次 -->
+        <record id="batch_demo_001" model="gold.material.batch">
+            <field name="batch_no">GL20260805-00001</field>
+            <field name="product_id" ref="product_gold_au9999"/>
+            <field name="source">supplier</field>
+            <field name="net_weight_g">5000.000</field>
+            <field name="gross_weight_g">5020.000</field>
+            <field name="unit_price">580.00</field>
+            <field name="current_price">582.50</field>
+            <field name="state">available</field>
+            <field name="inspection_state">passed</field>
+            <field name="cert_no">SGE-2026-0805001</field>
+            <field name="name">首批入金</field>
+        </record>
+
+        <record id="batch_demo_002" model="gold.material.batch">
+            <field name="batch_no">GL20260805-00002</field>
+            <field name="product_id" ref="product_gold_18k"/>
+            <field name="source">supplier</field>
+            <field name="net_weight_g">2000.000</field>
+            <field name="gross_weight_g">2010.000</field>
+            <field name="unit_price">440.00</field>
+            <field name="current_price">442.00</field>
+            <field name="state">available</field>
+            <field name="inspection_state">passed</field>
+            <field name="cert_no">SGE-2026-0805002</field>
+            <field name="name">18K 入库</field>
+        </record>
+
+        <!-- 演示金价 -->
+        <record id="price_demo_001" model="gold.price.engine">
+            <field name="price_time">2026-08-05 10:30:00</field>
+            <field name="source">sge</field>
+            <field name="gold_type">au9999</field>
+            <field name="price_open">578.50</field>
+            <field name="price_high">584.00</field>
+            <field name="price_low">577.80</field>
+            <field name="price_close">582.50</field>
+            <field name="is_settlement">1</field>
+        </record>
+
+        <record id="price_demo_002" model="gold.price.engine">
+            <field name="price_time">2026-08-05 10:30:00</field>
+            <field name="source">sge</field>
+            <field name="gold_type">k18</field>
+            <field name="price_open">438.00</field>
+            <field name="price_high">444.00</field>
+            <field name="price_low">437.00</field>
+            <field name="price_close">442.00</field>
+            <field name="is_settlement">1</field>
+        </record>
+
+        <!-- 演示模具 -->
+        <record id="mold_demo_001" model="gold.mold">
+            <field name="code">MLD-00001</field>
+            <field name="name">古法金素圈戒指钢模</field>
+            <field name="mold_type">steel</field>
+            <field name="material">SKD11</field>
+            <field name="manufacturer">深圳精模</field>
+            <field name="style_id" ref="product_ring_oil_press"/>
+            <field name="rated_life_count">1000000</field>
+            <field name="used_count">350000</field>
+            <field name="state">in_use</field>
+            <field name="current_equipment_id" ref="equip_oil_press_001"/>
+        </record>
+
+        <!-- 演示蜡模 -->
+        <record id="wax_demo_001" model="gold.wax.model">
+            <field name="code">WAX-00001</field>
+            <field name="name">18K 钻石戒指蜡模</field>
+            <field name="style_id" ref="product_ring_lost_wax"/>
+            <field name="origin">sla_print</field>
+            <field name="weight_g">0.500</field>
+            <field name="state">stock</field>
+            <field name="sla_layer_thickness_um">25.00</field>
+            <field name="sla_exposure_sec">8.50</field>
+            <field name="sla_machine_id" ref="equip_oil_press_001"/>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_gold_process_route_tree" model="ir.ui.view">
+            <field name="name">gold.process.route.tree</field>
+            <field name="model">gold.process.route</field>
+            <field name="arch" type="xml">
+                <tree string="工艺路线">
+                    <field name="sequence" widget="handle"/>
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="process_type"/>
+                    <field name="variant"/>
+                    <field name="operation_count"/>
+                    <field name="total_standard_time" digits="[10,4]"/>
+                    <field name="total_loss_rate" digits="[6,4]"/>
+                    <field name="active" widget="boolean_toggle"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_gold_process_route_form" model="ir.ui.view">
+            <field name="name">gold.process.route.form</field>
+            <field name="model">gold.process.route</field>
+            <field name="arch" type="xml">
+                <form string="工艺路线">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1><field name="name" placeholder="路线名称"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="code"/>
+                                <field name="process_type"/>
+                                <field name="variant"/>
+                                <field name="sequence"/>
+                            </group>
+                            <group>
+                                <field name="operation_count"/>
+                                <field name="total_standard_time" digits="[10,4]"/>
+                                <field name="total_loss_rate" digits="[6,4]"/>
+                                <field name="active" widget="boolean_toggle"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="工序明细" name="lines">
+                                <field name="operation_ids" nolabel="1">
+                                    <tree string="工序" editable="bottom">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="operation_id"/>
+                                        <field name="process_type"/>
+                                        <field name="standard_time_hours" digits="[10,4]"/>
+                                        <field name="standard_loss_rate" digits="[6,4]"/>
+                                        <field name="workstation_id"/>
+                                        <field name="need_quality_check" widget="boolean_toggle"/>
+                                        <field name="is_optional" widget="boolean_toggle"/>
+                                        <field name="note"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="备注" name="note">
+                                <field name="note" placeholder="备注"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_gold_process_route" model="ir.actions.act_window">
+            <field name="name">工艺路线模板</field>
+            <field name="res_model">gold.process.route</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

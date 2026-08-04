@@ -1,0 +1,180 @@
+<div class="page-header">
+    <h1>委外加工</h1>
+    <div class="actions">
+        <button class="btn">📊 损耗分析</button>
+        <button class="btn">📄 PDF 单据</button>
+        <button class="btn btn-primary">➕ 新建</button>
+    </div>
+</div>
+
+<div class="statusbar">
+    <span class="step active">草稿</span>
+    <span class="step">已发料</span>
+    <span class="step">加工中</span>
+    <span class="step">已收回</span>
+    <span class="step">已结算</span>
+    <span class="step">已关闭</span>
+</div>
+
+<div class="kpi-grid">
+    <div class="kpi-card gold">
+        <div class="label">加工中</div>
+        <div class="value">3</div>
+        <div class="sub">厂家 2</div>
+    </div>
+    <div class="kpi-card">
+        <div class="label">本月发料</div>
+        <div class="value">580 g</div>
+        <div class="sub">¥ 326,800</div>
+    </div>
+    <div class="kpi-card">
+        <div class="label">本月收回</div>
+        <div class="value">568.5 g</div>
+        <div class="sub">损耗 11.5 g (1.98%)</div>
+    </div>
+    <div class="kpi-card">
+        <div class="label">应付总额</div>
+        <div class="value">¥ 8,200</div>
+        <div class="sub">加工费</div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>委外加工单</h3>
+    </div>
+    <div class="card-body dense">
+        <table class="data">
+            <thead>
+                <tr>
+                    <th>委外单</th>
+                    <th>外协厂</th>
+                    <th>工艺</th>
+                    <th>业务类型</th>
+                    <th>发料</th>
+                    <th class="number">发料 (g)</th>
+                    <th class="number">收回 (g)</th>
+                    <th class="number">损耗</th>
+                    <th class="number">损耗率</th>
+                    <th class="number">加工费</th>
+                    <th>状态</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>WW20260805-00002</code></td>
+                    <td>苏州精镶</td>
+                    <td><span class="badge badge-warning">镶石</span></td>
+                    <td>包工不包料</td>
+                    <td><code>GL20260805-00002</code></td>
+                    <td class="number">20.000</td>
+                    <td class="number">19.700</td>
+                    <td class="number">0.300</td>
+                    <td class="number">1.50%</td>
+                    <td class="number currency">¥ 200.00</td>
+                    <td><span class="badge badge-warning">加工中</span></td>
+                </tr>
+                <tr>
+                    <td><code>WW20260805-00001</code></td>
+                    <td>深圳玫瑰金电镀</td>
+                    <td><span class="badge badge-info">电镀</span></td>
+                    <td>包工不包料</td>
+                    <td><code>GL20260805-00003</code></td>
+                    <td class="number">50.000</td>
+                    <td class="number">49.500</td>
+                    <td class="number">0.500</td>
+                    <td class="number">1.00%</td>
+                    <td class="number currency">¥ 800.00</td>
+                    <td><span class="badge badge-info">已发料</span></td>
+                </tr>
+                <tr>
+                    <td><code>WW20260804-00010</code></td>
+                    <td>上海精密铸造</td>
+                    <td><span class="badge badge-gold">失蜡</span></td>
+                    <td>包工包料</td>
+                    <td>外协提供</td>
+                    <td class="number">250.000</td>
+                    <td class="number">247.500</td>
+                    <td class="number">2.500</td>
+                    <td class="number">1.00%</td>
+                    <td class="number currency">¥ 4,500.00</td>
+                    <td><span class="badge badge-success">已收回</span></td>
+                </tr>
+                <tr>
+                    <td><code>WW20260803-00008</code></td>
+                    <td>苏州精镶</td>
+                    <td><span class="badge badge-warning">镶石</span></td>
+                    <td>包工不包料</td>
+                    <td><code>GL20260803-00002</code></td>
+                    <td class="number">15.000</td>
+                    <td class="number">14.800</td>
+                    <td class="number">0.200</td>
+                    <td class="number">1.33%</td>
+                    <td class="number currency">¥ 150.00</td>
+                    <td><span class="badge badge-success">已结算</span></td>
+                </tr>
+                <tr>
+                    <td><code>WW20260802-00005</code></td>
+                    <td>北京抛光厂</td>
+                    <td><span class="badge badge-outline">抛光</span></td>
+                    <td>包工不包料</td>
+                    <td><code>GL20260802-00001</code></td>
+                    <td class="number">100.000</td>
+                    <td class="number">98.500</td>
+                    <td class="number">1.500</td>
+                    <td class="number">1.50%</td>
+                    <td class="number currency">¥ 1,500.00</td>
+                    <td><span class="badge badge-success">已关闭</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>委外单详情 - WW20260805-00002</h3>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-6">
+                <h4>业务信息</h4>
+                <table class="data">
+                    <tr><td>委外单号</td><td><code>WW20260805-00002</code></td></tr>
+                    <tr><td>外协厂</td><td>苏州精镶</td></tr>
+                    <tr><td>工艺</td><td>镶石</td></tr>
+                    <tr><td>业务类型</td><td>包工不包料</td></tr>
+                    <tr><td>发料日期</td><td>2026-08-05</td></tr>
+                    <tr><td>预计收回</td><td>2026-08-08</td></tr>
+                </table>
+            </div>
+            <div class="col-6">
+                <h4>物料 / 重量</h4>
+                <table class="data">
+                    <tr><td>发料批次</td><td><code>GL20260805-00002</code></td></tr>
+                    <tr><td>发料重量</td><td class="number">20.000 g</td></tr>
+                    <tr><td>当前批次余额</td><td class="number">15.000 g</td></tr>
+                    <tr><td>分配</td><td class="number">5.000 g</td></tr>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <h4>结算</h4>
+                <table class="data">
+                    <tr><td>加工费</td><td class="number currency">¥ 200.00</td></tr>
+                    <tr><td>损耗承担</td><td>外协厂</td></tr>
+                    <tr><td>应付总额</td><td class="number currency text-gold text-bold">¥ 200.00</td></tr>
+                </table>
+            </div>
+            <div class="col-6">
+                <h4>损耗</h4>
+                <table class="data">
+                    <tr><td>合同允许</td><td class="number">2.0%</td></tr>
+                    <tr><td>实际</td><td class="number">1.5%</td></tr>
+                    <tr><td>状态</td><td><span class="badge badge-success">✓ 在允许内</span></td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

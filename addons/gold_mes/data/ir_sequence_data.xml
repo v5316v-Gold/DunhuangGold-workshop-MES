@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- 金料批次号: GLYYYYMMDDXXX -->
+        <record id="seq_gold_batch" model="ir.sequence">
+            <field name="name">金料批次号</field>
+            <field name="code">gold.material.batch</field>
+            <field name="prefix">GL</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- 金料入库单: RKYYYYMMXXX -->
+        <record id="seq_gold_in" model="ir.sequence">
+            <field name="name">金料入库单</field>
+            <field name="code">gold.material.in</field>
+            <field name="prefix">RK</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- 旧金回收单: HSYYYYMMXXX -->
+        <record id="seq_gold_recycle" model="ir.sequence">
+            <field name="name">旧金回收单</field>
+            <field name="code">gold.recycle</field>
+            <field name="prefix">HS</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- 模具编号: MLD-XXX -->
+        <record id="seq_gold_mold" model="ir.sequence">
+            <field name="name">模具编号</field>
+            <field name="code">gold.mold</field>
+            <field name="prefix">MLD</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- 蜡模编号: WAX-XXX -->
+        <record id="seq_gold_wax" model="ir.sequence">
+            <field name="name">蜡模编号</field>
+            <field name="code">gold.wax.model</field>
+            <field name="prefix">WAX</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- 质检单: QCYYYYMMXXX -->
+        <record id="seq_gold_qc" model="ir.sequence">
+            <field name="name">质检单号</field>
+            <field name="code">gold.quality.inspection</field>
+            <field name="prefix">QC</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- 印记记录: YJYYYYMMXXX -->
+        <record id="seq_gold_imprint" model="ir.sequence">
+            <field name="name">印记记录</field>
+            <field name="code">gold.imprint</field>
+            <field name="prefix">YJ</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- XRF 检测: XFYYYYMMXXX -->
+        <record id="seq_gold_xrf" model="ir.sequence">
+            <field name="name">XRF 检测</field>
+            <field name="code">gold.xrf.record</field>
+            <field name="prefix">XF</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- 工序报工: BGYYYYMMXXX -->
+        <record id="seq_gold_workorder_report" model="ir.sequence">
+            <field name="name">工序报工</field>
+            <field name="code">gold.workorder.report</field>
+            <field name="prefix">BG</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- 委外加工单: WWYYYYMMXXX -->
+        <record id="seq_gold_outsource" model="ir.sequence">
+            <field name="name">委外加工单</field>
+            <field name="code">gold.outsource.order</field>
+            <field name="prefix">WW</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- 件级 SN: 5 位 -->
+        <record id="seq_gold_piece_sn" model="ir.sequence">
+            <field name="name">件级 SN</field>
+            <field name="code">gold.piece.sn</field>
+            <field name="prefix">SN</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>

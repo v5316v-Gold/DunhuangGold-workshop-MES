@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_gold_quality_inspection_tree" model="ir.ui.view">
+            <field name="name">gold.quality.inspection.tree</field>
+            <field name="model">gold.quality.inspection</field>
+            <field name="arch" type="xml">
+                <tree string="质检" decoration-danger="result == 'failed'" decoration-warning="result == 'conditional'" decoration-success="result == 'passed'">
+                    <field name="name"/>
+                    <field name="inspection_type"/>
+                    <field name="production_id"/>
+                    <field name="product_id"/>
+                    <field name="weight_g" digits="[18,6]"/>
+                    <field name="weight_passed" widget="boolean_toggle"/>
+                    <field name="purity_pct" digits="[6,4]" widget="percentage"/>
+                    <field name="purity_min_pct" digits="[6,4]" widget="percentage"/>
+                    <field name="purity_passed" widget="boolean_toggle"/>
+                    <field name="imprint_passed" widget="boolean_toggle"/>
+                    <field name="surface_quality"/>
+                    <field name="surface_passed" widget="boolean_toggle"/>
+                    <field name="result" widget="badge"
+                        decoration-success="result == 'passed'"
+                        decoration-warning="result == 'conditional'"
+                        decoration-danger="result == 'failed'"/>
+                    <field name="inspector_id"/>
+                    <field name="inspection_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_gold_quality_inspection_form" model="ir.ui.view">
+            <field name="name">gold.quality.inspection.form</field>
+            <field name="model">gold.quality.inspection</field>
+            <field name="arch" type="xml">
+                <form string="质检">
+                    <header>
+                        <field name="result" widget="statusbar"
+                            statusbar_visible="pending,conditional,passed"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1><field name="name" placeholder="质检单号"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="inspection_type"/>
+                                <field name="production_id"/>
+                                <field name="report_id"/>
+                                <field name="batch_id"/>
+                                <field name="product_id"/>
+                            </group>
+                            <group>
+                                <field name="inspector_id"/>
+                                <field name="inspection_date"/>
+                            </group>
+                        </group>
+                        <group string="检验项">
+                            <group>
+                                <field name="weight_g" digits="[18,6]"/>
+                                <field name="weight_tolerance_g" digits="[18,6]"/>
+                                <field name="weight_passed" widget="boolean_toggle"/>
+                            </group>
+                            <group>
+                                <field name="purity_pct" digits="[6,4]" widget="percentage"/>
+                                <field name="purity_min_pct" digits="[6,4]" widget="percentage"/>
+                                <field name="purity_passed" widget="boolean_toggle"/>
+                            </group>
+                        </group>
+                        <group string="印记 / 表面">
+                            <group>
+                                <field name="imprint_present" widget="boolean_toggle"/>
+                                <field name="imprint_passed" widget="boolean_toggle"/>
+                            </group>
+                            <group>
+                                <field name="surface_quality"/>
+                                <field name="surface_passed" widget="boolean_toggle"/>
+                            </group>
+                        </group>
+                        <field name="note" placeholder="备注"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_gold_quality_inspection" model="ir.actions.act_window">
+            <field name="name">质检记录</field>
+            <field name="res_model">gold.quality.inspection</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

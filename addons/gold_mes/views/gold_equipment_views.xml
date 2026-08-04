@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_gold_equipment_tree" model="ir.ui.view">
+            <field name="name">gold.equipment.tree</field>
+            <field name="model">gold.equipment</field>
+            <field name="arch" type="xml">
+                <tree string="设备台账" decoration-danger="state == 'down'" decoration-warning="state == 'maintenance'">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="category"/>
+                    <field name="process_type"/>
+                    <field name="state" widget="badge"
+                        decoration-info="state == 'idle'"
+                        decoration-success="state == 'running'"
+                        decoration-danger="state == 'down'"
+                        decoration-warning="state == 'maintenance'"/>
+                    <field name="manufacturer"/>
+                    <field name="model"/>
+                    <field name="protocol"/>
+                    <field name="ip_address"/>
+                    <field name="next_calibration_date"/>
+                    <field name="oee" digits="[6,2]" widget="progressbar"/>
+                    <field name="mounted_mold_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_gold_equipment_form" model="ir.ui.view">
+            <field name="name">gold.equipment.form</field>
+            <field name="model">gold.equipment</field>
+            <field name="arch" type="xml">
+                <form string="设备">
+                    <header>
+                        <field name="state" widget="statusbar"
+                            statusbar_visible="idle,running,maintenance,down,scrapped"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1><field name="name" placeholder="设备名称"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="code"/>
+                                <field name="category"/>
+                                <field name="process_type"/>
+                                <field name="workshop_id"/>
+                            </group>
+                            <group>
+                                <field name="manufacturer"/>
+                                <field name="model"/>
+                                <field name="serial_no"/>
+                                <field name="active" widget="boolean_toggle"/>
+                            </group>
+                        </group>
+                        <group string="资产">
+                            <group>
+                                <field name="purchase_date"/>
+                                <field name="purchase_value"/>
+                            </group>
+                            <group>
+                                <field name="salvage_value"/>
+                                <field name="useful_life_months"/>
+                            </group>
+                        </group>
+                        <group string="校准">
+                            <group>
+                                <field name="last_calibration_date"/>
+                                <field name="next_calibration_date"/>
+                            </group>
+                            <group>
+                                <field name="calibration_cert_no"/>
+                            </group>
+                        </group>
+                        <group string="通讯 (MES 接入)">
+                            <group>
+                                <field name="protocol"/>
+                                <field name="ip_address"/>
+                                <field name="port"/>
+                                <field name="device_node_id"/>
+                                <field name="poll_interval_seconds"/>
+                            </group>
+                            <group>
+                                <field name="mounted_mold_id"
+                                    invisible="category != 'oil_press_machine'"/>
+                            </group>
+                        </group>
+                        <group string="OEE 累积">
+                            <group>
+                                <field name="oee_runtime_hours" digits="[16,2]"/>
+                                <field name="oee_downtime_hours" digits="[16,2]"/>
+                            </group>
+                            <group>
+                                <field name="oee_total_count"/>
+                                <field name="oee_good_count"/>
+                                <field name="oee" digits="[6,2]" widget="progressbar"/>
+                            </group>
+                        </group>
+                        <field name="note" placeholder="备注"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_gold_equipment" model="ir.actions.act_window">
+            <field name="name">设备台账</field>
+            <field name="res_model">gold.equipment</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

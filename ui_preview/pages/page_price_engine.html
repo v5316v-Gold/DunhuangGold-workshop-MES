@@ -1,0 +1,190 @@
+<div class="page-header">
+    <h1>实时金价</h1>
+    <div class="actions">
+        <button class="btn">📈 走势</button>
+        <button class="btn">🔌 数据源</button>
+        <button class="btn btn-primary">➕ 录入</button>
+    </div>
+</div>
+
+<div class="notice">
+    💡 金价源: 上海黄金交易所 (SGE) / LBMA London Fix / 中国银行 / API 推送。订单可锁价 15 分钟 / 30 分钟 / 1 小时 / 当日。
+</div>
+
+<div class="kpi-grid">
+    <div class="kpi-card gold">
+        <div class="label">Au99.99 (SGE)</div>
+        <div class="value gold">¥ 582.50/g</div>
+        <div class="sub">+1.86 +0.32%</div>
+    </div>
+    <div class="kpi-card info">
+        <div class="label">18K 金</div>
+        <div class="value">¥ 442.00/g</div>
+        <div class="sub">+1.20 +0.27%</div>
+    </div>
+    <div class="kpi-card">
+        <div class="label">PT950</div>
+        <div class="value">¥ 320.00/g</div>
+        <div class="sub">+0.50 +0.16%</div>
+    </div>
+    <div class="kpi-card">
+        <div class="label">PD950</div>
+        <div class="value">¥ 280.00/g</div>
+        <div class="sub">+0.30 +0.11%</div>
+    </div>
+    <div class="kpi-card">
+        <div class="label">Ag99.99</div>
+        <div class="value">¥ 7.25/g</div>
+        <div class="sub">+0.02 +0.28%</div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>金价历史</h3>
+        <div class="text-muted" style="margin-left: auto; font-size: 12px;">最近 30 条</div>
+    </div>
+    <div class="card-body dense">
+        <table class="data">
+            <thead>
+                <tr>
+                    <th>报价时间</th>
+                    <th>品种</th>
+                    <th>源</th>
+                    <th class="number">开盘</th>
+                    <th class="number">最高</th>
+                    <th class="number">最低</th>
+                    <th class="number">收盘</th>
+                    <th class="number">涨跌</th>
+                    <th class="number">涨跌幅</th>
+                    <th class="center">结算</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="background: #FFF8E1;">
+                    <td>2026-08-05 10:30</td>
+                    <td>Au99.99</td>
+                    <td>SGE</td>
+                    <td class="number">578.50</td>
+                    <td class="number">584.00</td>
+                    <td class="number">577.80</td>
+                    <td class="number gold text-bold">582.50</td>
+                    <td class="number text-success">+1.86</td>
+                    <td class="number text-success">+0.32%</td>
+                    <td class="center">✓</td>
+                </tr>
+                <tr>
+                    <td>2026-08-05 10:30</td>
+                    <td>18K</td>
+                    <td>SGE</td>
+                    <td class="number">438.00</td>
+                    <td class="number">444.00</td>
+                    <td class="number">437.00</td>
+                    <td class="number">442.00</td>
+                    <td class="number text-success">+1.20</td>
+                    <td class="number text-success">+0.27%</td>
+                    <td class="center">✓</td>
+                </tr>
+                <tr>
+                    <td>2026-08-04 18:00</td>
+                    <td>Au99.99</td>
+                    <td>SGE</td>
+                    <td class="number">579.50</td>
+                    <td class="number">580.80</td>
+                    <td class="number">578.50</td>
+                    <td class="number">580.64</td>
+                    <td class="number text-success">+1.20</td>
+                    <td class="number text-success">+0.21%</td>
+                    <td class="center">✓</td>
+                </tr>
+                <tr>
+                    <td>2026-08-04 18:00</td>
+                    <td>PT950</td>
+                    <td>LBMA</td>
+                    <td class="number">319.00</td>
+                    <td class="number">320.50</td>
+                    <td class="number">318.50</td>
+                    <td class="number">319.50</td>
+                    <td class="number text-success">+0.50</td>
+                    <td class="number text-success">+0.16%</td>
+                    <td class="center">✓</td>
+                </tr>
+                <tr>
+                    <td>2026-08-03 18:00</td>
+                    <td>Au99.99</td>
+                    <td>SGE</td>
+                    <td class="number">579.50</td>
+                    <td class="number">580.50</td>
+                    <td class="number">578.00</td>
+                    <td class="number">579.44</td>
+                    <td class="number">-0.06</td>
+                    <td class="number">-0.01%</td>
+                    <td class="center">✓</td>
+                </tr>
+                <tr>
+                    <td>2026-08-02 18:00</td>
+                    <td>Au99.99</td>
+                    <td>SGE</td>
+                    <td class="number">578.50</td>
+                    <td class="number">580.00</td>
+                    <td class="number">577.50</td>
+                    <td class="number">579.50</td>
+                    <td class="number">+1.00</td>
+                    <td class="number text-success">+0.17%</td>
+                    <td class="center">✓</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>锁价示例(订单报价)</h3>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-6">
+                <h4>订单 #MO-00042</h4>
+                <table class="data">
+                    <tr>
+                        <td>产品</td>
+                        <td>18K 金钻石戒指</td>
+                    </tr>
+                    <tr>
+                        <td>数量</td>
+                        <td>10 件</td>
+                    </tr>
+                    <tr>
+                        <td>锁定金价</td>
+                        <td class="number">¥ 442.00/g</td>
+                    </tr>
+                    <tr>
+                        <td>锁定时间</td>
+                        <td>2026-08-05 10:30</td>
+                    </tr>
+                    <tr>
+                        <td>过期</td>
+                        <td>2026-08-05 11:00 <span class="badge badge-success">剩 30 分钟</span></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-6">
+                <h4>在售金价</h4>
+                <table class="data">
+                    <tr>
+                        <td>当前价</td>
+                        <td class="number">¥ 442.50/g</td>
+                    </tr>
+                    <tr>
+                        <td>与锁价差异</td>
+                        <td class="number text-success">+0.50/g <span class="badge badge-success">+0.11%</span></td>
+                    </tr>
+                </table>
+                <div class="notice info">
+                    锁价期内订单按 ¥ 442.00/g 结算,过期后按当下金价重新计算。
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,103 @@
+# 贵金属车间 ERP - .gitignore
+
+# ============== Python 缓存 ==============
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+*.egg
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# ============== 虚拟环境 ==============
+venv/
+env/
+ENV/
+.venv/
+.env
+.envrc
+.python-version
+
+# ============== Odoo 临时 ==============
+*.log
+*.log.*
+*.pid
+*.seed
+*.session
+*.swp
+*.bak
+*.tmp
+
+# ============== 部署 / 凭据 ==============
+.env
+.env.local
+*.key
+*.pem
+*.crt
+deploy/secrets/
+deploy/prod/
+
+# ============== 数据库 dump ==============
+*.dump
+*.sql.gz
+*.backup
+
+# ============== 备份 / 临时 ==============
+backups/
+tmp/
+*.tgz
+*.tar.gz
+*.zip
+
+# ============== 日志 ==============
+logs/
+*.log
+!deploy/systemd/odoo-backup.sh
+
+# ============== IDE / 编辑器 ==============
+.idea/
+.vscode/
+*.swp
+*.swo
+*.iml
+*.swp
+*.swn
+*~
+*#
+
+# ============== OS ==============
+.DS_Store
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# ============== 文档生成 ==============
+docs/_build/
+docs/_static/
+docs/_templates/
+
+# ============== 临时仓库 ==============
+ui_preview/_tmp/
+
+# ============== 上传文件 (不提交) ==============
+filestore/
+session/
+addons/*/static/src/img/upload/
+
+# ============== 排除 vendor (按需) ==============
+# 解开注释以排除 vendor
+# vendor/
+
+# ============== 排除 ui_preview (如果太大了) ==============
+# ui_preview/pages/
+# ui_preview/assets/
+
+# ============== 排除一些 sun 系统临时 ==============
+.nfs*
