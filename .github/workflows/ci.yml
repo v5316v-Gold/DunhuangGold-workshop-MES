@@ -1,0 +1,107 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  # ============================================
+  # 1. 静态检查 (Python 模块完整性)
+  # ============================================
+  validate:
+    name: Module Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Validate module structure
+        run: python scripts/validate_gold_mes.py
+
+  # ============================================
+  # 2. 核心算法单元测试
+  # ============================================
+  test-core:
+    name: Core Algorithm Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run unit tests
+        run: python -m unittest discover -s tests -p 'test_*.py' -v
+
+  # ============================================
+  # 3. 代码质量 (flake8 / pyflakes)
+  # ============================================
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install pyflakes
+        run: pip install pyflakes
+
+      - name: Run pyflakes
+        run: |
+          pyflakes addons/gold_mes/models/ addons/gold_mes/controllers/ scripts/ tests/ || true
+
+  # ============================================
+  # 4. YAML / 文档校验
+  # ============================================
+  docs:
+    name: Docs Validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check docs exist
+        run: |
+          for f in README.md CHANGELOG.md LICENSE docs/DATA_MODEL.md docs/API.md docs/QUICKSTART.md; do
+            if [ ! -f "$f" ]; then
+              echo "::error::Missing file: $f"
+              exit 1
+            fi
+          done
+          echo "✓ All required docs present"
+
+      - name: Validate XML
+        run: |
+          python -c "import xml.etree.ElementTree as ET; import glob; [ET.parse(f) for f in glob.glob('addons/**/*.xml', recursive=True)]; print(f'✓ {len(glob.glob(\"addons/**/*.xml\", recursive=True))} XML files valid')"
+
+  # ============================================
+  # 5. 全部通过 ✓
+  # ============================================
+  all-checks:
+    name: All Checks
+    runs-on: ubuntu-latest
+    needs: [validate, test-core, lint, docs]
+    if: always()
+    steps:
+      - name: Check status
+        run: |
+          if [ "${{ needs.validate.result }}" != "success" ] || \
+             [ "${{ needs.test-core.result }}" != "success" ] || \
+             [ "${{ needs.lint.result }}" != "success" ] || \
+             [ "${{ needs.docs.result }}" != "success" ]; then
+            echo "::error::One or more checks failed"
+            exit 1
+          fi
+          echo "✅ All checks passed"

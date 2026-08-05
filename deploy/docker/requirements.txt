@@ -1,59 +1,27 @@
-# Odoo 17 镜像构建所需的 Python 依赖
-# ----- 核心 (Odoo 17 官方已经包含大部分) -----
-# python-dateutil
-# psycopg2-binary
-# babel
-# docutils
-# gevent
-# greenlet
-# jinja2
-# lxml
-# num2words
-# ofxparse
-# passlib
-# pillow
-# polib
-# psutil
-# pydot
-# pyparsing
-# pypdf2
-# python-stdnum
-# pyusb
-# qrcode
-# reportlab
-# requests
-# urllib3
-# vobject
-# werkzeug
-# xlrd
-# xlsxwriter
-# xlwt
-# zeep
+# Gold Workshop ERP - Production dependencies
+# Python 3.11+ / Odoo 17.0+
 
-# ----- 贵金属车间 ERP 增量 -----
-# OPC UA 接入(opcua 客户端)
-opcua>=0.98.13
+# Equipment protocol adapters
+opcua==0.98.13
+paho-mqtt==1.6.1
 
-# MQTT 客户端
-paho-mqtt>=1.6.1
+# Reporting
+xlsxwriter==3.1.9
+reportlab==4.2.0
+qrcode==7.4.2
 
-# Excel 导出
-xlsxwriter>=3.1.0
+# Cryptography
+cryptography==42.0.5
 
-# PDF 报告
-reportlab>=4.0.0
+# CI / Dev
+pytest==8.0.0
+pytest-cov==4.1.0
+ruff==0.4.0
+mypy==1.9.0
+pyflakes==3.2.0
 
-# 二维码
-qrcode>=7.4.0
-
-# 加密
-cryptography>=41.0.0
-
-# 国密(可选)
-gmssl>=3.2.2
-
-# 条码 / 二维码扫描
-python-barcode>=0.15.0
-
-# SGE / LBMA 行情
-# (官方不提供, 由我们自己实现)
+# Note: Odoo 17 official modules pre-installed
+# - python-dateutil, psycopg2-binary, babel, docutils
+# - gevent, greenlet, jinja2, lxml, pillow, psutil
+# - pydot, pyparsing, pypdf2, qrcode, reportlab, requests
+# - vobject, werkzeug, xlrd, xlsxwriter, xlwt, zeep

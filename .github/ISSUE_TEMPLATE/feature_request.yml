@@ -1,0 +1,54 @@
+name: Feature Request
+description: Suggest an idea for this project
+title: "[Feature] "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: 问题 / 痛点
+      description: 业务上遇到了什么问题?
+      placeholder: |
+        当前车间损耗追溯需要手工 8D 报告,效率低、易遗漏...
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: 建议方案
+      description: 期望如何解决?
+      placeholder: |
+        1. 自动从超耗记录生成 8D 草稿
+        2. 责任部门自动派单
+        3. 复盘完成度看板
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: 优先级
+      options:
+        - P0 - 立即处理
+        - P1 - 下迭代
+        - P2 - 路线图
+        - P3 - 待讨论
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 替代方案
+      description: 考虑过其他方案吗?
+    validations:
+      required: false
+
+  - type: textarea
+    id: context
+    attributes:
+      label: 附加上下文
+      placeholder: 客户案例 / 法规 / 友商参考...
+    validations:
+      required: false

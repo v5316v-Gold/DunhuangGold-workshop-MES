@@ -1,0 +1,61 @@
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+exclude = ["addons/*/static/**", "ui_preview/**", "**/__pycache__/**"]
+
+[tool.ruff.lint]
+extend-select = [
+    "I",    # isort
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "UP",   # pyupgrade
+    "B",    # flake8-bugbear
+]
+ignore = [
+    "E501",  # line too long (handled by formatter)
+    "B008",  # function call in default argument
+]
+
+[tool.ruff.lint.per-file-ignores]
+"addons/gold_mes/models/__init__.py" = ["F401"]
+"addons/gold_mes/controllers/__init__.py" = ["F401"]
+"tests/*" = ["B011"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+docstring-code-format = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short"
+
+[tool.mypy]
+python_version = "3.11"
+ignore_missing_imports = true
+plugins = []
+exclude = ["ui_preview/**", "**/__pycache__/**"]
+
+[project]
+name = "gold-mes"
+version = "17.0.1.0.0"
+description = "Precious metal jewelry workshop ERP - Oil-press + Lost-wax casting"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "Apache-2.0"}
+authors = [{name = "ERP-Architect-01 (Hephaestus Forge Gold)"}]
+keywords = ["odoo", "erp", "gold", "jewelry", "manufacturing", "mes"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Framework :: Odoo",
+    "Framework :: Odoo :: 17.0",
+    "Intended Audience :: Manufacturing",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Manufacturing",
+]

@@ -1,0 +1,44 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-merge-conflict
+      - id: detect-private-key
+      - id: mixed-line-ending
+        args: [--fix=lf]
+      - id: no-commit-to-branch
+        args: [--branch=main, --branch=master]
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.4.0
+    hooks:
+      - id: ruff
+        args: [--fix, --exit-non-zero-on-fix]
+      - id: ruff-format
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.9.0
+    hooks:
+      - id: mypy
+        additional_dependencies: [types-requests]
+        args: [--ignore-missing-imports]
+        files: ^addons/gold_mes/(models|controllers)/.*\.py$
+
+  - repo: local
+    hooks:
+      - id: validate-gold-mes
+        name: Validate Gold Workshop ERP module
+        entry: python scripts/validate_gold_mes.py
+        language: system
+        pass_filenames: false
+        always_run: true
+
+      - id: test-gold-algo
+        name: Core algorithm unit tests
+        entry: python -m unittest discover -s tests -p 'test_*.py'
+        language: system
+        pass_filenames: false
+        always_run: true

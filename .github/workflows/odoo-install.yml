@@ -1,0 +1,92 @@
+name: Odoo Install
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  install-odoo:
+    name: Install gold_mes in Odoo 17
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: gold_mes_test
+          POSTGRES_USER: odoo
+          POSTGRES_PASSWORD: odoo
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      ODOO_DB: gold_mes_test
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Odoo + dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            postgresql-client libxml2-dev libxslt1-dev libldap2-dev \
+            libsasl2-dev libssl-dev libpq-dev
+          pip install --quiet "odoo==17.0"
+
+      - name: Link gold_mes module
+        run: |
+          mkdir -p $HOME/.local/share/Odoo/addons/17.0
+          cp -r addons/gold_mes $HOME/.local/share/Odoo/addons/17.0/
+
+      - name: Wait for PostgreSQL
+        run: |
+          until pg_isready -h localhost -p 5432 -U odoo; do
+            sleep 1
+          done
+
+      - name: Initialize gold_mes module
+        run: |
+          odoo-bin \
+            --db_host=localhost \
+            --db_port=5432 \
+            --db_user=odoo \
+            --db_password=odoo \
+            --database=$ODOO_DB \
+            --addons-path=$HOME/.local/share/Odoo/addons/17.0 \
+            --init=base,gold_mes \
+            --without-demo=False \
+            --stop-after-init \
+            --log-level=info 2>&1 | tee /tmp/odoo-install.log
+
+      - name: Verify module loads
+        run: |
+          odoo-bin \
+            --db_host=localhost \
+            --db_port=5432 \
+            --db_user=odoo \
+            --db_password=odoo \
+            --database=$ODOO_DB \
+            --addons-path=$HOME/.local/share/Odoo/addons/17.0 \
+            --update=gold_mes \
+            --stop-after-init \
+            --log-level=warn 2>&1 | tail -30
+
+      - name: Upload install log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: odoo-install-log
+          path: /tmp/odoo-install.log
+          if-no-files-found: ignore

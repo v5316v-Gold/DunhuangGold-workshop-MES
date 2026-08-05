@@ -1,0 +1,103 @@
+name: Bug Report
+description: Create a report to help us improve
+title: "[Bug] "
+labels: ["bug", "needs-triage"]
+assignees: []
+body:
+  - type: dropdown
+    id: severity
+    attributes:
+      label: 严重程度
+      description: 影响范围
+      options:
+        - P0 - 阻塞生产
+        - P1 - 主要功能故障
+        - P2 - 次要 / 边角
+        - P3 - 样式 / 文档
+    validations:
+      required: true
+
+  - type: dropdown
+    id: module
+    attributes:
+      label: 模块
+      options:
+        - 金料批次
+        - 工艺工序
+        - 工艺路线
+        - 工序报工
+        - 损耗追溯
+        - 印记
+        - XRF
+        - 质检
+        - 委外
+        - 件级 SN
+        - 看板
+        - 金价
+        - 旧金回收
+        - 模具
+        - 蜡模
+        - 设备
+        - MES REST API
+        - 部署
+        - 文档
+        - 其他
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: 复现步骤
+      description: 1. ... 2. ... 3. ...
+      placeholder: |
+        1. 创建生产订单 MO-001
+        2. 工序 OWP06 报工
+        3. 输入重量 5.250g
+        4. 产出 5.180g
+      value: ""
+    validations:
+      required: true
+
+  - type: input
+    id: expected
+    attributes:
+      label: 期望结果
+    validations:
+      required: true
+
+  - type: input
+    id: actual
+    attributes:
+      label: 实际结果
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: 错误日志
+      render: shell
+      placeholder: |
+        2026-08-05 06:32:15,123 ERROR ...
+    validations:
+      required: false
+
+  - type: dropdown
+    id: env
+    attributes:
+      label: 环境
+      options:
+        - Odoo 17.0 CE
+        - Odoo 17.0 Enterprise
+        - Docker
+        - 物理机
+      multiple: true
+
+  - type: input
+    id: version
+    attributes:
+      label: 模块版本
+      placeholder: "17.0.1.0.0"
+    validations:
+      required: true
