@@ -1,23 +1,23 @@
-# REST API — 贵金属车间 ERP
+# REST API — 敦煌金加工车间 ERP
 
 ## 端点列表
 
 | 方法 | 路径 | 用途 |
 |------|------|------|
-| POST | `/gold_mes/api/v1/login` | 工位登录 |
-| GET  | `/gold_mes/api/v1/production/{id}` | 获取生产订单详情 |
-| GET  | `/gold_mes/api/v1/workorder/by_station/{station_id}` | 工位待执行工单 |
-| POST | `/gold_mes/api/v1/workorder_report` | 工序报工(天平直采) |
-| GET  | `/gold_mes/api/v1/batch/{batch_no}` | 查询金料批次 |
-| POST | `/gold_mes/api/v1/batch/allocate` | 分配批次重量 |
-| GET  | `/gold_mes/api/v1/price/current` | 当前金价 |
-| POST | `/gold_mes/api/v1/price/push` | 推送金价 |
-| POST | `/gold_mes/api/v1/imprint/verify` | 印记 OCR 校验 |
-| POST | `/gold_mes/api/v1/xrf/save` | XRF 检测结果 |
-| GET  | `/gold_mes/api/v1/dashboard/kpi` | 看板 KPI |
-| POST | `/gold_mes/api/v1/device/heartbeat` | 设备心跳 |
-| POST | `/gold_mes/api/v1/device/metric` | 设备度量上报 |
-| GET  | `/gold_mes/api/v1/device/list` | 设备列表 |
+| POST | `/dunhuang_gold_mes/api/v1/login` | 工位登录 |
+| GET  | `/dunhuang_gold_mes/api/v1/production/{id}` | 获取生产订单详情 |
+| GET  | `/dunhuang_gold_mes/api/v1/workorder/by_station/{station_id}` | 工位待执行工单 |
+| POST | `/dunhuang_gold_mes/api/v1/workorder_report` | 工序报工(天平直采) |
+| GET  | `/dunhuang_gold_mes/api/v1/batch/{batch_no}` | 查询金料批次 |
+| POST | `/dunhuang_gold_mes/api/v1/batch/allocate` | 分配批次重量 |
+| GET  | `/dunhuang_gold_mes/api/v1/price/current` | 当前金价 |
+| POST | `/dunhuang_gold_mes/api/v1/price/push` | 推送金价 |
+| POST | `/dunhuang_gold_mes/api/v1/imprint/verify` | 印记 OCR 校验 |
+| POST | `/dunhuang_gold_mes/api/v1/xrf/save` | XRF 检测结果 |
+| GET  | `/dunhuang_gold_mes/api/v1/dashboard/kpi` | 看板 KPI |
+| POST | `/dunhuang_gold_mes/api/v1/device/heartbeat` | 设备心跳 |
+| POST | `/dunhuang_gold_mes/api/v1/device/metric` | 设备度量上报 |
+| GET  | `/dunhuang_gold_mes/api/v1/device/list` | 设备列表 |
 
 ## 通用返回格式
 
@@ -40,7 +40,7 @@
 ## 1. 登录
 
 ```bash
-POST /gold_mes/api/v1/login
+POST /dunhuang_gold_mes/api/v1/login
 Content-Type: application/json
 
 {
@@ -64,7 +64,7 @@ Content-Type: application/json
 ## 2. 工序报工(MES 工位核心)
 
 ```bash
-POST /gold_mes/api/v1/workorder_report
+POST /dunhuang_gold_mes/api/v1/workorder_report
 Content-Type: application/json
 Cookie: session_id=xxx
 
@@ -107,7 +107,7 @@ Cookie: session_id=xxx
 ## 3. 当前金价
 
 ```bash
-GET /gold_mes/api/v1/price/current?gold_type=au9999&source=sge
+GET /dunhuang_gold_mes/api/v1/price/current?gold_type=au9999&source=sge
 ```
 
 ```json
@@ -125,7 +125,7 @@ GET /gold_mes/api/v1/price/current?gold_type=au9999&source=sge
 ## 4. 看板 KPI
 
 ```bash
-GET /gold_mes/api/v1/dashboard/kpi
+GET /dunhuang_gold_mes/api/v1/dashboard/kpi
 ```
 
 ```json
@@ -147,7 +147,7 @@ GET /gold_mes/api/v1/dashboard/kpi
 ## 5. 设备心跳
 
 ```bash
-POST /gold_mes/api/v1/device/heartbeat
+POST /dunhuang_gold_mes/api/v1/device/heartbeat
 Content-Type: application/json
 
 {
@@ -163,7 +163,7 @@ Content-Type: application/json
 ## 6. 设备度量上报(电子天平直采)
 
 ```bash
-POST /gold_mes/api/v1/device/metric
+POST /dunhuang_gold_mes/api/v1/device/metric
 Content-Type: application/json
 
 {
@@ -180,7 +180,7 @@ Content-Type: application/json
 ## 7. 印记 OCR 校验
 
 ```bash
-POST /gold_mes/api/v1/imprint/verify
+POST /dunhuang_gold_mes/api/v1/imprint/verify
 Content-Type: application/json
 
 {
@@ -205,7 +205,7 @@ Content-Type: application/json
 ## 8. XRF 检测结果
 
 ```bash
-POST /gold_mes/api/v1/xrf/save
+POST /dunhuang_gold_mes/api/v1/xrf/save
 Content-Type: application/json
 
 {

@@ -18,8 +18,8 @@ ignore = [
 ]
 
 [tool.ruff.lint.per-file-ignores]
-"addons/gold_mes/models/__init__.py" = ["F401"]
-"addons/gold_mes/controllers/__init__.py" = ["F401"]
+"addons/dunhuang_gold_mes/models/__init__.py" = ["F401"]
+"addons/dunhuang_gold_mes/controllers/__init__.py" = ["F401"]
 "tests/*" = ["B011"]
 
 [tool.ruff.format]
@@ -41,7 +41,7 @@ plugins = []
 exclude = ["ui_preview/**", "**/__pycache__/**"]
 
 [project]
-name = "gold-mes"
+name = "dunhuang-gold-mes"
 version = "17.0.1.0.0"
 description = "Precious metal jewelry workshop ERP - Oil-press + Lost-wax casting"
 readme = "README.md"

@@ -25,13 +25,13 @@ repos:
       - id: mypy
         additional_dependencies: [types-requests]
         args: [--ignore-missing-imports]
-        files: ^addons/gold_mes/(models|controllers)/.*\.py$
+        files: ^addons/dunhuang_gold_mes/(models|controllers)/.*\.py$
 
   - repo: local
     hooks:
-      - id: validate-gold-mes
-        name: Validate Gold Workshop ERP module
-        entry: python scripts/validate_gold_mes.py
+      - id: validate-dunhuang-gold-mes
+        name: Validate Dunhuang Dunhuang Gold Workshop ERP module
+        entry: python scripts/validate_dunhuang_gold_mes.py
         language: system
         pass_filenames: false
         always_run: true

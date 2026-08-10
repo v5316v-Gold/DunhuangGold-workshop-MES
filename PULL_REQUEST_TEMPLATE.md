@@ -22,7 +22,7 @@ Closes #
 
 ## 测试
 
-- [ ] 单元测试通过 (`python scripts/validate_gold_mes.py`)
+- [ ] 单元测试通过 (`python scripts/validate_dunhuang_gold_mes.py`)
 - [ ] 核心算法测试通过 (`python tests/test_gold_algo.py`)
 - [ ] 已在 Odoo 17 实环境验证
 - [ ] 回归测试通过

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_gold_piece_tree" model="ir.ui.view">
+            <field name="name">gold.piece.tree</field>
+            <field name="model">gold.piece</field>
+            <field name="arch" type="xml">
+                <tree string="件级 SN" decoration-success="state == 'sold'">
+                    <field name="sn"/>
+                    <field name="product_id"/>
+                    <field name="production_id"/>
+                    <field name="actual_weight_g" digits="[18,6]"/>
+                    <field name="imprint_content"/>
+                    <field name="qc_passed" widget="boolean_toggle"/>
+                    <field name="ngtc_cert_no"/>
+                    <field name="qr_payload"/>
+                    <field name="state" widget="badge"
+                        decoration-info="state in ['draft', 'in_process']"
+                        decoration-success="state in ['finished', 'stored', 'sold']"
+                        decoration-warning="state == 'redeemed'"
+                        decoration-danger="state == 'scrap'"/>
+                    <field name="customer_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_gold_piece_form" model="ir.ui.view">
+            <field name="name">gold.piece.form</field>
+            <field name="model">gold.piece</field>
+            <field name="arch" type="xml">
+                <form string="件级 SN">
+                    <header>
+                        <button name="action_verify" string="扫码验证" type="object"
+                            class="btn-primary" groups="group_dunhuang_gold_mes_qc"/>
+                        <field name="state" widget="statusbar"
+                            statusbar_visible="draft,in_process,finished,stored,sold"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="sn" class="oe_edit_only"/>
+                            <h1><field name="sn" placeholder="件级 SN"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="product_id"/>
+                                <field name="name"/>
+                                <field name="production_id"/>
+                                <field name="standard_weight_g" digits="[18,6]"/>
+                                <field name="actual_weight_g" digits="[18,6]"/>
+                            </group>
+                            <group>
+                                <field name="company_id" groups="base.group_multi_company"/>
+                                <field name="state"/>
+                                <field name="customer_id"/>
+                                <field name="sale_order_id"/>
+                                <field name="sale_date"/>
+                            </group>
+                        </group>
+                        <group string="印记 / 质检">
+                            <group>
+                                <field name="imprint_id"/>
+                                <field name="imprint_content"/>
+                            </group>
+                            <group>
+                                <field name="qc_id"/>
+                                <field name="qc_passed" widget="boolean_toggle"/>
+                                <field name="xrf_id"/>
+                            </group>
+                        </group>
+                        <group string="NGTC 证书">
+                            <field name="ngtc_cert_no"/>
+                            <field name="ngtc_cert_image" widget="image"/>
+                        </group>
+                        <group string="二维码">
+                            <field name="qr_payload"/>
+                            <field name="qr_image" widget="image"/>
+                        </group>
+                        <field name="note" placeholder="备注"/>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_gold_piece" model="ir.actions.act_window">
+            <field name="name">件级 SN</field>
+            <field name="res_model">gold.piece</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help">每件首饰的唯一标识符,贯穿生产到销售,扫码追溯</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_gold_material_batch_tree" model="ir.ui.view">
+            <field name="name">gold.material.batch.tree</field>
+            <field name="model">gold.material.batch</field>
+            <field name="arch" type="xml">
+                <tree string="金料批次" decoration-muted="state == 'depleted'" decoration-danger="state == 'scrap'">
+                    <field name="batch_no"/>
+                    <field name="product_id"/>
+                    <field name="gold_metal_type"/>
+                    <field name="gold_purity" digits="[6,2]"/>
+                    <field name="net_weight_g" digits="[18,6]"/>
+                    <field name="available_weight_g" digits="[18,6]"/>
+                    <field name="consumed_weight_g" digits="[18,6]"/>
+                    <field name="source"/>
+                    <field name="supplier_id"/>
+                    <field name="current_price" digits="[18,4]"/>
+                    <field name="current_value" digits="[18,2]"/>
+                    <field name="inspection_state" widget="badge"
+                        decoration-success="inspection_state == 'passed'"
+                        decoration-danger="inspection_state == 'failed'"
+                        decoration-warning="inspection_state == 'pending'"/>
+                    <field name="state" widget="badge"
+                        decoration-info="state == 'draft'"
+                        decoration-success="state == 'available'"
+                        decoration-warning="state == 'locked'"
+                        decoration-danger="state == 'scrap'"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_gold_material_batch_form" model="ir.ui.view">
+            <field name="name">gold.material.batch.form</field>
+            <field name="model">gold.material.batch</field>
+            <field name="arch" type="xml">
+                <form string="金料批次">
+                    <header>
+                        <button name="action_available" string="入库" type="object"
+                            class="btn-primary" states="draft"
+                            groups="group_dunhuang_gold_mes_warehouse"/>
+                        <button name="action_lock" string="锁定" type="object"
+                            states="available" groups="group_dunhuang_gold_mes_warehouse"/>
+                        <button name="action_unlock" string="解锁" type="object"
+                            states="locked" groups="group_dunhuang_gold_mes_warehouse"/>
+                        <button name="action_scrap" string="报废" type="object"
+                            states="available,locked" groups="group_dunhuang_gold_mes_director"/>
+                        <field name="state" widget="statusbar"
+                            statusbar_visible="draft,available,locked,depleted"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="batch_no" class="oe_edit_only"/>
+                            <h1><field name="batch_no" placeholder="批次号"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="product_id"/>
+                                <field name="gold_metal_type"/>
+                                <field name="gold_purity" digits="[6,2]"/>
+                                <field name="source"/>
+                                <field name="supplier_id"
+                                    invisible="source != 'supplier'"/>
+                                <field name="cert_no"/>
+                                <field name="is_recycle" widget="boolean_toggle"/>
+                                <field name="discount_factor"
+                                    invisible="not is_recycle" digits="[6,4]"/>
+                                <field name="recycle_order_id"
+                                    invisible="not is_recycle"/>
+                            </group>
+                            <group>
+                                <field name="company_id" groups="base.group_multi_company"/>
+                                <field name="receive_date"/>
+                                <field name="location_id"/>
+                                <field name="inspection_state" widget="badge"
+                                    decoration-success="inspection_state == 'passed'"
+                                    decoration-danger="inspection_state == 'failed'"
+                                    decoration-warning="inspection_state == 'pending'"/>
+                                <field name="inspector_id"/>
+                                <field name="inspection_date"/>
+                            </group>
+                        </group>
+                        <group string="重量 (精度 0.001g)">
+                            <group>
+                                <field name="gross_weight_g" digits="[18,6]"/>
+                                <field name="net_weight_g" digits="[18,6]"/>
+                            </group>
+                            <group>
+                                <field name="available_weight_g" digits="[18,6]"/>
+                                <field name="allocated_weight_g" digits="[18,6]"/>
+                                <field name="consumed_weight_g" digits="[18,6]"/>
+                            </group>
+                        </group>
+                        <group string="计价">
+                            <group>
+                                <field name="unit_price" digits="[18,4]"/>
+                                <field name="total_value" digits="[18,2]"/>
+                            </group>
+                            <group>
+                                <field name="current_price" digits="[18,4]"/>
+                                <field name="current_value" digits="[18,2]"/>
+                            </group>
+                        </group>
+                        <field name="note" placeholder="备注"/>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_gold_material_batch_search" model="ir.ui.view">
+            <field name="name">gold.material.batch.search</field>
+            <field name="model">gold.material.batch</field>
+            <field name="arch" type="xml">
+                <search string="金料批次">
+                    <field name="batch_no"/>
+                    <field name="product_id"/>
+                    <field name="supplier_id"/>
+                    <field name="source"/>
+                    <field name="state"/>
+                    <separator/>
+                    <filter name="state_available" string="可用" domain="[('state', '=', 'available')]"/>
+                    <filter name="state_locked" string="锁定" domain="[('state', '=', 'locked')]"/>
+                    <filter name="state_recycle" string="回收料" domain="[('is_recycle', '=', True)]"/>
+                    <group expand="0" string="分组">
+                        <filter name="group_categ" string="物料分类" context="{'group_by': 'categ_id'}"/>
+                        <filter name="group_source" string="来源" context="{'group_by': 'source'}"/>
+                        <filter name="group_state" string="状态" context="{'group_by': 'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_gold_material_batch" model="ir.actions.act_window">
+            <field name="name">金料批次</field>
+            <field name="res_model">gold.material.batch</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_gold_material_batch_search"/>
+            <field name="context">{'search_default_state_available': 1}</field>
+        </record>
+    </data>
+</odoo>

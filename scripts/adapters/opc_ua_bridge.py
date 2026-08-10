@@ -57,7 +57,7 @@ class MESClient:
         }
         try:
             r = self.session.post(
-                f"{self.api_url}/gold_mes/api/v1/device/metric",
+                f"{self.api_url}/dunhuang_gold_mes/api/v1/device/metric",
                 json=payload,
                 timeout=5,
             )
@@ -72,7 +72,7 @@ class MESClient:
             return False
         try:
             r = self.session.post(
-                f"{self.api_url}/gold_mes/api/v1/device/heartbeat",
+                f"{self.api_url}/dunhuang_gold_mes/api/v1/device/heartbeat",
                 json={"device_code": device_code, "state": state},
                 timeout=5,
             )

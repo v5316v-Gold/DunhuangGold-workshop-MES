@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_gold_wax_model_tree" model="ir.ui.view">
+            <field name="name">gold.wax.model.tree</field>
+            <field name="model">gold.wax.model</field>
+            <field name="arch" type="xml">
+                <tree string="蜡模管理" decoration-muted="state == 'scrapped'">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="style_id"/>
+                    <field name="origin"/>
+                    <field name="weight_g" digits="[18,6]"/>
+                    <field name="sla_layer_thickness_um" digits="[8,2]"/>
+                    <field name="sla_machine_id"/>
+                    <field name="state" widget="badge"
+                        decoration-info="state == 'draft'"
+                        decoration-success="state in ['stock', 'casted']"
+                        decoration-warning="state == 'in_tree'"
+                        decoration-danger="state == 'scrapped'"/>
+                    <field name="cast_production_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_gold_wax_model_form" model="ir.ui.view">
+            <field name="name">gold.wax.model.form</field>
+            <field name="model">gold.wax.model</field>
+            <field name="arch" type="xml">
+                <form string="蜡模">
+                    <header>
+                        <button name="action_stock" string="入库" type="object"
+                            class="btn-primary" states="draft" groups="group_dunhuang_gold_mes_leader"/>
+                        <button name="action_to_tree" string="组树" type="object"
+                            class="btn-primary" states="stock" groups="group_dunhuang_gold_mes_leader"/>
+                        <button name="action_casted" string="浇铸完成" type="object"
+                            class="btn-primary" states="in_tree" groups="group_dunhuang_gold_mes_leader"/>
+                        <button name="action_scrap" string="报废" type="object"
+                            states="draft,stock,in_tree" groups="group_dunhuang_gold_mes_director"/>
+                        <field name="state" widget="statusbar"
+                            statusbar_visible="draft,stock,in_tree,casted"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1><field name="name" placeholder="蜡模名称"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="code"/>
+                                <field name="style_id"/>
+                                <field name="origin"/>
+                                <field name="weight_g" digits="[18,6]"/>
+                            </group>
+                            <group>
+                                <field name="sla_layer_thickness_um" digits="[8,2]"/>
+                                <field name="sla_exposure_sec" digits="[8,2]"/>
+                                <field name="sla_machine_id"/>
+                                <field name="cast_production_id"/>
+                                <field name="active" widget="boolean_toggle"/>
+                            </group>
+                        </group>
+                        <field name="note" placeholder="备注"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_gold_wax_model" model="ir.actions.act_window">
+            <field name="name">蜡模管理</field>
+            <field name="res_model">gold.wax.model</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

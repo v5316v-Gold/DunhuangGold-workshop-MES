@@ -1,4 +1,4 @@
-// 伪 Odoo 17 — 贵金属车间 ERP 离线预览
+// 伪 Odoo 17 — 敦煌金加工车间 ERP 离线预览
 // 导航 + 页面切换
 
 const NAV = [
@@ -86,7 +86,7 @@ function updateBreadcrumb() {
         <span> / </span>
         <span>${page.name}</span>
     `;
-    document.title = `贵金属车间 ERP - ${page.name}`;
+    document.title = `敦煌金加工车间 ERP - ${page.name}`;
 }
 
 async function loadPage(itemId) {

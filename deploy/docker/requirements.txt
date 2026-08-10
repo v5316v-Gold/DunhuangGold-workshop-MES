@@ -1,4 +1,4 @@
-# Gold Workshop ERP - Production dependencies
+# Dunhuang Dunhuang Gold Workshop ERP - Production dependencies
 # Python 3.11+ / Odoo 17.0+
 
 # Equipment protocol adapters

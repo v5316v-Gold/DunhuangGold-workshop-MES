@@ -5,7 +5,7 @@
 set -e
 
 BACKUP_DIR="/var/backups/odoo"
-DB_NAME="${DB_NAME:-gold_mes}"
+DB_NAME="${DB_NAME:-dunhuang_gold_mes}"
 DB_USER="${DB_USER:-odoo}"
 DB_HOST="${DB_HOST:-localhost}"
 RETENTION_DAILY=7

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_gold_mold_tree" model="ir.ui.view">
+            <field name="name">gold.mold.tree</field>
+            <field name="model">gold.mold</field>
+            <field name="arch" type="xml">
+                <tree string="模具台账" decoration-danger="state == 'scrapped'" decoration-warning="remaining_count &gt; 0 and remaining_count &lt;= rated_life_count * life_warning_pct / 100">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="mold_type"/>
+                    <field name="style_id"/>
+                    <field name="rated_life_count" string="额定"/>
+                    <field name="used_count" string="已用"/>
+                    <field name="remaining_count" string="剩余" widget="progressbar"/>
+                    <field name="current_equipment_id"/>
+                    <field name="state" widget="badge"
+                        decoration-info="state == 'new'"
+                        decoration-success="state == 'in_use'"
+                        decoration-warning="state in ['idle', 'maintenance']"
+                        decoration-danger="state == 'scrapped'"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_gold_mold_form" model="ir.ui.view">
+            <field name="name">gold.mold.form</field>
+            <field name="model">gold.mold</field>
+            <field name="arch" type="xml">
+                <form string="模具">
+                    <header>
+                        <button name="action_scrap" string="报废" type="object"
+                            states="new,in_use,idle,maintenance" groups="group_dunhuang_gold_mes_director"/>
+                        <field name="state" widget="statusbar"
+                            statusbar_visible="new,in_use,maintenance,scrapped"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1><field name="name" placeholder="模具名称"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="code"/>
+                                <field name="mold_type"/>
+                                <field name="material"/>
+                                <field name="manufacturer"/>
+                                <field name="style_id"/>
+                            </group>
+                            <group>
+                                <field name="rated_life_count"/>
+                                <field name="used_count"/>
+                                <field name="remaining_count" widget="progressbar"/>
+                                <field name="life_warning_pct" digits="[6,2]"/>
+                                <field name="current_equipment_id"/>
+                                <field name="active" widget="boolean_toggle"/>
+                            </group>
+                        </group>
+                        <group string="资产">
+                            <group>
+                                <field name="purchase_date"/>
+                                <field name="purchase_value" digits="[16,2]"/>
+                            </group>
+                            <group>
+                                <field name="last_maintenance_date"/>
+                                <field name="next_maintenance_count"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="保养记录" name="maintenance">
+                                <field name="maintenance_history_ids" nolabel="1">
+                                    <tree string="保养" editable="bottom">
+                                        <field name="date"/>
+                                        <field name="operator_id"/>
+                                        <field name="used_count_snapshot"/>
+                                        <field name="description"/>
+                                        <field name="parts_used"/>
+                                        <field name="cost" digits="[16,2]"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="备注" name="note">
+                                <field name="note" placeholder="备注"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_gold_mold" model="ir.actions.act_window">
+            <field name="name">模具台账</field>
+            <field name="res_model">gold.mold</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

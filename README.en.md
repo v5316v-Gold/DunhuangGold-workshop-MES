@@ -1,4 +1,4 @@
-# Gold Workshop ERP
+# Dunhuang Gold Workshop ERP
 
 > Dedicated MES-ERP for precious metal jewelry workshops — Internal version 17.0.1.0.0
 > Focus: **oil-press stamping + lost-wax casting** with 0.001g gold material tracking.
@@ -16,7 +16,7 @@
 
 A precious metal jewelry workshop has unique ERP requirements that generic systems fail to handle:
 
-| Standard ERP | Gold Workshop ERP |
+| Standard ERP | Dunhuang Gold Workshop ERP |
 |---|---|
 | Generic inventory | **Gold batch** with 0.001g precision, Au/Pt/Pd purity, **real-time gold price** |
 | Manufacturing | **Oil-press 9-step + Lost-wax 11-step** dual routes with **per-step loss rate** |
@@ -68,12 +68,12 @@ A precious metal jewelry workshop has unique ERP requirements that generic syste
 ### 6. MES REST API
 14 endpoints for workshop terminals / mobile apps:
 ```
-POST /gold_mes/api/v1/login
-POST /gold_mes/api/v1/workorder_report   # Electronic balance → report
-POST /gold_mes/api/v1/price/push        # SGE / LBMA gold price push
-POST /gold_mes/api/v1/imprint/verify    # OCR mark check
-POST /gold_mes/api/v1/device/heartbeat  # Equipment OEE + status
-GET  /gold_mes/api/v1/dashboard/kpi     # Big-screen KPI
+POST /dunhuang_gold_mes/api/v1/login
+POST /dunhuang_gold_mes/api/v1/workorder_report   # Electronic balance → report
+POST /dunhuang_gold_mes/api/v1/price/push        # SGE / LBMA gold price push
+POST /dunhuang_gold_mes/api/v1/imprint/verify    # OCR mark check
+POST /dunhuang_gold_mes/api/v1/device/heartbeat  # Equipment OEE + status
+GET  /dunhuang_gold_mes/api/v1/dashboard/kpi     # Big-screen KPI
 ```
 
 ### 7. Workshop Dashboard
@@ -96,13 +96,13 @@ docker-compose up -d
 ### Standard (Odoo)
 ```bash
 # 1. Copy module
-cp -r addons/gold_mes /path/to/odoo/addons/
+cp -r addons/dunhuang_gold_mes /path/to/odoo/addons/
 
 # 2. Validate
-python scripts/validate_gold_mes.py
+python scripts/validate_dunhuang_gold_mes.py
 
 # 3. Install
-odoo-bin -d mydb -i gold_mes --addons-path=/path/to/addons --stop-after-init
+odoo-bin -d mydb -i dunhuang_gold_mes --addons-path=/path/to/addons --stop-after-init
 
 # 4. Start
 odoo-bin -d mydb
@@ -115,7 +115,7 @@ See [deploy/README.md](deploy/README.md).
 
 ```bash
 # 5 checks all green
-python scripts/validate_gold_mes.py
+python scripts/validate_dunhuang_gold_mes.py
 
 # 35 unit tests all pass
 python -m unittest discover -s tests -p 'test_*.py' -v

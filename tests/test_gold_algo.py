@@ -1,5 +1,5 @@
 """
-贵金属车间 ERP — 核心算法单元测试
+敦煌金加工车间 ERP — 核心算法单元测试
 """
 
 import unittest
@@ -177,7 +177,7 @@ class TestPieceSN(unittest.TestCase):
     def test_qr(self):
         sn = "GLD-20260805-RING-001-00001"
         p = PieceSN(sn=sn, product_code="RING-001", production_id=42)
-        self.assertEqual(p.qr_payload, f"https://verify.gold-mes.com/piece/{sn}")
+        self.assertEqual(p.qr_payload, f"https://verify.dunhuang-gold-mes.com/piece/{sn}")
 
 
 class TestOutsource(unittest.TestCase):

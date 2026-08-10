@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_gold_dashboard" model="ir.actions.client">
+            <field name="name">车间看板</field>
+            <field name="tag">gold_dashboard.main</field>
+        </record>
+
+        <record id="view_gold_dashboard_form" model="ir.ui.view">
+            <field name="name">gold.dashboard.form</field>
+            <field name="model">gold.dashboard</field>
+            <field name="arch" type="xml">
+                <form string="看板">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>敦煌金加工车间看板</h1>
+                        </div>
+                        <div class="alert alert-info">
+                            推荐使用 <strong>车间大屏</strong> 菜单项查看实时看板。
+                        </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_gold_dashboard_form" model="ir.actions.act_window">
+            <field name="name">车间看板</field>
+            <field name="res_model">gold.dashboard</field>
+            <field name="view_mode">form</field>
+        </record>
+    </data>
+</odoo>

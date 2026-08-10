@@ -1,5 +1,5 @@
 """
-贵金属车间 ERP — 核心算法(纯 Python POC)
+敦煌金加工车间 ERP — 核心算法(纯 Python POC)
 =========================================
 
 【依据】Odoo 模型中关键算法的"无框架"实现,可在离线环境下运行 + 单元测试。
@@ -312,7 +312,7 @@ class PieceSN:
 
     def __post_init__(self):
         if not self.qr_payload:
-            self.qr_payload = f"https://verify.gold-mes.com/piece/{self.sn}"
+            self.qr_payload = f"https://verify.dunhuang-gold-mes.com/piece/{self.sn}"
 
     @staticmethod
     def generate(product_code: str, production_id: int, seq: int, date: datetime = None) -> str:

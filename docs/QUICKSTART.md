@@ -1,4 +1,4 @@
-# 快速启动 — 贵金属车间 ERP
+# 快速启动 — 敦煌金加工车间 ERP
 
 ## 一、环境要求
 
@@ -12,9 +12,9 @@
 ```
 project/
 ├── addons/
-│   └── gold_mes/                # 主业务模块
+│   └── dunhuang_gold_mes/                # 主业务模块
 ├── scripts/
-│   └── validate_gold_mes.py    # 验证脚本
+│   └── validate_dunhuang_gold_mes.py    # 验证脚本
 ├── docs/
 │   ├── DATA_MODEL.md
 │   ├── API.md
@@ -29,19 +29,19 @@ project/
 ### 1. 复制模块到 Odoo addons 路径
 
 ```bash
-cp -r addons/gold_mes /path/to/odoo/addons/
+cp -r addons/dunhuang_gold_mes /path/to/odoo/addons/
 ```
 
 ### 2. 验证模块完整性
 
 ```bash
-python scripts/validate_gold_mes.py
+python scripts/validate_dunhuang_gold_mes.py
 ```
 
 应当输出:
 ```
 ============================================================
-贵金属车间 ERP — 模块验证
+敦煌金加工车间 ERP — 模块验证
 ============================================================
 [INFO] Python 语法
   OK: __init__.py
@@ -63,7 +63,7 @@ python scripts/validate_gold_mes.py
 **方法 A: 命令行**
 
 ```bash
-odoo-bin -d mydb -i gold_mes \
+odoo-bin -d mydb -i dunhuang_gold_mes \
   --addons-path=/path/to/addons \
   --db_host=localhost -r odoo -w odoo \
   --stop-after-init
@@ -74,11 +74,11 @@ odoo-bin -d mydb -i gold_mes \
 1. 登录 Odoo (admin/admin)
 2. Settings → Users & Companies → 启用"开发者模式"
 3. Apps → Update Apps List
-4. 搜索 "贵金属车间" → Install
+4. 搜索 "敦煌金加工车间" → Install
 
 ### 4. 安装后配置
 
-1. **设置 → 贵金属车间**:
+1. **设置 → 敦煌金加工车间**:
    - 厂印代号 (GB 11887-2012 备案)
    - NGTC 备案号
    - 损耗预警阈值 (默认 20%)
@@ -143,7 +143,7 @@ odoo-bin -d mydb -i gold_mes \
 
 ## 五、看板
 
-进入 **贵金属车间 → 车间看板**,可见:
+进入 **敦煌金加工车间 → 车间看板**,可见:
 - 当日完工 / 进行中 / 超耗预警 / 模具预警
 - 工艺分布(油压 vs 失蜡)
 - 当前金价
@@ -157,7 +157,7 @@ odoo-bin -d mydb -i gold_mes \
 ### 简单示例:工序报工
 
 ```bash
-curl -X POST http://localhost:8069/gold_mes/api/v1/workorder_report \
+curl -X POST http://localhost:8069/dunhuang_gold_mes/api/v1/workorder_report \
   -H "Content-Type: application/json" \
   -d '{
     "production_id": 42,
@@ -185,13 +185,13 @@ model.cron_id = 'gold.price.engine.update_batch_prices'
 pg_dump -Fc mydb > mydb.dump
 
 # 文件级
-tar -czf addons.tar.gz addons/gold_mes/
+tar -czf addons.tar.gz addons/dunhuang_gold_mes/
 ```
 
 ### 监控
 
 - Prometheus 抓取 `/metrics`(需 OCA 监控模块)
-- 看板 KPI: `GET /gold_mes/api/v1/dashboard/kpi`
+- 看板 KPI: `GET /dunhuang_gold_mes/api/v1/dashboard/kpi`
 
 ## 八、扩展
 
@@ -212,7 +212,7 @@ tar -czf addons.tar.gz addons/gold_mes/
 
 1. 修改对应设备的 `protocol` / `ip_address` / `port` / `device_node_id`
 2. 编写外部协议适配器(OPC UA / MQTT / RS-232)
-3. 适配器调用 `POST /gold_mes/api/v1/device/metric` 上报
+3. 适配器调用 `POST /dunhuang_gold_mes/api/v1/device/metric` 上报
 
 ### 信创环境
 
@@ -233,7 +233,7 @@ tar -czf addons.tar.gz addons/gold_mes/
 
 ### Q3:超耗预警阈值如何调整?
 
-设置 → 贵金属车间 → 损耗预警阈值。常见 10-30%。
+设置 → 敦煌金加工车间 → 损耗预警阈值。常见 10-30%。
 
 ### Q4:旧金回收大额触发?
 

@@ -1,0 +1,106 @@
+/* 敦煌金加工车间 ERP — 看板样式 */
+
+.gold_dashboard {
+    padding: 20px;
+    background: #1a1a2e;
+    color: #eee;
+    min-height: 100vh;
+}
+
+.gold_dashboard h1,
+.gold_dashboard h5 {
+    color: #FFD700;
+}
+
+.kpi-card {
+    margin-bottom: 16px;
+}
+
+.kpi-card-inner {
+    background: #16213e;
+    border: 1px solid #B8860B;
+    border-radius: 8px;
+    color: #fff;
+}
+
+.kpi-card-inner .card-body {
+    padding: 20px;
+}
+
+.kpi-title {
+    color: #B8860B;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.kpi-value {
+    font-size: 32px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.kpi-subtitle {
+    color: #888;
+    font-size: 12px;
+    margin: 0;
+}
+
+.process-bar {
+    display: flex;
+    height: 60px;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #333;
+}
+
+.process-bar-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: bold;
+    transition: width 0.5s ease;
+}
+
+.process-bar-item.oil_press {
+    background: linear-gradient(135deg, #1E90FF, #4682B4);
+}
+
+.process-bar-item.lost_wax {
+    background: linear-gradient(135deg, #FFD700, #B8860B);
+}
+
+.gold_dashboard .card {
+    background: #16213e;
+    border: 1px solid #B8860B;
+}
+
+.gold_dashboard .card-header {
+    background: #0f3460;
+    color: #FFD700;
+    border-bottom: 1px solid #B8860B;
+}
+
+.gold_dashboard .table {
+    color: #eee;
+}
+
+.gold_dashboard .table thead th {
+    border-color: #B8860B;
+    color: #FFD700;
+}
+
+.gold_dashboard .table tbody td {
+    border-color: #333;
+}
+
+/* 异常高亮 */
+.alert.alert-warning {
+    background: #FF8C00;
+    color: #000;
+}
+
+.alert.alert-danger {
+    background: #DC143C;
+    color: #fff;
+}

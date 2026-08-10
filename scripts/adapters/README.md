@@ -15,9 +15,9 @@
 
 ```
 设备层:  失蜡炉 ─┐                ┌─→ MES REST API
-       油压机 ─┤  OPC UA / MQTT  ├─→  /gold_mes/api/v1/device/metric
+       油压机 ─┤  OPC UA / MQTT  ├─→  /dunhuang_gold_mes/api/v1/device/metric
        3D打印机 ┤ ───────────────┤
-       电子天平 ┘                └─→  /gold_mes/api/v1/device/heartbeat
+       电子天平 ┘                └─→  /dunhuang_gold_mes/api/v1/device/heartbeat
 ```
 
 ## 接入新设备的步骤

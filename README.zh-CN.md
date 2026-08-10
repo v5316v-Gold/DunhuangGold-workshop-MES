@@ -15,7 +15,7 @@
 
 ```
 ============================================================
-贵金属车间 ERP — 模块验证
+敦煌金加工车间 ERP — 模块验证
 ============================================================
   ✓ Python 语法   (31 个文件)
   ✓ XML 格式     (29 个文件)
@@ -31,7 +31,7 @@
 | 层 | 选型 | 备注 |
 |---|---|---|
 | 框架 | Odoo 17.0 CE | Python 3.11 + PostgreSQL 15 |
-| 模块 | addons/gold_mes | 单一业务模块,深度定制 |
+| 模块 | addons/dunhuang_gold_mes | 单一业务模块,深度定制 |
 | DB | PostgreSQL 15 | 0.001g 重量用 NUMERIC(18,6) |
 | API | Odoo HTTP Controllers | REST 形式,供 MES 工位 / 移动端调用 |
 | 设备 | OPC UA / MQTT 预留接口 | python-opcua / paho-mqtt |
@@ -95,7 +95,7 @@
 ```
 project/
 ├── README.md                     # 本文件
-├── addons/gold_mes/              # Odoo 17 业务模块
+├── addons/dunhuang_gold_mes/              # Odoo 17 业务模块
 │   ├── __manifest__.py
 │   ├── __init__.py
 │   ├── models/                   # 18 个主模型
@@ -106,7 +106,7 @@ project/
 │   ├── controllers/              # 11 个 REST API
 │   └── static/                   # 看板 JS / CSS / XML
 ├── scripts/
-│   └── validate_gold_mes.py     # 5 项自动验证
+│   └── validate_dunhuang_gold_mes.py     # 5 项自动验证
 ├── docs/
 │   ├── DATA_MODEL.md            # 模型清单 / 字段表
 │   ├── API.md                   # REST API 文档
@@ -117,7 +117,7 @@ project/
 ## 快速验证
 
 ```bash
-python scripts/validate_gold_mes.py
+python scripts/validate_dunhuang_gold_mes.py
 ```
 
 ```
@@ -128,10 +128,10 @@ python scripts/validate_gold_mes.py
 
 ```bash
 # 1. 复制模块
-cp -r addons/gold_mes /path/to/odoo/addons/
+cp -r addons/dunhuang_gold_mes /path/to/odoo/addons/
 
 # 2. 安装
-odoo-bin -d mydb -i gold_mes --addons-path=/path/to/addons \
+odoo-bin -d mydb -i dunhuang_gold_mes --addons-path=/path/to/addons \
   --db_host=localhost -r odoo -w odoo --stop-after-init
 
 # 3. 启动
@@ -163,20 +163,20 @@ odoo-bin -d mydb --addons-path=/path/to/addons
 详见 [docs/API.md](docs/API.md)。
 
 11 个端点:
-- `POST /gold_mes/api/v1/login`
-- `GET /gold_mes/api/v1/production/{id}`
-- `GET /gold_mes/api/v1/workorder/by_station/{station_id}`
-- `POST /gold_mes/api/v1/workorder_report`
-- `GET /gold_mes/api/v1/batch/{batch_no}`
-- `POST /gold_mes/api/v1/batch/allocate`
-- `GET /gold_mes/api/v1/price/current`
-- `POST /gold_mes/api/v1/price/push`
-- `POST /gold_mes/api/v1/imprint/verify`
-- `POST /gold_mes/api/v1/xrf/save`
-- `GET /gold_mes/api/v1/dashboard/kpi`
-- `POST /gold_mes/api/v1/device/heartbeat`
-- `POST /gold_mes/api/v1/device/metric`
-- `GET /gold_mes/api/v1/device/list`
+- `POST /dunhuang_gold_mes/api/v1/login`
+- `GET /dunhuang_gold_mes/api/v1/production/{id}`
+- `GET /dunhuang_gold_mes/api/v1/workorder/by_station/{station_id}`
+- `POST /dunhuang_gold_mes/api/v1/workorder_report`
+- `GET /dunhuang_gold_mes/api/v1/batch/{batch_no}`
+- `POST /dunhuang_gold_mes/api/v1/batch/allocate`
+- `GET /dunhuang_gold_mes/api/v1/price/current`
+- `POST /dunhuang_gold_mes/api/v1/price/push`
+- `POST /dunhuang_gold_mes/api/v1/imprint/verify`
+- `POST /dunhuang_gold_mes/api/v1/xrf/save`
+- `GET /dunhuang_gold_mes/api/v1/dashboard/kpi`
+- `POST /dunhuang_gold_mes/api/v1/device/heartbeat`
+- `POST /dunhuang_gold_mes/api/v1/device/metric`
+- `GET /dunhuang_gold_mes/api/v1/device/list`
 
 ## 工艺范围
 

@@ -18,9 +18,9 @@ if [ ! -f /mnt/odoo/.initialized ]; then
     --db_port=5432 \
     --db_user=odoo \
     --db_password=odoo \
-    --db_name=gold_mes \
+    --db_name=dunhuang_gold_mes \
     --addons-path=/mnt/odoo/addons \
-    --init=base,gold_mes \
+    --init=base,dunhuang_gold_mes \
     --stop-after-init \
     --without-demo=False
 
@@ -35,6 +35,6 @@ exec odoo \
   --db_port=5432 \
   --db_user=odoo \
   --db_password=odoo \
-  --db_name=gold_mes \
+  --db_name=dunhuang_gold_mes \
   --addons-path=/mnt/odoo/addons \
   --config=/etc/odoo/odoo.conf

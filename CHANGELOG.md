@@ -4,6 +4,13 @@
 
 ## [Unreleased]
 
+### Changed
+### Changed
+- 项目重命名: 贵金属首饰车间 ERP → **敦煌金加工车间 ERP**
+  - 模块名 gold_mes → dunhuang_gold_mes
+  - 命名空间 / API 路径 / 验证脚本同步
+- README.en.md: 标题 Dunhuang Gold Workshop ERP
+
 ### 计划
 - NGTC 一物一证 API 集成
 - OPC UA 设备适配器 demo

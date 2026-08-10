@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- 根菜单 -->
+        <menuitem id="menu_dunhuang_gold_mes_root"
+            name="敦煌金加工车间"
+            sequence="50"
+            web_icon="stock,static/description/icon.png"
+            groups="group_dunhuang_gold_mes_user"/>
+
+        <!-- 主数据 -->
+        <menuitem id="menu_dunhuang_gold_mes_master_data"
+            name="主数据"
+            parent="menu_dunhuang_gold_mes_root"
+            sequence="10"/>
+
+        <menuitem id="menu_gold_measurement"
+            name="计量单位"
+            parent="menu_dunhuang_gold_mes_master_data"
+            action="action_gold_measurement"
+            sequence="10"/>
+
+        <menuitem id="menu_gold_process_operation"
+            name="工艺工序"
+            parent="menu_dunhuang_gold_mes_master_data"
+            action="action_gold_process_operation"
+            sequence="20"/>
+
+        <menuitem id="menu_gold_process_route"
+            name="工艺路线模板"
+            parent="menu_dunhuang_gold_mes_master_data"
+            action="action_gold_process_route"
+            sequence="30"/>
+
+        <menuitem id="menu_gold_workstation"
+            name="工位"
+            parent="menu_dunhuang_gold_mes_master_data"
+            action="action_gold_workstation"
+            sequence="40"/>
+
+        <menuitem id="menu_gold_equipment"
+            name="设备台账"
+            parent="menu_dunhuang_gold_mes_master_data"
+            action="action_gold_equipment"
+            sequence="50"/>
+
+        <!-- 物料分类 -->
+        <menuitem id="menu_gold_product_category"
+            name="贵金属物料分类"
+            parent="menu_dunhuang_gold_mes_master_data"
+            action="product.product_category_action_form"
+            sequence="60"
+            groups="group_dunhuang_gold_mes_leader"/>
+
+        <!-- 金料与金价 -->
+        <menuitem id="menu_gold_material" name="金料与金价"
+            parent="menu_dunhuang_gold_mes_root" sequence="20"/>
+
+        <menuitem id="menu_gold_material_batch"
+            name="金料批次"
+            parent="menu_gold_material"
+            action="action_gold_material_batch"
+            sequence="10"/>
+
+        <menuitem id="menu_gold_price_engine"
+            name="实时金价"
+            parent="menu_gold_material"
+            action="action_gold_price_engine"
+            sequence="20"/>
+
+        <menuitem id="menu_gold_recycle"
+            name="旧金回收"
+            parent="menu_gold_material"
+            action="action_gold_recycle"
+            sequence="30"/>
+
+        <!-- 模具 / 蜡模 -->
+        <menuitem id="menu_gold_tooling" name="模具 / 蜡模"
+            parent="menu_dunhuang_gold_mes_root" sequence="30"/>
+
+        <menuitem id="menu_gold_mold"
+            name="模具台账"
+            parent="menu_gold_tooling"
+            action="action_gold_mold"
+            sequence="10"/>
+
+        <menuitem id="menu_gold_wax_model"
+            name="蜡模管理"
+            parent="menu_gold_tooling"
+            action="action_gold_wax_model"
+            sequence="20"/>
+
+        <!-- 生产 -->
+        <menuitem id="menu_gold_production" name="生产执行"
+            parent="menu_dunhuang_gold_mes_root" sequence="40"/>
+
+        <menuitem id="menu_gold_workorder_report"
+            name="工序报工"
+            parent="menu_gold_production"
+            action="action_gold_workorder_report"
+            sequence="10"/>
+
+        <menuitem id="menu_gold_loss_trace"
+            name="损耗追溯"
+            parent="menu_gold_production"
+            action="action_gold_loss_trace"
+            sequence="20"/>
+
+        <menuitem id="menu_gold_outsource_order"
+            name="委外加工"
+            parent="menu_gold_production"
+            action="action_gold_outsource_order"
+            sequence="30"/>
+
+        <!-- 件级 SN -->
+        <menuitem id="menu_gold_piece" name="件级 SN"
+            parent="menu_dunhuang_gold_mes_root"
+            action="action_gold_piece"
+            sequence="45"/>
+
+        <!-- 质量 -->
+        <menuitem id="menu_gold_quality" name="质量与印记"
+            parent="menu_dunhuang_gold_mes_root" sequence="50"/>
+
+        <menuitem id="menu_gold_quality_inspection"
+            name="质检记录"
+            parent="menu_gold_quality"
+            action="action_gold_quality_inspection"
+            sequence="10"/>
+
+        <menuitem id="menu_gold_xrf"
+            name="XRF 含量检测"
+            parent="menu_gold_quality"
+            action="action_gold_xrf_record"
+            sequence="20"/>
+
+        <menuitem id="menu_gold_imprint"
+            name="印记记录"
+            parent="menu_gold_quality"
+            action="action_gold_imprint"
+            sequence="30"/>
+
+        <!-- 看板 -->
+        <menuitem id="menu_gold_dashboard" name="车间看板"
+            parent="menu_dunhuang_gold_mes_root"
+            action="action_gold_dashboard"
+            sequence="60"/>
+    </data>
+</odoo>
