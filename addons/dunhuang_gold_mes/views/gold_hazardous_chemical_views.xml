@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- ======================= 危化品台账 ======================= -->
+        <record id="view_gold_hazardous_chemical_tree" model="ir.ui.view">
+            <field name="name">gold.hazardous.chemical.tree</field>
+            <field name="model">gold.hazardous.chemical</field>
+            <field name="arch" type="xml">
+                <tree string="危化品台账" decoration-danger="stock_qty &lt; safety_stock">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="category"/>
+                    <field name="danger_level" widget="badge"
+                        decoration-danger="danger_level == 'high'"
+                        decoration-warning="danger_level == 'medium'"/>
+                    <field name="lock_required" widget="boolean_toggle"/>
+                    <field name="storage_location"/>
+                    <field name="stock_qty"/>
+                    <field name="stock_unit"/>
+                    <field name="safety_stock"/>
+                    <field name="keeper_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_gold_hazardous_chemical_form" model="ir.ui.view">
+            <field name="name">gold.hazardous.chemical.form</field>
+            <field name="model">gold.hazardous.chemical</field>
+            <field name="arch" type="xml">
+                <form string="危化品">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1><field name="name" placeholder="危化品名称"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="code"/>
+                                <field name="cas_no"/>
+                                <field name="category"/>
+                            </group>
+                            <group>
+                                <field name="danger_level"/>
+                                <field name="lock_required" widget="boolean_toggle"/>
+                                <field name="active" widget="boolean_toggle"/>
+                            </group>
+                        </group>
+                        <group string="双人双锁保管">
+                            <group>
+                                <field name="keeper_id"/>
+                                <field name="keeper2_id"/>
+                                <field name="storage_location"/>
+                            </group>
+                        </group>
+                        <group string="库存">
+                            <group>
+                                <field name="stock_qty"/>
+                                <field name="stock_unit"/>
+                                <field name="safety_stock"/>
+                            </group>
+                            <group>
+                                <field name="unit_price"/>
+                            </group>
+                        </group>
+                        <field name="note" placeholder="备注"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_gold_hazardous_chemical" model="ir.actions.act_window">
+            <field name="name">危化品台账</field>
+            <field name="res_model">gold.hazardous.chemical</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- ======================= 危化品领用记录 ======================= -->
+        <record id="view_gold_hazardous_usage_tree" model="ir.ui.view">
+            <field name="name">gold.hazardous.chemical.usage.tree</field>
+            <field name="model">gold.hazardous.chemical.usage</field>
+            <field name="arch" type="xml">
+                <tree string="危化品领用记录">
+                    <field name="name"/>
+                    <field name="usage_time"/>
+                    <field name="chemical_id"/>
+                    <field name="usage_type"/>
+                    <field name="qty"/>
+                    <field name="unit"/>
+                    <field name="requester_id"/>
+                    <field name="keeper_id"/>
+                    <field name="dual_custody_confirmed" widget="boolean_toggle"/>
+                    <field name="state" widget="badge"
+                        decoration-info="state == 'draft'"
+                        decoration-success="state == 'confirmed'"
+                        decoration-danger="state == 'cancelled'"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_gold_hazardous_usage_form" model="ir.ui.view">
+            <field name="name">gold.hazardous.chemical.usage.form</field>
+            <field name="model">gold.hazardous.chemical.usage</field>
+            <field name="arch" type="xml">
+                <form string="危化品领用">
+                    <header>
+                        <field name="state" widget="statusbar"
+                            statusbar_visible="draft,confirmed,cancelled"/>
+                        <button name="action_confirm" string="确认" type="object"
+                            states="draft" class="btn-primary"/>
+                        <button name="action_cancel" string="作废" type="object"
+                            states="confirmed"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1><field name="name"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="chemical_id"/>
+                                <field name="usage_type"/>
+                                <field name="qty"/>
+                                <field name="unit"/>
+                            </group>
+                            <group>
+                                <field name="requester_id"/>
+                                <field name="keeper_id"/>
+                                <field name="approver_id"/>
+                                <field name="dual_custody_confirmed"
+                                    widget="boolean_toggle"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="usage_time"/>
+                                <field name="purpose"/>
+                            </group>
+                            <group>
+                                <field name="production_id"/>
+                                <field name="workstation_id"/>
+                            </group>
+                        </group>
+                        <field name="note" placeholder="备注"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_gold_hazardous_usage" model="ir.actions.act_window">
+            <field name="name">危化品领用记录</field>
+            <field name="res_model">gold.hazardous.chemical.usage</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

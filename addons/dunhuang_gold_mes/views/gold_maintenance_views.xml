@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- ======================= 设备维护工单 ======================= -->
+        <record id="view_gold_maintenance_order_tree" model="ir.ui.view">
+            <field name="name">gold.maintenance.order.tree</field>
+            <field name="model">gold.maintenance.order</field>
+            <field name="arch" type="xml">
+                <tree string="设备维护工单" decoration-danger="priority == '3'">
+                    <field name="name"/>
+                    <field name="equipment_id"/>
+                    <field name="maintenance_type"/>
+                    <field name="priority"/>
+                    <field name="state" widget="badge"
+                        decoration-info="state == 'draft'"
+                        decoration-warning="state == 'planned'"
+                        decoration-primary="state == 'in_progress'"
+                        decoration-success="state == 'done'"
+                        decoration-danger="state == 'cancelled'"/>
+                    <field name="assignee_id"/>
+                    <field name="planned_date"/>
+                    <field name="duration_hours"/>
+                    <field name="maintenance_cost"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_gold_maintenance_order_form" model="ir.ui.view">
+            <field name="name">gold.maintenance.order.form</field>
+            <field name="model">gold.maintenance.order</field>
+            <field name="arch" type="xml">
+                <form string="设备维护工单">
+                    <header>
+                        <field name="state" widget="statusbar"
+                            statusbar_visible="draft,planned,in_progress,done,cancelled"/>
+                        <button name="action_plan" string="计划" type="object"
+                            states="draft" class="btn-secondary"/>
+                        <button name="action_start" string="开始" type="object"
+                            states="draft,planned" class="btn-primary"/>
+                        <button name="action_done" string="完成" type="object"
+                            states="in_progress" class="btn-primary"/>
+                        <button name="action_cancel" string="取消" type="object"
+                            states="draft,planned,in_progress"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1><field name="name"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="equipment_id"/>
+                                <field name="maintenance_type"/>
+                                <field name="priority"/>
+                            </group>
+                            <group>
+                                <field name="assignee_id"/>
+                                <field name="planned_date"/>
+                                <field name="down_before" widget="boolean_toggle"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="start_time"/>
+                                <field name="end_time"/>
+                                <field name="duration_hours"/>
+                            </group>
+                            <group>
+                                <field name="maintenance_cost"/>
+                                <field name="spare_part_ids" widget="many2many_tags"/>
+                            </group>
+                        </group>
+                        <group string="内容">
+                            <field name="description" placeholder="维护内容 / 故障描述"/>
+                            <field name="action_taken" placeholder="处理措施"/>
+                        </group>
+                        <field name="note" placeholder="备注"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_gold_maintenance_order" model="ir.actions.act_window">
+            <field name="name">设备维护工单</field>
+            <field name="res_model">gold.maintenance.order</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- ======================= 备品备件 ======================= -->
+        <record id="view_gold_spare_part_tree" model="ir.ui.view">
+            <field name="name">gold.spare.part.tree</field>
+            <field name="model">gold.spare.part</field>
+            <field name="arch" type="xml">
+                <tree string="备品备件" decoration-danger="is_low_stock">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="category"/>
+                    <field name="equipment_ids" widget="many2many_tags"/>
+                    <field name="stock_qty"/>
+                    <field name="min_stock_qty"/>
+                    <field name="unit"/>
+                    <field name="is_low_stock" widget="boolean_toggle"/>
+                    <field name="location"/>
+                    <field name="supplier_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_gold_spare_part_form" model="ir.ui.view">
+            <field name="name">gold.spare.part.form</field>
+            <field name="model">gold.spare.part</field>
+            <field name="arch" type="xml">
+                <form string="备品备件">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1><field name="name" placeholder="备件名称"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="code"/>
+                                <field name="category"/>
+                                <field name="equipment_ids" widget="many2many_tags"/>
+                            </group>
+                            <group>
+                                <field name="stock_qty"/>
+                                <field name="min_stock_qty"/>
+                                <field name="unit"/>
+                                <field name="is_low_stock" widget="boolean_toggle"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="location"/>
+                                <field name="supplier_id"/>
+                            </group>
+                            <group>
+                                <field name="unit_price"/>
+                            </group>
+                        </group>
+                        <field name="note" placeholder="备注"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_gold_spare_part" model="ir.actions.act_window">
+            <field name="name">备品备件</field>
+            <field name="res_model">gold.spare.part</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

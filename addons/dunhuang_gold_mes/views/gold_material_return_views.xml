@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_gold_material_return_tree" model="ir.ui.view">
+            <field name="name">gold.material.return.tree</field>
+            <field name="model">gold.material.return</field>
+            <field name="arch" type="xml">
+                <tree string="班后回料单">
+                    <field name="name"/>
+                    <field name="return_date"/>
+                    <field name="return_source"/>
+                    <field name="material_type"/>
+                    <field name="product_id"/>
+                    <field name="weight_g"/>
+                    <field name="state" widget="badge"
+                        decoration-info="state == 'draft'"
+                        decoration-success="state == 'confirmed'"
+                        decoration-danger="state == 'cancelled'"/>
+                    <field name="operator_id"/>
+                    <field name="batch_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_gold_material_return_form" model="ir.ui.view">
+            <field name="name">gold.material.return.form</field>
+            <field name="model">gold.material.return</field>
+            <field name="arch" type="xml">
+                <form string="班后回料单">
+                    <header>
+                        <field name="state" widget="statusbar"
+                            statusbar_visible="draft,confirmed,cancelled"/>
+                        <button name="action_confirm" string="回库" type="object"
+                            states="draft" class="btn-primary"/>
+                        <button name="action_cancel" string="取消" type="object"
+                            states="draft"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1><field name="name"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="return_date"/>
+                                <field name="return_source"/>
+                                <field name="material_type"/>
+                            </group>
+                            <group>
+                                <field name="operator_id"/>
+                                <field name="workstation_id"/>
+                            </group>
+                        </group>
+                        <group string="关联">
+                            <group>
+                                <field name="production_id"/>
+                                <field name="workorder_id"/>
+                            </group>
+                            <group>
+                                <field name="report_id"/>
+                            </group>
+                        </group>
+                        <group string="回料">
+                            <group>
+                                <field name="product_id"/>
+                                <field name="weight_g"/>
+                            </group>
+                            <group>
+                                <field name="create_new_batch" widget="boolean_toggle"/>
+                                <field name="target_batch_id"
+                                    invisible="create_new_batch"/>
+                                <field name="batch_id"/>
+                            </group>
+                        </group>
+                        <field name="note" placeholder="备注"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_gold_material_return" model="ir.actions.act_window">
+            <field name="name">班后回料单</field>
+            <field name="res_model">gold.material.return</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

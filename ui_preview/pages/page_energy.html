@@ -1,0 +1,86 @@
+<div class="page-header">
+    <h1>能耗管理</h1>
+    <div class="actions">
+        <button class="btn">📊 分项统计</button>
+        <button class="btn">📤 导出</button>
+        <button class="btn btn-primary">➕ 抄表</button>
+    </div>
+</div>
+
+<div class="kpi-grid">
+    <div class="kpi-card">
+        <div class="label">今日用电</div>
+        <div class="value">1,240 <span style="font-size: 14px;">kWh</span></div>
+        <div class="sub">¥ 868.0</div>
+    </div>
+    <div class="kpi-card">
+        <div class="label">燃气</div>
+        <div class="value">36.5 <span style="font-size: 14px;">m³</span></div>
+        <div class="sub">熔金炉 · ¥ 143.0</div>
+    </div>
+    <div class="kpi-card">
+        <div class="label">压缩空气</div>
+        <div class="value">210 <span style="font-size: 14px;">m³</span></div>
+        <div class="sub">抛光 / 吹扫</div>
+    </div>
+    <div class="kpi-card gold">
+        <div class="label">单位产品能耗</div>
+        <div class="value gold">3.2 <span style="font-size: 14px;">kWh/件</span></div>
+        <div class="sub">同比 -5%</div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>能源计量表</h3>
+        <div class="text-muted" style="margin-left: auto; font-size: 12px;">厂级 / 车间级 / 设备级</div>
+    </div>
+    <div class="card-body dense">
+        <table class="data">
+            <thead>
+                <tr>
+                    <th>表计编号</th>
+                    <th>名称</th>
+                    <th>能源类型</th>
+                    <th>层级</th>
+                    <th class="number">累计读数</th>
+                    <th class="number">本期用量</th>
+                    <th class="number">本期金额</th>
+                    <th>通讯</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>ELEC-01</code></td>
+                    <td>车间总电表</td>
+                    <td>电</td>
+                    <td>车间级</td>
+                    <td class="number">12,345.6 kWh</td>
+                    <td class="number">1,240.0</td>
+                    <td class="number currency">868.00</td>
+                    <td>Modbus RTU</td>
+                </tr>
+                <tr>
+                    <td><code>GAS-01</code></td>
+                    <td>熔金炉燃气表</td>
+                    <td>燃气</td>
+                    <td>设备级</td>
+                    <td class="number">3,210.8 m³</td>
+                    <td class="number">36.5</td>
+                    <td class="number currency">143.00</td>
+                    <td>RS-485</td>
+                </tr>
+                <tr>
+                    <td><code>AIR-01</code></td>
+                    <td>空压机气表</td>
+                    <td>压缩空气</td>
+                    <td>设备级</td>
+                    <td class="number">8,990.0 m³</td>
+                    <td class="number">210.0</td>
+                    <td class="number currency">63.00</td>
+                    <td>MQTT</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

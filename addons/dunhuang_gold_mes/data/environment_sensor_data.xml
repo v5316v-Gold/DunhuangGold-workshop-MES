@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- ============================================================
+             环境传感器种子数据 (环 / Environment)
+             ============================================================ -->
+        <record id="env_sensor_temp_plating" model="gold.environment.sensor">
+            <field name="code">ENV-TEMP-01</field>
+            <field name="name">电镀车间温度传感器</field>
+            <field name="sensor_type">temperature</field>
+            <field name="location_desc">电镀车间</field>
+            <field name="alarm_min">15.0</field>
+            <field name="alarm_max">35.0</field>
+            <field name="protocol">rs485</field>
+        </record>
+
+        <record id="env_sensor_humidity_plating" model="gold.environment.sensor">
+            <field name="code">ENV-HUM-01</field>
+            <field name="name">电镀车间湿度传感器</field>
+            <field name="sensor_type">humidity</field>
+            <field name="location_desc">电镀车间</field>
+            <field name="alarm_min">30.0</field>
+            <field name="alarm_max">80.0</field>
+            <field name="protocol">rs485</field>
+        </record>
+
+        <record id="env_sensor_clean_diamond" model="gold.environment.sensor">
+            <field name="code">ENV-CLN-01</field>
+            <field name="name">钻石房洁净度传感器</field>
+            <field name="sensor_type">cleanliness</field>
+            <field name="location_desc">钻石房</field>
+            <field name="alarm_min">1.0</field>
+            <field name="alarm_max">7.0</field>
+            <field name="protocol">modbus_rtu</field>
+        </record>
+
+        <record id="env_sensor_noise_polish" model="gold.environment.sensor">
+            <field name="code">ENV-NSE-01</field>
+            <field name="name">抛光车间噪声传感器</field>
+            <field name="sensor_type">noise</field>
+            <field name="location_desc">抛光车间</field>
+            <field name="alarm_min">0.0</field>
+            <field name="alarm_max">75.0</field>
+            <field name="protocol">rs485</field>
+        </record>
+
+        <record id="env_sensor_pm25_polish" model="gold.environment.sensor">
+            <field name="code">ENV-PM25-01</field>
+            <field name="name">抛光车间 PM2.5 传感器</field>
+            <field name="sensor_type">pm25</field>
+            <field name="location_desc">抛光车间</field>
+            <field name="alarm_min">0.0</field>
+            <field name="alarm_max">0.5</field>
+            <field name="protocol">modbus_rtu</field>
+        </record>
+
+        <record id="env_sensor_voc_plating" model="gold.environment.sensor">
+            <field name="code">ENV-VOC-01</field>
+            <field name="name">电镀车间 VOC 传感器</field>
+            <field name="sensor_type">voc</field>
+            <field name="location_desc">电镀车间</field>
+            <field name="alarm_min">0.0</field>
+            <field name="alarm_max">0.3</field>
+            <field name="protocol">rs485</field>
+        </record>
+
+        <record id="env_sensor_illuminance_stone" model="gold.environment.sensor">
+            <field name="code">ENV-LUX-01</field>
+            <field name="name">镶石工位照度传感器</field>
+            <field name="sensor_type">illuminance</field>
+            <field name="location_desc">镶石工位</field>
+            <field name="alarm_min">750.0</field>
+            <field name="alarm_max">0.0</field>
+            <field name="protocol">none</field>
+        </record>
+    </data>
+</odoo>

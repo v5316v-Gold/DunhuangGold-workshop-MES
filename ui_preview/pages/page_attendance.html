@@ -1,0 +1,101 @@
+<div class="page-header">
+    <h1>考勤 / 工时</h1>
+    <div class="actions">
+        <button class="btn">📊 绩效统计</button>
+        <button class="btn">📤 导出</button>
+        <button class="btn btn-primary">➕ 排班</button>
+    </div>
+</div>
+
+<div class="kpi-grid">
+    <div class="kpi-card success">
+        <div class="label">今日出勤</div>
+        <div class="value">52</div>
+        <div class="sub">白班 38 · 夜班 14</div>
+    </div>
+    <div class="kpi-card">
+        <div class="label">平均工时</div>
+        <div class="value">7.6 <span style="font-size: 14px;">h</span></div>
+        <div class="sub">标准 8h</div>
+    </div>
+    <div class="kpi-card" style="border-left-color: var(--danger);">
+        <div class="label">异常考勤</div>
+        <div class="value" style="color: var(--danger);">3</div>
+        <div class="sub">迟到 2 · 缺勤 1</div>
+    </div>
+    <div class="kpi-card gold">
+        <div class="label">人均报工</div>
+        <div class="value gold">6.2</div>
+        <div class="sub">今日报工数/人</div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>考勤记录 - 2026-08-05</h3>
+        <div class="text-muted" style="margin-left: auto; font-size: 12px;">工时 = 下班 - 上班</div>
+    </div>
+    <div class="card-body dense">
+        <table class="data">
+            <thead>
+                <tr>
+                    <th>员工</th>
+                    <th>班次</th>
+                    <th>工位</th>
+                    <th>上班</th>
+                    <th>下班</th>
+                    <th class="number">工时 (h)</th>
+                    <th class="number">报工数</th>
+                    <th class="number">产出 (g)</th>
+                    <th>考勤状态</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>张三</td>
+                    <td>白班</td>
+                    <td>油压工位</td>
+                    <td>08:00</td>
+                    <td>17:00</td>
+                    <td class="number">8.0</td>
+                    <td class="number">8</td>
+                    <td class="number">41.250</td>
+                    <td><span class="badge badge-success">正常</span></td>
+                </tr>
+                <tr style="background: #FFF8E1;">
+                    <td>李四</td>
+                    <td>白班</td>
+                    <td>精加工工位</td>
+                    <td>08:12</td>
+                    <td>17:00</td>
+                    <td class="number">7.8</td>
+                    <td class="number">6</td>
+                    <td class="number">30.800</td>
+                    <td><span class="badge badge-warning">迟到</span></td>
+                </tr>
+                <tr>
+                    <td>王五</td>
+                    <td>夜班</td>
+                    <td>铸造工位</td>
+                    <td>20:00</td>
+                    <td>04:00</td>
+                    <td class="number">8.0</td>
+                    <td class="number">5</td>
+                    <td class="number">22.100</td>
+                    <td><span class="badge badge-success">正常</span></td>
+                </tr>
+                <tr style="background: #FFEBEE;">
+                    <td>赵六</td>
+                    <td>白班</td>
+                    <td>质检工位</td>
+                    <td>—</td>
+                    <td>—</td>
+                    <td class="number">0.0</td>
+                    <td class="number">0</td>
+                    <td class="number">0.000</td>
+                    <td><span class="badge badge-danger">缺勤</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,101 @@
+<div class="page-header">
+    <h1>设备维护工单</h1>
+    <div class="actions">
+        <button class="btn">🔧 报修</button>
+        <button class="btn">📤 导出</button>
+        <button class="btn btn-primary">➕ 新建工单</button>
+    </div>
+</div>
+
+<div class="kpi-grid">
+    <div class="kpi-card">
+        <div class="label">进行中</div>
+        <div class="value">3</div>
+        <div class="sub">PM 1 · CM 1 · BM 1</div>
+    </div>
+    <div class="kpi-card" style="border-left-color: var(--danger);">
+        <div class="label">紧急工单</div>
+        <div class="value" style="color: var(--danger);">1</div>
+        <div class="sub">优先级 3</div>
+    </div>
+    <div class="kpi-card success">
+        <div class="label">今日完成</div>
+        <div class="value">5</div>
+        <div class="sub">平均耗时 1.2h</div>
+    </div>
+    <div class="kpi-card">
+        <div class="label">设备可用率</div>
+        <div class="value">96.8%</div>
+        <div class="sub">OEE 综合</div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>维护工单</h3>
+        <div class="text-muted" style="margin-left: auto; font-size: 12px;">PM 预防 / CM 纠正 / BM 故障</div>
+    </div>
+    <div class="card-body dense">
+        <table class="data">
+            <thead>
+                <tr>
+                    <th>工单号</th>
+                    <th>设备</th>
+                    <th>类型</th>
+                    <th>优先级</th>
+                    <th>状态</th>
+                    <th>责任人</th>
+                    <th>计划日期</th>
+                    <th class="number">耗时 (h)</th>
+                    <th class="number">费用</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="background: #FFEBEE;">
+                    <td><code>WX20260805-00003</code></td>
+                    <td>油压机 OBP-001</td>
+                    <td>故障检修</td>
+                    <td><span class="badge badge-danger">紧急</span></td>
+                    <td><span class="badge badge-warning">进行中</span></td>
+                    <td>孙师傅</td>
+                    <td>2026-08-05</td>
+                    <td class="number">1.5</td>
+                    <td class="number currency">320.00</td>
+                </tr>
+                <tr>
+                    <td><code>WX20260805-00002</code></td>
+                    <td>熔金炉 MLF-002</td>
+                    <td>纠正性</td>
+                    <td>高</td>
+                    <td><span class="badge badge-warning">进行中</span></td>
+                    <td>周师傅</td>
+                    <td>2026-08-05</td>
+                    <td class="number">0.8</td>
+                    <td class="number currency">150.00</td>
+                </tr>
+                <tr>
+                    <td><code>WX20260804-00006</code></td>
+                    <td>激光打字机 LMK-001</td>
+                    <td>预防性</td>
+                    <td>中</td>
+                    <td><span class="badge badge-info">已计划</span></td>
+                    <td>孙师傅</td>
+                    <td>2026-08-08</td>
+                    <td class="number">—</td>
+                    <td class="number">—</td>
+                </tr>
+                <tr>
+                    <td><code>WX20260804-00005</code></td>
+                    <td>电子天平 BAL-001</td>
+                    <td>预防性</td>
+                    <td>中</td>
+                    <td><span class="badge badge-success">已完成</span></td>
+                    <td>周师傅</td>
+                    <td>2026-08-04</td>
+                    <td class="number">1.0</td>
+                    <td class="number currency">0.00</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

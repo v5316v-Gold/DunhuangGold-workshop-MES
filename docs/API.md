@@ -18,6 +18,19 @@
 | POST | `/dunhuang_gold_mes/api/v1/device/heartbeat` | 设备心跳 |
 | POST | `/dunhuang_gold_mes/api/v1/device/metric` | 设备度量上报 |
 | GET  | `/dunhuang_gold_mes/api/v1/device/list` | 设备列表 |
+| POST | `/dunhuang_gold_mes/api/v1/environment/reading` | 环境读数上报 (环) |
+| GET  | `/dunhuang_gold_mes/api/v1/environment/latest` | 最新环境读数 (环) |
+| GET  | `/dunhuang_gold_mes/api/v1/environment/alarms` | 环境超限报警 (环) |
+| GET  | `/dunhuang_gold_mes/api/v1/hazchem/list` | 危化品台账列表 (环) |
+| POST | `/dunhuang_gold_mes/api/v1/hazchem/issue` | 危化品领用 (环) |
+| POST | `/dunhuang_gold_mes/api/v1/energy/reading` | 能耗读数上报 (环) |
+| POST | `/dunhuang_gold_mes/api/v1/maintenance/order` | 维护工单上报 (机) |
+| GET  | `/dunhuang_gold_mes/api/v1/maintenance/list` | 维护工单列表 (机) |
+| GET  | `/dunhuang_gold_mes/api/v1/certificate/verify` | 人员资质校验 (人) |
+| POST | `/dunhuang_gold_mes/api/v1/inventory/count` | 创建金料盘点单 (生产后) |
+| GET  | `/dunhuang_gold_mes/api/v1/inventory/list` | 盘点单列表 (生产后) |
+| POST | `/dunhuang_gold_mes/api/v1/finished_goods/post` | 成品入库-按件级 SN (生产后) |
+| POST | `/dunhuang_gold_mes/api/v1/material_return/confirm` | 班后回料 (生产后) |
 
 ## 通用返回格式
 
@@ -228,6 +241,128 @@ Content-Type: application/json
     "main_metal_pct": 99.987
   }
 }
+```
+
+## 9. 环境读数上报 (环)
+
+```bash
+POST /dunhuang_gold_mes/api/v1/environment/reading
+Content-Type: application/json
+
+{
+  "sensor_code": "ENV-TEMP-01",
+  "value": 28.5,
+  "reading_time": "2026-08-05T10:30:00Z"
+}
+```
+
+```json
+{ "ok": true, "data": { "id": 1, "state": "normal", "alarm_desc": "" } }
+```
+
+## 10. 危化品领用 (环, 双人双锁)
+
+```bash
+POST /dunhuang_gold_mes/api/v1/hazchem/issue
+Content-Type: application/json
+
+{
+  "chemical_code": "HC-GOLD-CN",
+  "qty": 10.0,
+  "usage_type": "issue",
+  "dual_custody_confirmed": true,
+  "confirm": true
+}
+```
+
+```json
+{ "ok": true, "data": { "id": 3, "name": "WH...", "state": "confirmed" } }
+```
+
+## 11. 能耗读数上报 (环)
+
+```bash
+POST /dunhuang_gold_mes/api/v1/energy/reading
+Content-Type: application/json
+
+{ "meter_code": "ELEC-01", "cumulative_value": 12345.6 }
+```
+
+```json
+{ "ok": true, "data": { "id": 1, "period_consumption": 120.5, "period_amount": 96.4 } }
+```
+
+## 12. 维护工单上报 (机)
+
+```bash
+POST /dunhuang_gold_mes/api/v1/maintenance/order
+Content-Type: application/json
+
+{ "equipment_code": "OBP-001", "maintenance_type": "cm", "priority": "2", "description": "异响" }
+```
+
+## 13. 人员资质校验 (人)
+
+```bash
+GET /dunhuang_gold_mes/api/v1/certificate/verify?user_id=8&cert_type=melting
+```
+
+```json
+{
+  "ok": true,
+  "data": {
+    "user_id": 8,
+    "cert_type": "melting",
+    "qualified": true,
+    "certificates": [{ "name": "熔金操作证", "expiry_date": "2027-01-01", "days_to_expire": 140 }]
+  }
+}
+```
+
+## 14. 金料盘点 (生产后)
+
+```bash
+POST /dunhuang_gold_mes/api/v1/inventory/count
+Content-Type: application/json
+
+{
+  "location_id": 1,
+  "lines": [
+    { "batch_id": 12, "actual_weight_g": 5.250 },
+    { "batch_id": 15, "actual_weight_g": 3.108 }
+  ],
+  "start": true
+}
+```
+
+```json
+{ "ok": true, "data": { "id": 1, "name": "PD...", "state": "counting", "total_diff_g": -0.012 } }
+```
+
+## 15. 成品入库 (生产后, 按件级 SN)
+
+```bash
+POST /dunhuang_gold_mes/api/v1/finished_goods/post
+Content-Type: application/json
+
+{ "piece_sns": ["GLD-20260805-RING-0001", "GLD-20260805-RING-0002"], "generate_batch": false }
+```
+
+```json
+{ "ok": true, "data": { "id": 2, "name": "CP...", "state": "posted", "total_piece_count": 2, "total_weight_g": 11.200 } }
+```
+
+## 16. 班后回料 (生产后)
+
+```bash
+POST /dunhuang_gold_mes/api/v1/material_return/confirm
+Content-Type: application/json
+
+{ "product_id": 5, "weight_g": 1.230, "return_source": "gate", "create_new_batch": true }
+```
+
+```json
+{ "ok": true, "data": { "id": 3, "name": "HL...", "state": "confirmed", "batch_id": 20 } }
 ```
 
 ## 错误码

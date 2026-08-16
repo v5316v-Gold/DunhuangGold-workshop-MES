@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_gold_inventory_count_tree" model="ir.ui.view">
+            <field name="name">gold.inventory.count.tree</field>
+            <field name="model">gold.inventory.count</field>
+            <field name="arch" type="xml">
+                <tree string="金料盘点单" decoration-danger="total_diff_g &lt; -0.0005">
+                    <field name="name"/>
+                    <field name="inventory_date"/>
+                    <field name="location_id"/>
+                    <field name="state" widget="badge"
+                        decoration-info="state == 'draft'"
+                        decoration-warning="state == 'counting'"
+                        decoration-primary="state == 'reviewed'"
+                        decoration-success="state == 'posted'"
+                        decoration-danger="state == 'cancelled'"/>
+                    <field name="counter_id"/>
+                    <field name="reviewer_id"/>
+                    <field name="total_book_weight_g"/>
+                    <field name="total_actual_weight_g"/>
+                    <field name="total_diff_g"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_gold_inventory_count_form" model="ir.ui.view">
+            <field name="name">gold.inventory.count.form</field>
+            <field name="model">gold.inventory.count</field>
+            <field name="arch" type="xml">
+                <form string="金料盘点单">
+                    <header>
+                        <field name="state" widget="statusbar"
+                            statusbar_visible="draft,counting,reviewed,posted,cancelled"/>
+                        <button name="action_start" string="开始盘点" type="object"
+                            states="draft" class="btn-primary"/>
+                        <button name="action_review" string="复核" type="object"
+                            states="counting" class="btn-primary"/>
+                        <button name="action_post" string="过账" type="object"
+                            states="reviewed" class="btn-primary"/>
+                        <button name="action_cancel" string="取消" type="object"
+                            states="draft,counting,reviewed"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1><field name="name"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="inventory_date"/>
+                                <field name="location_id"/>
+                                <field name="scope_note"/>
+                            </group>
+                            <group>
+                                <field name="counter_id"/>
+                                <field name="reviewer_id"/>
+                            </group>
+                        </group>
+                        <group string="汇总">
+                            <group>
+                                <field name="total_book_weight_g"/>
+                                <field name="total_actual_weight_g"/>
+                            </group>
+                            <group>
+                                <field name="total_diff_g"/>
+                            </group>
+                        </group>
+                        <field name="line_ids">
+                            <tree string="盘点明细" editable="bottom">
+                                <field name="batch_id"/>
+                                <field name="book_weight_g"/>
+                                <field name="actual_weight_g"/>
+                                <field name="diff_g" readonly="1"/>
+                                <field name="note"/>
+                            </tree>
+                        </field>
+                        <field name="note" placeholder="备注"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_gold_inventory_count" model="ir.actions.act_window">
+            <field name="name">金料盘点单</field>
+            <field name="res_model">gold.inventory.count</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

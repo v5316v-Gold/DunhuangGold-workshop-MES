@@ -52,6 +52,50 @@
             sequence="60"
             groups="group_dunhuang_gold_mes_leader"/>
 
+        <menuitem id="menu_gold_sop_document"
+            name="SOP 作业指导书"
+            parent="menu_dunhuang_gold_mes_master_data"
+            action="action_gold_sop_document"
+            sequence="70"/>
+
+        <menuitem id="menu_gold_ecn"
+            name="工程变更单 (ECN)"
+            parent="menu_dunhuang_gold_mes_master_data"
+            action="action_gold_ecn"
+            sequence="80"/>
+
+        <!-- 人员与资质 (人) -->
+        <menuitem id="menu_gold_hr" name="人员与资质"
+            parent="menu_dunhuang_gold_mes_root" sequence="15"/>
+
+        <menuitem id="menu_gold_employee_certificate"
+            name="员工资质证书"
+            parent="menu_gold_hr"
+            action="action_gold_employee_certificate"
+            sequence="10"/>
+
+        <menuitem id="menu_gold_work_attendance"
+            name="考勤 / 工时"
+            parent="menu_gold_hr"
+            action="action_gold_work_attendance"
+            sequence="20"/>
+
+        <!-- 设备维护 (机) -->
+        <menuitem id="menu_gold_maintenance" name="设备维护"
+            parent="menu_dunhuang_gold_mes_root" sequence="25"/>
+
+        <menuitem id="menu_gold_maintenance_order"
+            name="设备维护工单"
+            parent="menu_gold_maintenance"
+            action="action_gold_maintenance_order"
+            sequence="10"/>
+
+        <menuitem id="menu_gold_spare_part"
+            name="备品备件"
+            parent="menu_gold_maintenance"
+            action="action_gold_spare_part"
+            sequence="20"/>
+
         <!-- 金料与金价 -->
         <menuitem id="menu_gold_material" name="金料与金价"
             parent="menu_dunhuang_gold_mes_root" sequence="20"/>
@@ -73,6 +117,18 @@
             parent="menu_gold_material"
             action="action_gold_recycle"
             sequence="30"/>
+
+        <menuitem id="menu_gold_inventory_count"
+            name="金料盘点单"
+            parent="menu_gold_material"
+            action="action_gold_inventory_count"
+            sequence="40"/>
+
+        <menuitem id="menu_gold_material_return"
+            name="班后回料单"
+            parent="menu_gold_material"
+            action="action_gold_material_return"
+            sequence="50"/>
 
         <!-- 模具 / 蜡模 -->
         <menuitem id="menu_gold_tooling" name="模具 / 蜡模"
@@ -112,6 +168,12 @@
             action="action_gold_outsource_order"
             sequence="30"/>
 
+        <menuitem id="menu_gold_finished_goods"
+            name="成品入库单"
+            parent="menu_gold_production"
+            action="action_gold_finished_goods"
+            sequence="40"/>
+
         <!-- 件级 SN -->
         <menuitem id="menu_gold_piece" name="件级 SN"
             parent="menu_dunhuang_gold_mes_root"
@@ -139,6 +201,46 @@
             parent="menu_gold_quality"
             action="action_gold_imprint"
             sequence="30"/>
+
+        <!-- 环境与安全 (环) -->
+        <menuitem id="menu_gold_environment" name="环境与安全"
+            parent="menu_dunhuang_gold_mes_root" sequence="55"/>
+
+        <menuitem id="menu_gold_environment_sensor"
+            name="环境传感器"
+            parent="menu_gold_environment"
+            action="action_gold_environment_sensor"
+            sequence="10"/>
+
+        <menuitem id="menu_gold_environment_reading"
+            name="环境读数"
+            parent="menu_gold_environment"
+            action="action_gold_environment_reading"
+            sequence="20"/>
+
+        <menuitem id="menu_gold_hazardous_chemical"
+            name="危化品台账"
+            parent="menu_gold_environment"
+            action="action_gold_hazardous_chemical"
+            sequence="30"/>
+
+        <menuitem id="menu_gold_hazardous_usage"
+            name="危化品领用记录"
+            parent="menu_gold_environment"
+            action="action_gold_hazardous_usage"
+            sequence="40"/>
+
+        <menuitem id="menu_gold_energy_meter"
+            name="能源计量表"
+            parent="menu_gold_environment"
+            action="action_gold_energy_meter"
+            sequence="50"/>
+
+        <menuitem id="menu_gold_energy_reading"
+            name="能耗读数"
+            parent="menu_gold_environment"
+            action="action_gold_energy_reading"
+            sequence="60"/>
 
         <!-- 看板 -->
         <menuitem id="menu_gold_dashboard" name="车间看板"

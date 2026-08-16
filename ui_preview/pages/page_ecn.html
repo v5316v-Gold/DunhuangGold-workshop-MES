@@ -1,0 +1,90 @@
+<div class="page-header">
+    <h1>工程变更单 (ECN)</h1>
+    <div class="actions">
+        <button class="btn">📊 影响分析</button>
+        <button class="btn">📤 导出</button>
+        <button class="btn btn-primary">➕ 新建变更</button>
+    </div>
+</div>
+
+<div class="kpi-grid">
+    <div class="kpi-card">
+        <div class="label">进行中</div>
+        <div class="value">5</div>
+        <div class="sub">评审中 3 · 已批准 2</div>
+    </div>
+    <div class="kpi-card success">
+        <div class="label">本月生效</div>
+        <div class="value">8</div>
+        <div class="sub">已落地车间</div>
+    </div>
+    <div class="kpi-card">
+        <div class="label">变更类型</div>
+        <div class="value">工艺 4 · BOM 3 · SOP 1</div>
+        <div class="sub">物料替换</div>
+    </div>
+    <div class="kpi-card">
+        <div class="label">待批准</div>
+        <div class="value">3</div>
+        <div class="sub">审批流中</div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>变更单清单</h3>
+        <div class="text-muted" style="margin-left: auto; font-size: 12px;">草稿 → 评审 → 批准 → 生效</div>
+    </div>
+    <div class="card-body dense">
+        <table class="data">
+            <thead>
+                <tr>
+                    <th>变更单号</th>
+                    <th>标题</th>
+                    <th>类型</th>
+                    <th>状态</th>
+                    <th>关联路线</th>
+                    <th>关联 BOM</th>
+                    <th>提出人</th>
+                    <th>批准人</th>
+                    <th>生效日期</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>ECN20260805-00001</code></td>
+                    <td>油压执模损耗定额 4%→3.5%</td>
+                    <td>工艺路线</td>
+                    <td><span class="badge badge-warning">评审中</span></td>
+                    <td><code>RT-OWP-STD</code></td>
+                    <td>—</td>
+                    <td>张三</td>
+                    <td>—</td>
+                    <td>—</td>
+                </tr>
+                <tr>
+                    <td><code>ECN20260804-00004</code></td>
+                    <td>18K 镶石款焊料替换</td>
+                    <td>BOM</td>
+                    <td><span class="badge badge-info">已批准</span></td>
+                    <td>—</td>
+                    <td><code>BOM-RING-18K</code></td>
+                    <td>李四</td>
+                    <td>王主任</td>
+                    <td>2026-08-10</td>
+                </tr>
+                <tr>
+                    <td><code>ECN20260803-00003</code></td>
+                    <td>熔金温度曲线优化</td>
+                    <td>SOP</td>
+                    <td><span class="badge badge-success">已生效</span></td>
+                    <td><code>RT-LWC-STD</code></td>
+                    <td>—</td>
+                    <td>王五</td>
+                    <td>王主任</td>
+                    <td>2026-08-05</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,101 @@
+<div class="page-header">
+    <h1>员工资质证书</h1>
+    <div class="actions">
+        <button class="btn">🔍 上岗校验</button>
+        <button class="btn">📤 导出</button>
+        <button class="btn btn-primary">➕ 登记证书</button>
+    </div>
+</div>
+
+<div class="kpi-grid">
+    <div class="kpi-card success">
+        <div class="label">持证员工</div>
+        <div class="value">46</div>
+        <div class="sub">有效证书 68 张</div>
+    </div>
+    <div class="kpi-card" style="border-left-color: var(--danger);">
+        <div class="label">即将到期</div>
+        <div class="value" style="color: var(--danger);">3</div>
+        <div class="sub">30 天内过期</div>
+    </div>
+    <div class="kpi-card" style="border-left-color: var(--danger);">
+        <div class="label">已过期</div>
+        <div class="value" style="color: var(--danger);">1</div>
+        <div class="sub">自动停工</div>
+    </div>
+    <div class="kpi-card">
+        <div class="label">熔金证</div>
+        <div class="value">12</div>
+        <div class="sub">特种作业</div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>证书清单</h3>
+        <div class="text-muted" style="margin-left: auto; font-size: 12px;">expiry_date < today 自动失效</div>
+    </div>
+    <div class="card-body dense">
+        <table class="data">
+            <thead>
+                <tr>
+                    <th>证书</th>
+                    <th>编号</th>
+                    <th>类型</th>
+                    <th>等级</th>
+                    <th>持证人</th>
+                    <th>发证日期</th>
+                    <th>到期日期</th>
+                    <th class="number">距到期</th>
+                    <th>状态</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>熔金操作证</td>
+                    <td><code>CERT-M-0032</code></td>
+                    <td>熔金</td>
+                    <td>高级</td>
+                    <td>张三</td>
+                    <td>2024-01-15</td>
+                    <td>2027-01-15</td>
+                    <td class="number">525</td>
+                    <td><span class="badge badge-success">有效</span></td>
+                </tr>
+                <tr>
+                    <td>镶石技能等级</td>
+                    <td><code>CERT-S-0018</code></td>
+                    <td>镶石</td>
+                    <td>技师</td>
+                    <td>李四</td>
+                    <td>2023-06-01</td>
+                    <td>2026-06-01</td>
+                    <td class="number">300</td>
+                    <td><span class="badge badge-success">有效</span></td>
+                </tr>
+                <tr style="background: #FFF8E1;">
+                    <td>危化品操作证</td>
+                    <td><code>CERT-E-0007</code></td>
+                    <td>电镀</td>
+                    <td>中级</td>
+                    <td>王五</td>
+                    <td>2022-09-10</td>
+                    <td>2026-09-10</td>
+                    <td class="number text-warning">26</td>
+                    <td><span class="badge badge-warning">即将到期</span></td>
+                </tr>
+                <tr style="background: #FFEBEE;">
+                    <td>首饰检验员证</td>
+                    <td><code>CERT-I-0002</code></td>
+                    <td>检验</td>
+                    <td>高级</td>
+                    <td>赵六</td>
+                    <td>2021-03-20</td>
+                    <td>2025-03-20</td>
+                    <td class="number text-danger">-30</td>
+                    <td><span class="badge badge-danger">已过期</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

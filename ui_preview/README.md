@@ -13,7 +13,14 @@ python -m http.server 8080
 
 然后浏览器打开:<http://localhost:8080>
 
-### 方式 2: Node.js
+### 方式 2: Node.js(本仓库自带 server.js, 无需下载)
+
+```bash
+cd ui_preview
+node server.js
+```
+
+或使用 npx:
 
 ```bash
 cd ui_preview
@@ -29,7 +36,7 @@ start index.html
 
 > 注意: 直接打开 `file://` 时,fetch `pages/*` 可能受同源限制,推荐用 HTTP 服务器。
 
-## 页面清单(19 个)
+## 页面清单(32 个)
 
 | 分类 | 页面 | 文件 |
 |------|------|------|
@@ -38,18 +45,30 @@ start index.html
 | 主数据 | 工艺路线模板 | page_process_route.html |
 | 主数据 | 工位 | page_workstation.html |
 | 主数据 | 设备台账 | page_equipment.html |
+| 主数据 | SOP 作业指导书 | page_sop.html |
+| 主数据 | 工程变更单 ECN | page_ecn.html |
+| 人员 | 员工资质证书 | page_certificate.html |
+| 人员 | 考勤/工时 | page_attendance.html |
 | 金料 | 金料批次 | page_material_batch.html |
 | 金料 | 实时金价 | page_price_engine.html |
 | 金料 | 旧金回收 | page_recycle.html |
+| 金料 | 金料盘点单 | page_inventory_count.html |
+| 金料 | 班后回料单 | page_material_return.html |
 | 模具 | 模具台账 | page_mold.html |
 | 模具 | 蜡模管理 | page_wax_model.html |
+| 维护 | 设备维护工单 | page_maintenance.html |
+| 维护 | 备品备件 | page_spare_part.html |
 | 生产 | 工序报工 | page_workorder_report.html |
 | 生产 | 损耗追溯 | page_loss_trace.html |
 | 生产 | 委外加工 | page_outsource.html |
 | 生产 | 件级 SN | page_piece.html |
+| 生产 | 成品入库单 | page_finished_goods.html |
 | 质量 | 质检记录 | page_quality.html |
 | 质量 | XRF 含量检测 | page_xrf.html |
 | 质量 | 印记记录 | page_imprint.html |
+| 环境 | 环境监测 | page_environment.html |
+| 环境 | 危化品管理 | page_hazardous_chemical.html |
+| 环境 | 能耗管理 | page_energy.html |
 | 看板 | 车间看板 | page_dashboard.html |
 | 预留 | 采购订单 | page_procurement.html |
 | 预留 | 销售订单 | page_sale.html |

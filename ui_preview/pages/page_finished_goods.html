@@ -1,0 +1,106 @@
+<div class="page-header">
+    <h1>成品入库单</h1>
+    <div class="actions">
+        <button class="btn">🔍 扫码入库</button>
+        <button class="btn">📤 导出</button>
+        <button class="btn btn-primary">➕ 新建入库</button>
+    </div>
+</div>
+
+<div class="kpi-grid">
+    <div class="kpi-card success">
+        <div class="label">今日入库件数</div>
+        <div class="value">28</div>
+        <div class="sub">成品 SN 已归档</div>
+    </div>
+    <div class="kpi-card">
+        <div class="label">入库总重量</div>
+        <div class="value">198.600 <span style="font-size: 14px;">g</span></div>
+        <div class="sub">生成成品批次 3 个</div>
+    </div>
+    <div class="kpi-card gold">
+        <div class="label">待入库(已完工)</div>
+        <div class="value gold">5</div>
+        <div class="sub">finished 状态 SN</div>
+    </div>
+    <div class="kpi-card">
+        <div class="label">NGTC 证书</div>
+        <div class="value">28</div>
+        <div class="sub">一物一证</div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>入库明细 - CP20260805-00003</h3>
+        <div class="text-muted" style="margin-left: auto; font-size: 12px;">件级 SN finished → stored</div>
+    </div>
+    <div class="card-body dense">
+        <table class="data">
+            <thead>
+                <tr>
+                    <th>件级 SN</th>
+                    <th>款式</th>
+                    <th>成色</th>
+                    <th class="number">实重 (g)</th>
+                    <th>印记</th>
+                    <th>质检</th>
+                    <th>NGTC 证书</th>
+                    <th>状态</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>GLD-20260805-RING-0001</code></td>
+                    <td>18K 钻石戒指</td>
+                    <td>Au750</td>
+                    <td class="number">5.180</td>
+                    <td><span class="badge badge-success">✓ 合格</span></td>
+                    <td><span class="badge badge-success">✓ 通过</span></td>
+                    <td><code>NGTC-88231</code></td>
+                    <td><span class="badge badge-success">已入库</span></td>
+                </tr>
+                <tr>
+                    <td><code>GLD-20260805-RING-0002</code></td>
+                    <td>18K 钻石戒指</td>
+                    <td>Au750</td>
+                    <td class="number">5.160</td>
+                    <td><span class="badge badge-success">✓ 合格</span></td>
+                    <td><span class="badge badge-success">✓ 通过</span></td>
+                    <td><code>NGTC-88232</code></td>
+                    <td><span class="badge badge-success">已入库</span></td>
+                </tr>
+                <tr>
+                    <td><code>GLD-20260805-PEND-0011</code></td>
+                    <td>足金 9999 吊坠</td>
+                    <td>Au9999</td>
+                    <td class="number">3.880</td>
+                    <td><span class="badge badge-success">✓ 合格</span></td>
+                    <td><span class="badge badge-success">✓ 通过</span></td>
+                    <td><code>NGTC-88240</code></td>
+                    <td><span class="badge badge-success">已入库</span></td>
+                </tr>
+                <tr>
+                    <td><code>GLD-20260805-BRAC-0007</code></td>
+                    <td>PT950 铂金手链</td>
+                    <td>Pt950</td>
+                    <td class="number">8.420</td>
+                    <td><span class="badge badge-success">✓ 合格</span></td>
+                    <td><span class="badge badge-success">✓ 通过</span></td>
+                    <td><code>NGTC-88244</code></td>
+                    <td><span class="badge badge-success">已入库</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header"><h3>入库规则</h3></div>
+    <div class="card-body">
+        <div class="notice info">
+            📦 件级 SN 状态 <code>finished → stored</code>；勾选「生成成品批次」时同步创建 <code>gold.material.batch(source=finished_goods)</code>。<br>
+            ⚠️ 成品批次要求入库明细为<strong>同一款物料</strong>，多款式需拆单。
+        </div>
+    </div>
+</div>

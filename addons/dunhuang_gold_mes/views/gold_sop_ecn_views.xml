@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- ======================= SOP 作业指导书 ======================= -->
+        <record id="view_gold_sop_document_tree" model="ir.ui.view">
+            <field name="name">gold.sop.document.tree</field>
+            <field name="model">gold.sop.document</field>
+            <field name="arch" type="xml">
+                <tree string="SOP 作业指导书">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="operation_id"/>
+                    <field name="version"/>
+                    <field name="document_type"/>
+                    <field name="state" widget="badge"
+                        decoration-info="state == 'draft'"
+                        decoration-success="state == 'effective'"
+                        decoration-danger="state == 'obsolete'"/>
+                    <field name="effective_date"/>
+                    <field name="review_date"/>
+                    <field name="author_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_gold_sop_document_form" model="ir.ui.view">
+            <field name="name">gold.sop.document.form</field>
+            <field name="model">gold.sop.document</field>
+            <field name="arch" type="xml">
+                <form string="SOP 作业指导书">
+                    <header>
+                        <field name="state" widget="statusbar"
+                            statusbar_visible="draft,effective,obsolete"/>
+                        <button name="action_effective" string="生效" type="object"
+                            states="draft" class="btn-primary"/>
+                        <button name="action_obsolete" string="作废" type="object"
+                            states="effective"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1><field name="name" placeholder="SOP 名称"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="code"/>
+                                <field name="operation_id"/>
+                                <field name="document_type"/>
+                            </group>
+                            <group>
+                                <field name="version"/>
+                                <field name="author_id"/>
+                                <field name="keywords"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="effective_date"/>
+                                <field name="review_date"/>
+                            </group>
+                        </group>
+                        <field name="content" placeholder="正文 (文本 SOP)"/>
+                        <group string="附件">
+                            <group>
+                                <field name="attachment" filename="attachment_filename"/>
+                                <field name="attachment_filename" invisible="1"/>
+                            </group>
+                        </group>
+                        <field name="note" placeholder="备注"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_gold_sop_document" model="ir.actions.act_window">
+            <field name="name">SOP 作业指导书</field>
+            <field name="res_model">gold.sop.document</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- ======================= ECN 工程变更 ======================= -->
+        <record id="view_gold_ecn_tree" model="ir.ui.view">
+            <field name="name">gold.ecn.tree</field>
+            <field name="model">gold.ecn</field>
+            <field name="arch" type="xml">
+                <tree string="工程变更单">
+                    <field name="name"/>
+                    <field name="title"/>
+                    <field name="change_type"/>
+                    <field name="state" widget="badge"
+                        decoration-info="state == 'draft'"
+                        decoration-warning="state == 'review'"
+                        decoration-primary="state == 'approved'"
+                        decoration-success="state == 'effective'"
+                        decoration-danger="state == 'rejected'"/>
+                    <field name="route_id"/>
+                    <field name="bom_id"/>
+                    <field name="proposed_by"/>
+                    <field name="approved_by"/>
+                    <field name="effective_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_gold_ecn_form" model="ir.ui.view">
+            <field name="name">gold.ecn.form</field>
+            <field name="model">gold.ecn</field>
+            <field name="arch" type="xml">
+                <form string="工程变更单">
+                    <header>
+                        <field name="state" widget="statusbar"
+                            statusbar_visible="draft,review,approved,effective,rejected"/>
+                        <button name="action_submit" string="提交评审" type="object"
+                            states="draft" class="btn-primary"/>
+                        <button name="action_approve" string="批准" type="object"
+                            states="review" class="btn-primary"/>
+                        <button name="action_effective" string="生效" type="object"
+                            states="approved" class="btn-primary"/>
+                        <button name="action_reject" string="驳回" type="object"
+                            states="draft,review"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="title" class="oe_edit_only"/>
+                            <h1><field name="title" placeholder="变更标题"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="code"/>
+                                <field name="change_type"/>
+                            </group>
+                            <group>
+                                <field name="proposed_by"/>
+                                <field name="approved_by"/>
+                                <field name="effective_date"/>
+                            </group>
+                        </group>
+                        <group string="关联对象">
+                            <group>
+                                <field name="route_id"/>
+                                <field name="bom_id"/>
+                                <field name="operation_id"/>
+                            </group>
+                        </group>
+                        <group string="变更信息">
+                            <field name="reason" placeholder="变更原因"/>
+                            <field name="change_content" placeholder="变更内容"/>
+                            <field name="impact_analysis" placeholder="影响分析"/>
+                        </group>
+                        <field name="note" placeholder="备注"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_gold_ecn" model="ir.actions.act_window">
+            <field name="name">工程变更单 (ECN)</field>
+            <field name="res_model">gold.ecn</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

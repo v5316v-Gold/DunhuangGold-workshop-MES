@@ -38,6 +38,7 @@ BATCH_SOURCE_SELECTION = [
     ("internal", "内部调拨"),
     ("return", "工序回料"),
     ("rework", "返工回流"),
+    ("finished_goods", "成品入库"),
 ]
 
 
@@ -307,6 +308,31 @@ class GoldMaterialBatch(models.Model):
         self.allocated_weight_g -= weight_g
         self.available_weight_g += weight_g
         if self.state == "depleted":
+            self.state = "available"
+        return True
+
+    def receive(self, weight_g):
+        """入库 / 回料: 净重与可用重量同时增加(保持重量平衡)"""
+        self.ensure_one()
+        if weight_g <= 0:
+            raise UserError(_("入库重量必须 > 0"))
+        self.net_weight_g += weight_g
+        self.available_weight_g += weight_g
+        if self.state == "depleted":
+            self.state = "available"
+        return True
+
+    def adjust(self, diff_g):
+        """盘点调整: 净重与可用重量同时调整(diff 可正可负, 保持重量平衡)"""
+        self.ensure_one()
+        if self.available_weight_g + diff_g < 0:
+            raise UserError(
+                _("批次 %s 盘亏 %.3fg 超过可用 %.3fg, 需人工核查")
+                % (self.batch_no, -diff_g, self.available_weight_g)
+            )
+        self.net_weight_g += diff_g
+        self.available_weight_g += diff_g
+        if self.available_weight_g > 0 and self.state == "depleted":
             self.state = "available"
         return True
 

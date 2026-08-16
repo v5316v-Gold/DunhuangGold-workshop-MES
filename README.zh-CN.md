@@ -12,16 +12,17 @@
 ## 项目状态
 
 ✅ 模块骨架完成 / 0 个未解决 Lint 错误 / 5 项自动验证全部通过
+✅ **人机料法环 (4M1E) 五要素全覆盖 + 生产后闭环**(环境/危化品/能耗、资质/考勤、维护/备件、SOP/ECN、盘点/成品入库/班后回料)
 
 ```
 ============================================================
 敦煌金加工车间 ERP — 模块验证
 ============================================================
-  ✓ Python 语法   (31 个文件)
-  ✓ XML 格式     (29 个文件)
+  ✓ Python 语法   (46 个文件)
+  ✓ XML 格式     (43 个文件)
   ✓ manifest data
-  ✓ access CSV   (49 个角色权限)
-  ✓ menu action  (17 个菜单)
+  ✓ access CSV   (108 个角色权限)
+  ✓ menu action  (34 个 action)
 
 ✅ 全部检查通过
 ```
@@ -90,6 +91,18 @@
 - 当前金价 + 库存估值
 - 7 天损耗趋势
 
+### 9. 人机料法环 (4M1E) 全覆盖
+- **人 (Man)**:员工资质证书矩阵 + 考勤/工时 + 资质有效期自动校验(过期停工)
+- **机 (Machine)**:设备台账 + OEE + 维护工单(PM/CM/BM) + 备品备件 + 低库存预警
+- **料 (Material)**:金料批次(0.001g) + 金价引擎 + 旧金回收 + 多阶 BOM + 重量平衡校验
+- **法 (Method)**:工艺路线 + 模具/蜡模 + SOP 作业指导书(版本化) + ECN 工程变更审批流
+- **环 (Environment)**:环境监测(温湿度/洁净度/照度/噪声/VOC/PM2.5 超限报警) + 危化品双人双锁 + 能耗分项计量
+
+### 10. 生产后闭环
+- **金料盘点单**:盘点范围 + 账面 vs 实盘 + 盘盈盘亏 + 复核审批 + 差异自动回写批次(盘亏超可用拦截)
+- **成品入库单**:件级 SN 由 finished → stored 入库 + 可选生成成品批次(source=finished_goods)
+- **班后回料单**:浇口/边角/抛光粉回库, 新建回料批次或回入现有批次(调用 batch.receive)
+
 ## 目录结构
 
 ```
@@ -98,12 +111,12 @@ project/
 ├── addons/dunhuang_gold_mes/              # Odoo 17 业务模块
 │   ├── __manifest__.py
 │   ├── __init__.py
-│   ├── models/                   # 18 个主模型
-│   ├── views/                    # 17 个视图 + 菜单
-│   ├── security/                 # 权限 / 角色 / 7 个角色
+│   ├── models/                   # 35 个主模型 (人机料法环 + 生产后)
+│   ├── views/                    # 26 个视图 + 菜单
+│   ├── security/                 # 权限 / 角色 / 8 个角色
 │   ├── data/                     # 种子数据
 │   ├── demo/                     # 演示数据
-│   ├── controllers/              # 11 个 REST API
+│   ├── controllers/              # 27 个 REST API 端点
 │   └── static/                   # 看板 JS / CSS / XML
 ├── scripts/
 │   └── validate_dunhuang_gold_mes.py     # 5 项自动验证
@@ -157,12 +170,19 @@ odoo-bin -d mydb --addons-path=/path/to/addons
 - `gold.mold` / `gold.wax.model` - 模具 / 蜡模
 - `gold.recycle` - 旧金回收
 - `gold.quality.inspection` - 质检
+- `gold.employee.certificate` / `gold.work.attendance` - 员工资质 / 考勤 (人)
+- `gold.maintenance.order` / `gold.spare.part` - 维护工单 / 备件 (机)
+- `gold.sop.document` / `gold.ecn` - SOP / 工程变更 (法)
+- `gold.environment.reading` / `gold.hazardous.chemical` / `gold.energy.reading` - 环境 / 危化品 / 能耗 (环)
+- `gold.inventory.count` - 金料盘点单 (生产后)
+- `gold.finished.goods` - 成品入库单 (生产后)
+- `gold.material.return` - 班后回料单 (生产后)
 
 ## REST API
 
 详见 [docs/API.md](docs/API.md)。
 
-11 个端点:
+27 个端点:
 - `POST /dunhuang_gold_mes/api/v1/login`
 - `GET /dunhuang_gold_mes/api/v1/production/{id}`
 - `GET /dunhuang_gold_mes/api/v1/workorder/by_station/{station_id}`
@@ -177,6 +197,19 @@ odoo-bin -d mydb --addons-path=/path/to/addons
 - `POST /dunhuang_gold_mes/api/v1/device/heartbeat`
 - `POST /dunhuang_gold_mes/api/v1/device/metric`
 - `GET /dunhuang_gold_mes/api/v1/device/list`
+- `POST /dunhuang_gold_mes/api/v1/environment/reading` (环)
+- `GET /dunhuang_gold_mes/api/v1/environment/latest` (环)
+- `GET /dunhuang_gold_mes/api/v1/environment/alarms` (环)
+- `GET /dunhuang_gold_mes/api/v1/hazchem/list` (环)
+- `POST /dunhuang_gold_mes/api/v1/hazchem/issue` (环)
+- `POST /dunhuang_gold_mes/api/v1/energy/reading` (环)
+- `POST /dunhuang_gold_mes/api/v1/maintenance/order` (机)
+- `GET /dunhuang_gold_mes/api/v1/maintenance/list` (机)
+- `GET /dunhuang_gold_mes/api/v1/certificate/verify` (人)
+- `POST /dunhuang_gold_mes/api/v1/inventory/count` (生产后)
+- `GET /dunhuang_gold_mes/api/v1/inventory/list` (生产后)
+- `POST /dunhuang_gold_mes/api/v1/finished_goods/post` (生产后)
+- `POST /dunhuang_gold_mes/api/v1/material_return/confirm` (生产后)
 
 ## 工艺范围
 
@@ -197,14 +230,15 @@ odoo-bin -d mydb --addons-path=/path/to/addons
 
 ## 角色与权限
 
-7 个角色,细粒度权限控制:
+8 个角色,细粒度权限控制:
 - 车间操作员 (员 / 工位)
 - 车间班组长 (派工 / 报工)
 - 车间主任 (全面管理 / KPI)
 - 质检员 (印记 / XRF / 含量)
 - 金库仓管员 (出入库 / 盘点)
-- 设备维护员 (备件 / 校准)
-- 数据记录 49 个权限条目
+- 设备维护员 (备件 / 校准 / 维护工单)
+- 环境安全员 EHS (环境监测 / 危化品双人双锁 / 能耗)
+- 数据记录 108 个权限条目
 
 ## 后续可深入
 

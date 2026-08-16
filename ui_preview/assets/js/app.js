@@ -8,26 +8,44 @@ const NAV = [
         {id: "process_route", name: "工艺路线模板", icon: "🛤️", file: "page_process_route.html"},
         {id: "workstation", name: "工位", icon: "🔲", file: "page_workstation.html"},
         {id: "equipment", name: "设备台账", icon: "⚙️", file: "page_equipment.html"},
+        {id: "sop", name: "SOP 作业指导书", icon: "📄", file: "page_sop.html"},
+        {id: "ecn", name: "工程变更单 ECN", icon: "🔄", file: "page_ecn.html"},
+    ]},
+    {section: "人员与资质", items: [
+        {id: "certificate", name: "员工资质证书", icon: "🎓", file: "page_certificate.html"},
+        {id: "attendance", name: "考勤 / 工时", icon: "🕒", file: "page_attendance.html"},
     ]},
     {section: "金料与金价", items: [
         {id: "material_batch", name: "金料批次", icon: "💰", file: "page_material_batch.html"},
         {id: "price_engine", name: "实时金价", icon: "📈", file: "page_price_engine.html"},
         {id: "recycle", name: "旧金回收", icon: "♻️", file: "page_recycle.html"},
+        {id: "inventory_count", name: "金料盘点单", icon: "🧮", file: "page_inventory_count.html"},
+        {id: "material_return", name: "班后回料单", icon: "↩️", file: "page_material_return.html"},
     ]},
     {section: "模具/蜡模", items: [
         {id: "mold", name: "模具台账", icon: "🔩", file: "page_mold.html"},
         {id: "wax", name: "蜡模管理", icon: "🕯️", file: "page_wax_model.html"},
+    ]},
+    {section: "设备维护", items: [
+        {id: "maintenance", name: "设备维护工单", icon: "🛠️", file: "page_maintenance.html"},
+        {id: "spare_part", name: "备品备件", icon: "🔩", file: "page_spare_part.html"},
     ]},
     {section: "生产执行", items: [
         {id: "workorder_report", name: "工序报工", icon: "📝", file: "page_workorder_report.html"},
         {id: "loss_trace", name: "损耗追溯", icon: "🔍", file: "page_loss_trace.html"},
         {id: "outsource", name: "委外加工", icon: "🤝", file: "page_outsource.html"},
         {id: "piece", name: "件级 SN", icon: "🔖", file: "page_piece.html"},
+        {id: "finished_goods", name: "成品入库单", icon: "📦", file: "page_finished_goods.html"},
     ]},
     {section: "质量与印记", items: [
         {id: "qc", name: "质检记录", icon: "✅", file: "page_quality.html"},
         {id: "xrf", name: "XRF 含量检测", icon: "🔬", file: "page_xrf.html"},
         {id: "imprint", name: "印记记录", icon: "📍", file: "page_imprint.html"},
+    ]},
+    {section: "环境与安全", items: [
+        {id: "environment", name: "环境监测", icon: "🌡️", file: "page_environment.html"},
+        {id: "hazardous_chemical", name: "危化品管理", icon: "⚠️", file: "page_hazardous_chemical.html"},
+        {id: "energy", name: "能耗管理", icon: "⚡", file: "page_energy.html"},
     ]},
     {section: "看板", items: [
         {id: "dashboard", name: "车间看板", icon: "📊", file: "page_dashboard.html"},

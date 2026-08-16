@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- ======================= 能源计量表 ======================= -->
+        <record id="view_gold_energy_meter_tree" model="ir.ui.view">
+            <field name="name">gold.energy.meter.tree</field>
+            <field name="model">gold.energy.meter</field>
+            <field name="arch" type="xml">
+                <tree string="能源计量表">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="energy_type"/>
+                    <field name="meter_level"/>
+                    <field name="unit"/>
+                    <field name="equipment_id"/>
+                    <field name="rate_price"/>
+                    <field name="protocol"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_gold_energy_meter_form" model="ir.ui.view">
+            <field name="name">gold.energy.meter.form</field>
+            <field name="model">gold.energy.meter</field>
+            <field name="arch" type="xml">
+                <form string="能源计量表">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1><field name="name" placeholder="表计名称"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="code"/>
+                                <field name="energy_type"/>
+                                <field name="unit"/>
+                            </group>
+                            <group>
+                                <field name="meter_level"/>
+                                <field name="equipment_id"/>
+                                <field name="rate_price"/>
+                            </group>
+                        </group>
+                        <group string="通讯">
+                            <group>
+                                <field name="protocol"/>
+                                <field name="device_node_id"/>
+                            </group>
+                        </group>
+                        <field name="note" placeholder="备注"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_gold_energy_meter" model="ir.actions.act_window">
+            <field name="name">能源计量表</field>
+            <field name="res_model">gold.energy.meter</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- ======================= 能耗读数 ======================= -->
+        <record id="view_gold_energy_reading_tree" model="ir.ui.view">
+            <field name="name">gold.energy.reading.tree</field>
+            <field name="model">gold.energy.reading</field>
+            <field name="arch" type="xml">
+                <tree string="能耗读数">
+                    <field name="reading_time"/>
+                    <field name="meter_id"/>
+                    <field name="energy_type"/>
+                    <field name="cumulative_value"/>
+                    <field name="period_consumption"/>
+                    <field name="period_amount"/>
+                    <field name="unit"/>
+                    <field name="source"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_gold_energy_reading_form" model="ir.ui.view">
+            <field name="name">gold.energy.reading.form</field>
+            <field name="model">gold.energy.reading</field>
+            <field name="arch" type="xml">
+                <form string="能耗读数">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="meter_id"/>
+                                <field name="reading_time"/>
+                            </group>
+                            <group>
+                                <field name="cumulative_value"/>
+                                <field name="period_consumption"/>
+                                <field name="period_amount"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="source"/>
+                            </group>
+                        </group>
+                        <field name="note" placeholder="备注"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_gold_energy_reading" model="ir.actions.act_window">
+            <field name="name">能耗读数</field>
+            <field name="res_model">gold.energy.reading</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

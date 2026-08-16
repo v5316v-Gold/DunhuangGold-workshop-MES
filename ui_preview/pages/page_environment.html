@@ -1,0 +1,125 @@
+<div class="page-header">
+    <h1>环境监测</h1>
+    <div class="actions">
+        <button class="btn">🔔 报警设置</button>
+        <button class="btn">📤 导出</button>
+        <button class="btn btn-primary">➕ 传感器</button>
+    </div>
+</div>
+
+<div class="kpi-grid">
+    <div class="kpi-card">
+        <div class="label">电镀车间温度</div>
+        <div class="value">24.6 <span style="font-size: 14px;">℃</span></div>
+        <div class="sub">阈值 15-35℃</div>
+    </div>
+    <div class="kpi-card">
+        <div class="label">钻石房洁净度</div>
+        <div class="value">ISO 6</div>
+        <div class="sub">阈值 ≤ ISO 7</div>
+    </div>
+    <div class="kpi-card" style="border-left-color: var(--danger);">
+        <div class="label">VOC 报警</div>
+        <div class="value" style="color: var(--danger);">1</div>
+        <div class="sub">电镀车间 0.35 ppm</div>
+    </div>
+    <div class="kpi-card">
+        <div class="label">噪声</div>
+        <div class="value">68 dB</div>
+        <div class="sub">抛光车间 · 阈值 ≤ 75</div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>实时读数</h3>
+        <div class="text-muted" style="margin-left: auto; font-size: 12px;">超阈值自动报警</div>
+    </div>
+    <div class="card-body dense">
+        <table class="data">
+            <thead>
+                <tr>
+                    <th>传感器</th>
+                    <th>点位</th>
+                    <th>类型</th>
+                    <th class="number">读数</th>
+                    <th>单位</th>
+                    <th>阈值</th>
+                    <th>状态</th>
+                    <th>时间</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>ENV-TEMP-01</code></td>
+                    <td>电镀车间</td>
+                    <td>温度</td>
+                    <td class="number">24.6</td>
+                    <td>℃</td>
+                    <td>15-35</td>
+                    <td><span class="badge badge-success">正常</span></td>
+                    <td>18:20</td>
+                </tr>
+                <tr>
+                    <td><code>ENV-HUM-01</code></td>
+                    <td>电镀车间</td>
+                    <td>湿度</td>
+                    <td class="number">52.0</td>
+                    <td>%RH</td>
+                    <td>30-80</td>
+                    <td><span class="badge badge-success">正常</span></td>
+                    <td>18:20</td>
+                </tr>
+                <tr style="background: #FFEBEE;">
+                    <td><code>ENV-VOC-01</code></td>
+                    <td>电镀车间</td>
+                    <td>VOC</td>
+                    <td class="number text-danger">0.35</td>
+                    <td>ppm</td>
+                    <td>≤ 0.3</td>
+                    <td><span class="badge badge-danger">超限报警</span></td>
+                    <td>18:19</td>
+                </tr>
+                <tr>
+                    <td><code>ENV-CLN-01</code></td>
+                    <td>钻石房</td>
+                    <td>洁净度</td>
+                    <td class="number">6</td>
+                    <td>级</td>
+                    <td>≤ 7</td>
+                    <td><span class="badge badge-success">正常</span></td>
+                    <td>18:15</td>
+                </tr>
+                <tr>
+                    <td><code>ENV-NSE-01</code></td>
+                    <td>抛光车间</td>
+                    <td>噪声</td>
+                    <td class="number">68.0</td>
+                    <td>dB</td>
+                    <td>≤ 75</td>
+                    <td><span class="badge badge-success">正常</span></td>
+                    <td>18:15</td>
+                </tr>
+                <tr>
+                    <td><code>ENV-PM25-01</code></td>
+                    <td>抛光车间</td>
+                    <td>PM2.5</td>
+                    <td class="number">0.42</td>
+                    <td>mg/m³</td>
+                    <td>≤ 0.5</td>
+                    <td><span class="badge badge-success">正常</span></td>
+                    <td>18:15</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header"><h3>合规依据</h3></div>
+    <div class="card-body">
+        <div class="notice info">
+            🌿 环境阈值：电镀 VOC < 0.3ppm（氰化物）、抛光粉尘 PM2.5 ≤ 0.5 mg/m³、钻石房洁净度 ISO 7 级、精细作业照度 ≥ 750 lux。
+        </div>
+    </div>
+</div>

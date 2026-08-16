@@ -99,5 +99,86 @@
             <field name="padding">5</field>
             <field name="company_id" eval="False"/>
         </record>
+
+        <!-- 环境读数: ENVYYYYMMXXX -->
+        <record id="seq_gold_environment_reading" model="ir.sequence">
+            <field name="name">环境读数</field>
+            <field name="code">gold.environment.reading</field>
+            <field name="prefix">ENV</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- 危化品领用: WHYYYYMMXXX -->
+        <record id="seq_gold_hazardous_usage" model="ir.sequence">
+            <field name="name">危化品领用单</field>
+            <field name="code">gold.hazardous.chemical.usage</field>
+            <field name="prefix">WH</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- 能耗读数: NYYYYYMMXXX -->
+        <record id="seq_gold_energy_reading" model="ir.sequence">
+            <field name="name">能耗读数</field>
+            <field name="code">gold.energy.reading</field>
+            <field name="prefix">NY</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- 考勤: KQYYYYMMXXX -->
+        <record id="seq_gold_attendance" model="ir.sequence">
+            <field name="name">考勤记录</field>
+            <field name="code">gold.work.attendance</field>
+            <field name="prefix">KQ</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- 维护工单: WXYYYYMMXXX -->
+        <record id="seq_gold_maintenance" model="ir.sequence">
+            <field name="name">维护工单</field>
+            <field name="code">gold.maintenance.order</field>
+            <field name="prefix">WX</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- 工程变更: ECNYYYYMMXXX -->
+        <record id="seq_gold_ecn" model="ir.sequence">
+            <field name="name">工程变更单</field>
+            <field name="code">gold.ecn</field>
+            <field name="prefix">ECN</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- 金料盘点单: PDYYYYMMXXX -->
+        <record id="seq_gold_inventory_count" model="ir.sequence">
+            <field name="name">金料盘点单</field>
+            <field name="code">gold.inventory.count</field>
+            <field name="prefix">PD</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- 成品入库单: CPYYYYMMXXX -->
+        <record id="seq_gold_finished_goods" model="ir.sequence">
+            <field name="name">成品入库单</field>
+            <field name="code">gold.finished.goods</field>
+            <field name="prefix">CP</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- 班后回料单: HLYYYYMMXXX -->
+        <record id="seq_gold_material_return" model="ir.sequence">
+            <field name="name">班后回料单</field>
+            <field name="code">gold.material.return</field>
+            <field name="prefix">HL</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
     </data>
 </odoo>

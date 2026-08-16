@@ -1,0 +1,110 @@
+<div class="page-header">
+    <h1>金料盘点单</h1>
+    <div class="actions">
+        <button class="btn">🔍 扫码盘点</button>
+        <button class="btn">📤 导出</button>
+        <button class="btn btn-primary">➕ 新建盘点</button>
+    </div>
+</div>
+
+<div class="kpi-grid">
+    <div class="kpi-card">
+        <div class="label">账面合计</div>
+        <div class="value">13,850.500 <span style="font-size: 14px;">g</span></div>
+        <div class="sub">3 个库位</div>
+    </div>
+    <div class="kpi-card">
+        <div class="label">实盘合计</div>
+        <div class="value">13,849.300 <span style="font-size: 14px;">g</span></div>
+        <div class="sub">电子天平直采</div>
+    </div>
+    <div class="kpi-card" style="border-left-color: var(--danger);">
+        <div class="label">差异合计</div>
+        <div class="value" style="color: var(--danger);">-1.200 <span style="font-size: 14px;">g</span></div>
+        <div class="sub">盘亏 · 待复核</div>
+    </div>
+    <div class="kpi-card">
+        <div class="label">盘点状态</div>
+        <div class="value"><span class="badge badge-warning">盘点中</span></div>
+        <div class="sub">复核人待指定</div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>盘点明细 - PD20260805-00001</h3>
+        <div class="text-muted" style="margin-left: auto; font-size: 12px;">差异 = 实盘 - 账面 · 盘亏超可用自动拦截</div>
+    </div>
+    <div class="card-body dense">
+        <table class="data">
+            <thead>
+                <tr>
+                    <th>批次号</th>
+                    <th>物料</th>
+                    <th class="number">账面 (g)</th>
+                    <th class="number">实盘 (g)</th>
+                    <th class="number">差异 (g)</th>
+                    <th>判定</th>
+                    <th>备注</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>GL20260805-00001</code></td>
+                    <td>足金 9999 板料</td>
+                    <td class="number">5,000.000</td>
+                    <td class="number">5,000.000</td>
+                    <td class="number">0.000</td>
+                    <td><span class="badge badge-success">平账</span></td>
+                    <td></td>
+                </tr>
+                <tr style="background: #FFEBEE;">
+                    <td><code>GL20260805-00002</code></td>
+                    <td>足金 9999 板料</td>
+                    <td class="number">3,200.000</td>
+                    <td class="number">3,199.500</td>
+                    <td class="number text-danger">-0.500</td>
+                    <td><span class="badge badge-danger">盘亏</span></td>
+                    <td>执模损耗超登记</td>
+                </tr>
+                <tr style="background: #FFEBEE;">
+                    <td><code>GL20260805-00003</code></td>
+                    <td>18K 金 板料</td>
+                    <td class="number">2,000.000</td>
+                    <td class="number">1,999.300</td>
+                    <td class="number text-danger">-0.700</td>
+                    <td><span class="badge badge-danger">盘亏</span></td>
+                    <td>边角料未回库</td>
+                </tr>
+                <tr>
+                    <td><code>HS20260801-00001</code></td>
+                    <td>回收料</td>
+                    <td class="number">350.500</td>
+                    <td class="number">350.500</td>
+                    <td class="number">0.000</td>
+                    <td><span class="badge badge-success">平账</span></td>
+                    <td></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr style="background: var(--bg); font-weight: 600;">
+                    <td colspan="2">合计</td>
+                    <td class="number">10,550.500</td>
+                    <td class="number">10,549.300</td>
+                    <td class="number text-danger">-1.200</td>
+                    <td colspan="2"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header"><h3>盘点流程</h3></div>
+    <div class="card-body">
+        <div class="notice info">
+            📋 流程：<strong>草稿 → 开始盘点(锁定批次) → 录入实盘 → 复核(复核人≠盘点人) → 过账(差异自动回写批次净重/可用)</strong><br>
+            ⚠️ 盘亏量超过批次可用重量时，系统拦截过账，需人工核查。
+        </div>
+    </div>
+</div>

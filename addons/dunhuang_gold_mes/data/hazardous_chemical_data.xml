@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- ============================================================
+             危化品种子数据 (环 / EHS)
+             ============================================================ -->
+        <record id="hazchem_gold_cyanide" model="gold.hazardous.chemical">
+            <field name="code">HC-GOLD-CN</field>
+            <field name="name">氰化金钾 (KAu(CN)2)</field>
+            <field name="cas_no">13967-50-5</field>
+            <field name="category">cyanide</field>
+            <field name="danger_level">high</field>
+            <field name="lock_required">1</field>
+            <field name="storage_location">危化品柜 A-01</field>
+            <field name="stock_qty">500.0</field>
+            <field name="stock_unit">g</field>
+            <field name="safety_stock">100.0</field>
+            <field name="unit_price">320.0</field>
+        </record>
+
+        <record id="hazchem_silver_cyanide" model="gold.hazardous.chemical">
+            <field name="code">HC-AG-CN</field>
+            <field name="name">氰化银钾 (KAg(CN)2)</field>
+            <field name="cas_no">506-61-6</field>
+            <field name="category">cyanide</field>
+            <field name="danger_level">high</field>
+            <field name="lock_required">1</field>
+            <field name="storage_location">危化品柜 A-01</field>
+            <field name="stock_qty">200.0</field>
+            <field name="stock_unit">g</field>
+            <field name="safety_stock">50.0</field>
+            <field name="unit_price">120.0</field>
+        </record>
+
+        <record id="hazchem_hydrochloric_acid" model="gold.hazardous.chemical">
+            <field name="code">HC-HCL</field>
+            <field name="name">盐酸 (HCl)</field>
+            <field name="cas_no">7647-01-0</field>
+            <field name="category">acid</field>
+            <field name="danger_level">medium</field>
+            <field name="lock_required">1</field>
+            <field name="storage_location">危化品柜 B-02</field>
+            <field name="stock_qty">20.0</field>
+            <field name="stock_unit">L</field>
+            <field name="safety_stock">5.0</field>
+            <field name="unit_price">18.0</field>
+        </record>
+
+        <record id="hazchem_nitric_acid" model="gold.hazardous.chemical">
+            <field name="code">HC-HNO3</field>
+            <field name="name">硝酸 (HNO3)</field>
+            <field name="cas_no">7697-37-2</field>
+            <field name="category">acid</field>
+            <field name="danger_level">medium</field>
+            <field name="lock_required">1</field>
+            <field name="storage_location">危化品柜 B-02</field>
+            <field name="stock_qty">15.0</field>
+            <field name="stock_unit">L</field>
+            <field name="safety_stock">5.0</field>
+            <field name="unit_price">25.0</field>
+        </record>
+    </data>
+</odoo>

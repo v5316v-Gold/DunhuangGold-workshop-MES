@@ -1,7 +1,8 @@
 # Dunhuang Gold Workshop ERP
 
-> Dedicated MES-ERP for precious metal jewelry workshops — Internal version 17.0.1.0.0
+> Dedicated MES-ERP for precious metal jewelry workshops — Internal version 17.0.1.1.0
 > Focus: **oil-press stamping + lost-wax casting** with 0.001g gold material tracking.
+> Full **4M1E (Man/Machine/Material/Method/Environment)** coverage + post-production closed loop.
 
 [![CI](https://github.com/v5316v-Gold/Dunhuang-workshop-ERP/workflows/CI/badge.svg)](https://github.com/v5316v-Gold/Dunhuang-workshop-ERP/actions)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
@@ -29,7 +30,7 @@ A precious metal jewelry workshop has unique ERP requirements that generic syste
 - **Framework**: Odoo 17.0 CE (open source)
 - **Backend**: Python 3.11
 - **Database**: PostgreSQL 15 (NUMERIC 18,6 for gram precision)
-- **API**: REST / JSON (14 endpoints, MES-friendly)
+- **API**: REST / JSON (27 endpoints, MES-friendly)
 - **Frontend**: QWeb + OWL 2 + JavaScript
 - **Reports**: QWeb + wkhtmltopdf (PDF)
 - **Equipment Protocol**: OPC UA / MQTT / Modbus / RS-232 (reserved interface)
@@ -66,14 +67,22 @@ A precious metal jewelry workshop has unique ERP requirements that generic syste
 - **NGTC cert**: National Gemstone & Jade Quality Supervision & Inspection Center linkage
 
 ### 6. MES REST API
-14 endpoints for workshop terminals / mobile apps:
+27 endpoints for workshop terminals / mobile apps:
 ```
 POST /dunhuang_gold_mes/api/v1/login
-POST /dunhuang_gold_mes/api/v1/workorder_report   # Electronic balance → report
-POST /dunhuang_gold_mes/api/v1/price/push        # SGE / LBMA gold price push
-POST /dunhuang_gold_mes/api/v1/imprint/verify    # OCR mark check
-POST /dunhuang_gold_mes/api/v1/device/heartbeat  # Equipment OEE + status
-GET  /dunhuang_gold_mes/api/v1/dashboard/kpi     # Big-screen KPI
+POST /dunhuang_gold_mes/api/v1/workorder_report      # Electronic balance → report
+POST /dunhuang_gold_mes/api/v1/price/push           # SGE / LBMA gold price push
+POST /dunhuang_gold_mes/api/v1/imprint/verify       # OCR mark check
+POST /dunhuang_gold_mes/api/v1/device/heartbeat     # Equipment OEE + status
+GET  /dunhuang_gold_mes/api/v1/dashboard/kpi        # Big-screen KPI
+POST /dunhuang_gold_mes/api/v1/environment/reading  # Env sensor reading (4M1E)
+POST /dunhuang_gold_mes/api/v1/hazchem/issue        # Hazardous chemical dual-custody issue
+POST /dunhuang_gold_mes/api/v1/energy/reading       # Energy meter reading
+POST /dunhuang_gold_mes/api/v1/maintenance/order    # Maintenance order
+GET  /dunhuang_gold_mes/api/v1/certificate/verify   # Employee certificate check
+POST /dunhuang_gold_mes/api/v1/inventory/count      # Inventory count (post-production)
+POST /dunhuang_gold_mes/api/v1/finished_goods/post  # Finished goods receipt by SN
+POST /dunhuang_gold_mes/api/v1/material_return/confirm  # Material return
 ```
 
 ### 7. Workshop Dashboard
@@ -81,6 +90,18 @@ GET  /dunhuang_gold_mes/api/v1/dashboard/kpi     # Big-screen KPI
 - Process distribution (oil-press vs lost-wax)
 - 7-day loss trend
 - Gold price + inventory valuation
+
+### 8. 4M1E Full Coverage
+- **Man**: Employee certificate matrix + attendance/work-hours + auto expiry check
+- **Machine**: Equipment ledger + OEE + maintenance orders (PM/CM/BM) + spare parts (low-stock alert)
+- **Material**: Gold batch (0.001g) + price engine + recycle + multi-level BOM + weight balance check
+- **Method**: Process routes + molds/wax + versioned SOP + ECN engineering change approval flow
+- **Environment**: Sensors (temp/humidity/cleanliness/lux/noise/VOC/PM2.5 with threshold alarm) + hazardous chemical dual-custody + energy metering
+
+### 9. Post-Production Closed Loop
+- **Inventory count**: Book vs actual weight + surplus/shortage + review approval + auto write-back to batch (shortage over available is blocked)
+- **Finished goods receipt**: Per-piece SN `finished → stored` + optional finished-goods batch
+- **Material return**: Gate/scrap/polish-powder back to vault (new batch or merge into existing via `batch.receive`)
 
 ## Installation
 
@@ -124,6 +145,7 @@ python -m unittest discover -s tests -p 'test_*.py' -v
 ## Roadmap
 
 - [x] v17.0.1.0.0 (2026-08-05): Core modules + tests + deployment
+- [x] v17.0.1.1.0: 4M1E full coverage (Man/Machine/Method/Environment) + post-production closed loop + offline UI preview
 - [ ] v17.0.2.0.0: NGTC one-cert-one-code API
 - [ ] v17.1.0.0.0: OPC UA device adapter demo
 - [ ] v18.0.0.0.0: AI visual quality inspection
@@ -133,8 +155,8 @@ See [CHANGELOG.md](CHANGELOG.md) for full history.
 ## Documentation
 
 - [docs/QUICKSTART.md](docs/QUICKSTART.md) — 5-minute quick start
-- [docs/DATA_MODEL.md](docs/DATA_MODEL.md) — 20 data models + ER diagram
-- [docs/API.md](docs/API.md) — 14 REST endpoints
+- [docs/DATA_MODEL.md](docs/DATA_MODEL.md) — 35 data models (4M1E + post-production) + ER diagram
+- [docs/API.md](docs/API.md) — 27 REST endpoints
 - [docs/QUICKSTART.md](docs/QUICKSTART.md) — Deployment guide
 - [CHANGELOG.md](CHANGELOG.md) — Version history
 
@@ -152,4 +174,4 @@ Apache-2.0 (or LGPL-3, your choice). See [LICENSE](LICENSE).
 
 ## Note
 
-中文 README 见 [README.md](README.md) (项目同时维护中英双语).
+中文 README 见 [README.zh-CN.md](README.zh-CN.md) (项目同时维护中英双语).

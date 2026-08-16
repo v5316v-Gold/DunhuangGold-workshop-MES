@@ -1,0 +1,101 @@
+<div class="page-header">
+    <h1>班后回料单</h1>
+    <div class="actions">
+        <button class="btn">🔍 关联报工</button>
+        <button class="btn">📤 导出</button>
+        <button class="btn btn-primary">➕ 新建回料</button>
+    </div>
+</div>
+
+<div class="kpi-grid">
+    <div class="kpi-card gold">
+        <div class="label">今日回料</div>
+        <div class="value gold">3.250 <span style="font-size: 14px;">g</span></div>
+        <div class="sub">浇口 + 边角</div>
+    </div>
+    <div class="kpi-card">
+        <div class="label">回料单数</div>
+        <div class="value">6</div>
+        <div class="sub">新建批次 4 · 回入现有 2</div>
+    </div>
+    <div class="kpi-card success">
+        <div class="label">回收蜡</div>
+        <div class="value">12.400 <span style="font-size: 14px;">g</span></div>
+        <div class="sub">可回用</div>
+    </div>
+    <div class="kpi-card">
+        <div class="label">待回库</div>
+        <div class="value">2</div>
+        <div class="sub">班后待提交</div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>回料记录</h3>
+        <div class="text-muted" style="margin-left: auto; font-size: 12px;">回料 → 批次净重/可用同步增加</div>
+    </div>
+    <div class="card-body dense">
+        <table class="data">
+            <thead>
+                <tr>
+                    <th>回料单号</th>
+                    <th>时间</th>
+                    <th>来源</th>
+                    <th>物料类型</th>
+                    <th>金料物料</th>
+                    <th class="number">重量 (g)</th>
+                    <th>去向</th>
+                    <th>关联报工</th>
+                    <th>状态</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>HL20260805-00006</code></td>
+                    <td>18:20</td>
+                    <td><span class="badge badge-gold">浇口料</span></td>
+                    <td>金料</td>
+                    <td>足金 9999</td>
+                    <td class="number">1.250</td>
+                    <td><code>新批次 HL-0001</code></td>
+                    <td><code>BG...00014</code></td>
+                    <td><span class="badge badge-success">已回库</span></td>
+                </tr>
+                <tr>
+                    <td><code>HL20260805-00005</code></td>
+                    <td>17:40</td>
+                    <td><span class="badge badge-info">边角料</span></td>
+                    <td>金料</td>
+                    <td>18K 金</td>
+                    <td class="number">0.800</td>
+                    <td><code>回入 GL...00003</code></td>
+                    <td><code>BG...00012</code></td>
+                    <td><span class="badge badge-success">已回库</span></td>
+                </tr>
+                <tr>
+                    <td><code>HL20260805-00004</code></td>
+                    <td>17:10</td>
+                    <td><span class="badge badge-info">抛光粉</span></td>
+                    <td>金料</td>
+                    <td>足金 9999</td>
+                    <td class="number">1.200</td>
+                    <td><code>新批次 HL-0002</code></td>
+                    <td><code>BG...00010</code></td>
+                    <td><span class="badge badge-success">已回库</span></td>
+                </tr>
+                <tr style="background: #FFF8E1;">
+                    <td><code>HL20260805-00003</code></td>
+                    <td>16:30</td>
+                    <td><span class="badge badge-gold">浇口料</span></td>
+                    <td>蜡料</td>
+                    <td>—</td>
+                    <td class="number">3.100</td>
+                    <td><code>蜡模回收</code></td>
+                    <td><code>BG...00008</code></td>
+                    <td><span class="badge badge-warning">待回库</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

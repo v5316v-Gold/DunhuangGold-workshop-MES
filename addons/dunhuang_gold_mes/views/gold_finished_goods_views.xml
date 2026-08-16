@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_gold_finished_goods_tree" model="ir.ui.view">
+            <field name="name">gold.finished.goods.tree</field>
+            <field name="model">gold.finished.goods</field>
+            <field name="arch" type="xml">
+                <tree string="成品入库单">
+                    <field name="name"/>
+                    <field name="post_date"/>
+                    <field name="production_id"/>
+                    <field name="location_id"/>
+                    <field name="state" widget="badge"
+                        decoration-info="state == 'draft'"
+                        decoration-success="state == 'posted'"
+                        decoration-danger="state == 'cancelled'"/>
+                    <field name="total_piece_count"/>
+                    <field name="total_weight_g"/>
+                    <field name="generate_batch" widget="boolean_toggle"/>
+                    <field name="batch_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_gold_finished_goods_form" model="ir.ui.view">
+            <field name="name">gold.finished.goods.form</field>
+            <field name="model">gold.finished.goods</field>
+            <field name="arch" type="xml">
+                <form string="成品入库单">
+                    <header>
+                        <field name="state" widget="statusbar"
+                            statusbar_visible="draft,posted,cancelled"/>
+                        <button name="action_post" string="入库" type="object"
+                            states="draft" class="btn-primary"/>
+                        <button name="action_cancel" string="取消" type="object"
+                            states="draft"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1><field name="name"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="post_date"/>
+                                <field name="production_id"/>
+                                <field name="location_id"/>
+                            </group>
+                            <group>
+                                <field name="total_piece_count"/>
+                                <field name="total_weight_g"/>
+                                <field name="generate_batch" widget="boolean_toggle"/>
+                                <field name="batch_id"/>
+                            </group>
+                        </group>
+                        <field name="line_ids">
+                            <tree string="入库明细 (逐件 SN)" editable="bottom">
+                                <field name="piece_id"/>
+                                <field name="product_id"/>
+                                <field name="actual_weight_g"/>
+                                <field name="note"/>
+                            </tree>
+                        </field>
+                        <field name="note" placeholder="备注"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_gold_finished_goods" model="ir.actions.act_window">
+            <field name="name">成品入库单</field>
+            <field name="res_model">gold.finished.goods</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

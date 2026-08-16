@@ -51,5 +51,22 @@ from . import gold_outsource_order
 # 件级 SN
 from . import gold_piece
 
+# ---- 人机料法环补全 (作业指导书) ----
+# 人 (Man): 资质证书 / 考勤工时
+from . import gold_employee
+# 机 (Machine): 维护工单 / 备品备件
+from . import gold_maintenance
+# 法 (Method): SOP 作业指导书 / ECN 工程变更
+from . import gold_sop_ecn
+# 环 (Environment): 环境监测 / 危化品 / 能耗
+from . import gold_environment
+from . import gold_hazardous_chemical
+from . import gold_energy
+
+# ---- 生产后 (盘库 / 成品入库 / 班后回料) ----
+from . import gold_inventory
+from . import gold_finished_goods
+from . import gold_material_return
+
 # 看板
 from . import gold_dashboard
