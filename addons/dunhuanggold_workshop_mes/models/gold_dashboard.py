@@ -6,7 +6,7 @@
 提供看板所需 KPI 聚合数据,看板页面 (QWeb) 调用。
 """
 
-from odoo import models, fields, api, _
+from odoo import models, fields, api
 
 
 class GoldDashboard(models.Model):
@@ -35,7 +35,6 @@ class GoldDashboard(models.Model):
         Mold = self.env["gold.mold"]
         Xrf = self.env["gold.xrf.record"]
         Today = fields.Date.context_today(self)
-        env = self.env
 
         # ---- 当日完工 / 进行中 / 工艺分布:read_group 一次拿全部 ----
         # 按 gold_state + gold_process_type 双维度分组

@@ -28,9 +28,8 @@
 
 import json
 import logging
-from datetime import datetime
 
-from odoo import http, fields
+from odoo import http
 from odoo.http import request
 
 from odoo.addons.dunhuanggold_workshop_mes.tools.rate_limit import rate_limit

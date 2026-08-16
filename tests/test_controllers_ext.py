@@ -33,7 +33,7 @@ controller 层在 Odoo 17 的 http 测试用 JsonRpcHandler 更复杂,
 from datetime import date, timedelta
 
 from odoo.tests import TransactionCase, tagged
-from odoo.exceptions import UserError, ValidationError
+from odoo.exceptions import UserError
 
 
 # ============================================================
@@ -238,7 +238,7 @@ class TestEnergyApi(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.meter = self.env["gold.energy.meter"].create({
+        cls.meter = cls.env["gold.energy.meter"].create({
             "code": "EM-T-01",
             "name": "测试电表",
             "energy_type": "electricity",
@@ -282,7 +282,6 @@ class TestCertificateVerifyApi(TransactionCase):
 
     def test_verify_valid_cert(self):
         """有效证书 -> qualified=True"""
-        from datetime import date, timedelta
         cert = self.env["gold.employee.certificate"].create({
             "name": "熔金操作证",
             "cert_type": "melting",
@@ -297,7 +296,6 @@ class TestCertificateVerifyApi(TransactionCase):
 
     def test_verify_expired_cert(self):
         """过期证书 -> is_valid=False"""
-        from datetime import date, timedelta
         cert = self.env["gold.employee.certificate"].create({
             "name": "过期证",
             "cert_type": "melting",

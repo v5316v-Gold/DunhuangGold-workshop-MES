@@ -41,9 +41,8 @@
 
 import json
 import logging
-from datetime import datetime, timedelta
 
-from odoo import http, _, fields
+from odoo import http, fields
 from odoo.http import request
 from odoo.exceptions import UserError, ValidationError
 

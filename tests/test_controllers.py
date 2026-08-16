@@ -13,8 +13,6 @@ Controller 集成测试 (Phase 2 起步).
       --stop-after-init
 """
 
-import json
-
 from odoo.tests import TransactionCase, tagged
 from odoo.exceptions import ValidationError
 
@@ -48,7 +46,6 @@ class TestWorkorderReportApi(TransactionCase):
 
     def test_api_workorder_report_success(self):
         """成功报工 -> report 创建 + state=confirmed + batch 扣减"""
-        client = self.env["ir.http"].dispatcher or None
         # 直接用 model 模拟 API 行为,controller 测试在 Odoo http layer 更复杂
         # 这里走等价路径验证业务正确性
         Report = self.env["gold.workorder.report"]
@@ -235,7 +232,7 @@ class TestRateLimitDecorator(TransactionCase):
     def test_decorator_allow_under_limit(self):
         """未超限时应正常放行"""
         from odoo.addons.dunhuanggold_workshop_mes.tools.rate_limit import (
-            _get_count_param, _set_count_param, rate_limit,
+            _get_count_param, _set_count_param,
         )
         scope_key = "test:scope:rl1"
         # 清零
@@ -252,7 +249,6 @@ class TestRateLimitDecorator(TransactionCase):
         from odoo.addons.dunhuanggold_workshop_mes.tools.rate_limit import (
             _set_count_param,
         )
-        from odoo.exceptions import UserError
         # 直接构造超限状态: 计数 = 100, 限制 = 50
         scope_key = "test:scope:rl2"
         import time
