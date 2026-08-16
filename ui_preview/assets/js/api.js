@@ -105,11 +105,12 @@ function toast(msg, type) {
     if (!el) {
         el = document.createElement('div');
         el.id = 'app-toast';
-        el.style.cssText = 'position:fixed;bottom:24px;right:24px;z-index:9999;padding:12px 20px;border-radius:8px;color:#fff;font-size:14px;box-shadow:0 4px 16px rgba(0,0,0,.25);transition:all .3s;';
+        el.className = 'toast-item animate-slide-in-right';
+        el.style.cssText = 'position:fixed;bottom:24px;right:24px;z-index:9999;padding:12px 20px;font-size:14px;transition:all 0.3s;';
         document.body.appendChild(el);
     }
+    el.className = 'toast-item animate-slide-in-right ' + (type === 'error' ? 'toast-error' : 'toast-success');
     el.textContent = msg;
-    el.style.background = type === 'error' ? '#D32F2F' : '#2E7D32';
     el.style.opacity = '1';
     clearTimeout(el._t);
     el._t = setTimeout(() => { el.style.opacity = '0'; }, 2500);
