@@ -71,11 +71,18 @@ function kpiCards(cards) {
     }).join('')}</div>`;
 }
 
-// 渲染表格
+// 渲染表格 (行状态优先级: danger > warning > success > info > gold)
 function renderTable(columns, rows, foot) {
     const head = `<tr>${columns.map((c) => `<th class="${c.cls || ''}">${escapeHtml(c.label)}</th>`).join('')}</tr>`;
     const body = rows.map((row) => {
-        const danger = row._danger;
+        // 行状态: _danger / _warning / _success / _info / _gold (按优先级)
+        let rowCls = '';
+        if (row._danger) rowCls = 'row-danger';
+        else if (row._warning) rowCls = 'row-warning';
+        else if (row._success) rowCls = 'row-success';
+        else if (row._gold) rowCls = 'row-gold';
+        else if (row._info) rowCls = 'row-info';
+
         const tds = columns.map((c) => {
             let val = row[c.key];
             if (c.render) val = c.render(row[c.key], row);
@@ -85,9 +92,9 @@ function renderTable(columns, rows, foot) {
             else val = escapeHtml(row[c.key]);
             return `<td class="${c.cls || ''}">${val}</td>`;
         }).join('');
-        return `<tr class="${danger ? 'row-danger' : ''}">${tds}</tr>`;
+        return `<tr class="${rowCls}">${tds}</tr>`;
     }).join('');
-    const footHtml = foot ? `<tfoot><tr style="background: var(--bg-tertiary); font-weight: 600;">${foot}</tr></tfoot>` : '';
+    const footHtml = foot ? `<tfoot><tr class="tfoot-row" style="font-weight: 600;">${foot}</tr></tfoot>` : '';
     return `<div class="card"><div class="card-body dense"><table class="data"><thead>${head}</thead><tbody>${body}</tbody>${footHtml}</table></div></div>`;
 }
 

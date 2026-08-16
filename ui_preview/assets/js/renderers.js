@@ -268,7 +268,11 @@ window.RENDERERS.hazardous_chemical = async function (main) {
                 { label: '双人双锁', key: 'lock_required', render: (v) => v ? '🔒' : '—' }, { label: '库存', key: 'stock_qty', num: true, digits: 1 }, { label: '单位', key: 'stock_unit' },
                 { label: '安全库存', key: 'safety_stock', num: true, digits: 1 },
             ],
-            rows.map((r) => ({ ...r, _danger: r.stock_qty < r.safety_stock }))
+            rows.map((r) => {
+                if (r.stock_qty < r.safety_stock) return { ...r, _danger: true };
+                if (r.stock_qty < r.safety_stock * 1.2) return { ...r, _warning: true };
+                return r;
+            })
         );
     document.getElementById('hc-submit').onclick = async () => {
         try {
@@ -356,7 +360,11 @@ window.RENDERERS.certificate = async function (main) {
                 { label: '持证人', key: 'holder' }, { label: '到期日期', key: 'expiry_date' }, { label: '距到期(天)', key: 'days_to_expire', num: true, digits: 0 },
                 { label: '状态', key: 'is_valid', render: (v) => v ? U.stateBadge('有效', 'success') : U.stateBadge('已过期', 'danger') },
             ],
-            rows.map((r) => ({ ...r, _danger: !r.is_valid || (r.is_valid && r.days_to_expire <= 30) }))
+            rows.map((r) => {
+                if (!r.is_valid) return { ...r, _danger: true };  // 已过期
+                if (r.days_to_expire <= 30) return { ...r, _warning: true };  // 即将到期
+                return r;
+            })
         );
 };
 
@@ -372,7 +380,11 @@ window.RENDERERS.attendance = async function (main) {
                 { label: '报工数', key: 'report_count', num: true, digits: 0 }, { label: '产出 (g)', key: 'output_weight_g', num: true, digits: 3 },
                 { label: '状态', key: 'attendance_state', badge: true },
             ],
-            rows.map((r) => ({ ...r, _danger: r.attendance_state === 'absent' || r.attendance_state === 'late' }))
+            rows.map((r) => {
+                if (r.attendance_state === 'absent') return { ...r, _danger: true };
+                if (r.attendance_state === 'late') return { ...r, _warning: true };
+                return r;
+            })
         );
 };
 
