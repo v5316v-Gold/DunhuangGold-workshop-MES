@@ -1,4 +1,4 @@
-# 快速启动 — 敦煌金加工车间 ERP
+# 快速启动 — DunhuangGold-workshop-MES
 
 ## 一、环境要求
 
@@ -41,7 +41,7 @@ python scripts/validate_dunhuang_gold_mes.py
 应当输出:
 ```
 ============================================================
-敦煌金加工车间 ERP — 模块验证
+DunhuangGold-workshop-MES — 模块验证
 ============================================================
 [INFO] Python 语法
   OK: __init__.py

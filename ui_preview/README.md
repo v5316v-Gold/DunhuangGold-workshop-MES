@@ -1,4 +1,4 @@
-# 敦煌金加工车间 ERP - 动态交互 UI 预览
+# DunhuangGold-workshop-MES - 离线 UI 预览（动态交互）
 
 HTML + CSS + JS 模拟 Odoo 17 风格界面,前端通过 `fetch` 调用本机 **Mock REST API** 实现动态数据渲染与交互(报工/盘点/回料/领用等)。
 

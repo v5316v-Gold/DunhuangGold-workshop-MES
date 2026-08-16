@@ -8,7 +8,7 @@
 ## 一、总体架构树状图
 
 ```
-敦煌金加工车间 ERP — ui_preview
+DunhuangGold-workshop-MES — ui_preview
 │
 ├── 1. 入口层 (HTML/CSS, 零依赖)
 │   ├── index.html                          # 单页骨架 (navbar + sidebar + main)

@@ -1,4 +1,6 @@
-# Dunhuang Gold Workshop ERP
+# DunhuangGold-workshop-MES
+
+> **Dunhuang Gold Workshop MES**: oil-press stamping + lost-wax casting, purpose-built for precious-metal jewelry (Au / K-gold / Pt / Ag / stone setting) with full **4M1E (Man / Machine / Material / Method / Environment)** coverage + post-production closed loop.
 
 > Dedicated MES-ERP for precious metal jewelry workshops — Internal version 17.0.1.1.0
 > Focus: **oil-press stamping + lost-wax casting** with 0.001g gold material tracking.
@@ -17,7 +19,7 @@
 
 A precious metal jewelry workshop has unique ERP requirements that generic systems fail to handle:
 
-| Standard ERP | Dunhuang Gold Workshop ERP |
+| Standard ERP | DunhuangGold-workshop-MES |
 |---|---|
 | Generic inventory | **Gold batch** with 0.001g precision, Au/Pt/Pd purity, **real-time gold price** |
 | Manufacturing | **Oil-press 9-step + Lost-wax 11-step** dual routes with **per-step loss rate** |

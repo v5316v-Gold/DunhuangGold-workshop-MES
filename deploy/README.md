@@ -1,4 +1,4 @@
-# 敦煌金加工车间 ERP — 部署指南
+# DunhuangGold-workshop-MES — 部署指南
 
 ## 一、Docker 部署(推荐)
 

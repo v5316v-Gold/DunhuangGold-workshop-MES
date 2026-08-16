@@ -1,4 +1,4 @@
-# REST API — 敦煌金加工车间 ERP
+# REST API — DunhuangGold-workshop-MES
 
 ## 端点列表
 
