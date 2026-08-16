@@ -13,7 +13,7 @@ async function safeFetch(main, path) {
 }
 
 // ============ 车间看板 ============
-RENDERERS.dashboard = async function (main) {
+window.RENDERERS.dashboard = async function (main) {
     const k = await safeFetch(main, '/dashboard/kpi');
     if (!k) return;
     main.innerHTML = U.pageHeader('车间看板', '<button class="btn" onclick="location.reload()">🔄 刷新</button>') +
@@ -33,12 +33,12 @@ RENDERERS.dashboard = async function (main) {
 };
 
 // ============ 金料批次 ============
-RENDERERS.material_batch = async function (main) {
+window.RENDERERS.material_batch = async function (main) {
     const rows = await safeFetch(main, '/batch/list');
     if (!rows) return;
     const totalNet = rows.reduce((s, r) => s + r.net_weight_g, 0);
     const totalAvail = rows.reduce((s, r) => s + r.available_weight_g, 0);
-    main.innerHTML = U.pageHeader('金料批次', '<button class="btn" onclick="window.RENDERERS.material_batch(document.querySelector(\'.main\'))">🔄 刷新</button>') +
+    main.innerHTML = U.pageHeader('金料批次', '<button class="btn" onclick="window.window.RENDERERS.material_batch(document.querySelector(\'.main\'))">🔄 刷新</button>') +
         U.kpiCards([
             { label: '可用库存', value: U.num(totalAvail, 3) + ' g', sub: U.money(rows.reduce((s, r) => s + r.current_value, 0)), gold: true },
             { label: '批次总数', value: rows.length, sub: '精度 0.001g' },
@@ -57,13 +57,13 @@ RENDERERS.material_batch = async function (main) {
 };
 
 // ============ 工序报工 ============
-RENDERERS.workorder_report = async function (main) {
+window.RENDERERS.workorder_report = async function (main) {
     const rows = await safeFetch(main, '/workorder_report/list');
     if (!rows) return;
     const totalInput = rows.reduce((s, r) => s + r.input_weight_g, 0);
     const totalOutput = rows.reduce((s, r) => s + r.output_weight_g, 0);
     const over = rows.filter((r) => r.is_over_loss).length;
-    main.innerHTML = U.pageHeader('工序报工', '<button class="btn" onclick="window.RENDERERS.workorder_report(document.querySelector(\'.main\'))">🔄 刷新</button>') +
+    main.innerHTML = U.pageHeader('工序报工', '<button class="btn" onclick="window.window.RENDERERS.workorder_report(document.querySelector(\'.main\'))">🔄 刷新</button>') +
         U.kpiCards([
             { label: '今日报工', value: rows.length, sub: '合格 ' + rows.filter((r) => r.quality_state === 'passed').length, success: true },
             { label: '超耗预警', value: over, sub: '需复盘', danger: over > 0 },
@@ -98,17 +98,17 @@ RENDERERS.workorder_report = async function (main) {
                 quality_state: document.getElementById('wr-quality').value === '合格' ? 'passed' : (document.getElementById('wr-quality').value === '返工' ? 'rework' : 'failed'),
             });
             U.toast('报工成功 ' + res.name + '，损耗率 ' + res.loss_rate + '%');
-            RENDERERS.workorder_report(main);
+            window.RENDERERS.workorder_report(main);
         } catch (e) { U.toast(e.message, 'error'); }
     };
 };
 
 // ============ 金料盘点单 ============
-RENDERERS.inventory_count = async function (main) {
+window.RENDERERS.inventory_count = async function (main) {
     const rows = await safeFetch(main, '/inventory/list');
     if (!rows) return;
     const cur = await get('/batch/list');
-    main.innerHTML = U.pageHeader('金料盘点单', '<button class="btn" onclick="window.RENDERERS.inventory_count(document.querySelector(\'.main\'))">🔄 刷新</button>') +
+    main.innerHTML = U.pageHeader('金料盘点单', '<button class="btn" onclick="window.window.RENDERERS.inventory_count(document.querySelector(\'.main\'))">🔄 刷新</button>') +
         `<div class="card"><div class="card-header"><h3>新建盘点</h3></div><div class="card-body">
             <div class="row" style="gap:12px; flex-wrap:wrap;">
                 <label>批次 <select id="ic-batch" style="width:220px">${cur.map((b) => `<option value="${b.id}">${b.batch_no} (${b.product})</option>`).join('')}</select></label>
@@ -131,16 +131,16 @@ RENDERERS.inventory_count = async function (main) {
             const actual = Number(document.getElementById('ic-actual').value);
             const res = await post('/inventory/count', { lines: [{ batch_id: batchId, actual_weight_g: actual }], start: true });
             U.toast('盘点单 ' + res.name + ' 已创建（状态 ' + res.state + '）');
-            RENDERERS.inventory_count(main);
+            window.RENDERERS.inventory_count(main);
         } catch (e) { U.toast(e.message, 'error'); }
     };
 };
 
 // ============ 班后回料单 ============
-RENDERERS.material_return = async function (main) {
+window.RENDERERS.material_return = async function (main) {
     const rows = await safeFetch(main, '/material_return/list');
     if (!rows) return;
-    main.innerHTML = U.pageHeader('班后回料单', '<button class="btn" onclick="window.RENDERERS.material_return(document.querySelector(\'.main\'))">🔄 刷新</button>') +
+    main.innerHTML = U.pageHeader('班后回料单', '<button class="btn" onclick="window.window.RENDERERS.material_return(document.querySelector(\'.main\'))">🔄 刷新</button>') +
         `<div class="card"><div class="card-header"><h3>回料录入</h3></div><div class="card-body">
             <div class="row" style="gap:12px; flex-wrap:wrap;">
                 <label>来源 <select id="mr-source" style="width:130px"><option value="gate">浇口料</option><option value="scrap_edge">边角料</option><option value="polish_powder">抛光粉</option></select></label>
@@ -166,16 +166,16 @@ RENDERERS.material_return = async function (main) {
                 create_new_batch: true,
             });
             U.toast('回料成功 ' + res.name);
-            RENDERERS.material_return(main);
+            window.RENDERERS.material_return(main);
         } catch (e) { U.toast(e.message, 'error'); }
     };
 };
 
 // ============ 成品入库单 ============
-RENDERERS.finished_goods = async function (main) {
+window.RENDERERS.finished_goods = async function (main) {
     const rows = await safeFetch(main, '/finished_goods/list');
     if (!rows) return;
-    main.innerHTML = U.pageHeader('成品入库单', '<button class="btn" onclick="window.RENDERERS.finished_goods(document.querySelector(\'.main\'))">🔄 刷新</button>') +
+    main.innerHTML = U.pageHeader('成品入库单', '<button class="btn" onclick="window.window.RENDERERS.finished_goods(document.querySelector(\'.main\'))">🔄 刷新</button>') +
         `<div class="card"><div class="card-header"><h3>扫码入库 (按件级 SN)</h3></div><div class="card-body">
             <div class="row" style="gap:12px; flex-wrap:wrap;">
                 <label>SN 列表 (逗号分隔) <input id="fg-sns" value="GLD-20260805-RING-0101, GLD-20260805-RING-0102" style="width:340px"></label>
@@ -195,16 +195,16 @@ RENDERERS.finished_goods = async function (main) {
             const sns = document.getElementById('fg-sns').value.split(',').map((s) => s.trim()).filter(Boolean);
             const res = await post('/finished_goods/post', { piece_sns: sns, generate_batch: false });
             U.toast('入库成功 ' + res.name + '，共 ' + res.total_piece_count + ' 件');
-            RENDERERS.finished_goods(main);
+            window.RENDERERS.finished_goods(main);
         } catch (e) { U.toast(e.message, 'error'); }
     };
 };
 
 // ============ 设备台账 ============
-RENDERERS.equipment = async function (main) {
+window.RENDERERS.equipment = async function (main) {
     const rows = await safeFetch(main, '/device/list');
     if (!rows) return;
-    main.innerHTML = U.pageHeader('设备台账', '<button class="btn" onclick="window.RENDERERS.equipment(document.querySelector(\'.main\'))">🔄 刷新</button>') +
+    main.innerHTML = U.pageHeader('设备台账', '<button class="btn" onclick="window.window.RENDERERS.equipment(document.querySelector(\'.main\'))">🔄 刷新</button>') +
         U.renderTable(
             [
                 { label: '编号', key: 'code' }, { label: '名称', key: 'name' }, { label: '类别', key: 'category' },
@@ -216,11 +216,11 @@ RENDERERS.equipment = async function (main) {
 };
 
 // ============ 环境监测 ============
-RENDERERS.environment = async function (main) {
+window.RENDERERS.environment = async function (main) {
     const rows = await safeFetch(main, '/environment/latest');
     if (!rows) return;
     const alarms = rows.filter((r) => r.state === 'alarm').length;
-    main.innerHTML = U.pageHeader('环境监测', '<button class="btn" onclick="window.RENDERERS.environment(document.querySelector(\'.main\'))">🔄 刷新</button>') +
+    main.innerHTML = U.pageHeader('环境监测', '<button class="btn" onclick="window.window.RENDERERS.environment(document.querySelector(\'.main\'))">🔄 刷新</button>') +
         U.kpiCards([
             { label: '超限报警', value: alarms, sub: '需处理', danger: alarms > 0 },
             { label: '在线传感器', value: rows.length, sub: '实时读数' },
@@ -244,16 +244,16 @@ RENDERERS.environment = async function (main) {
         try {
             const res = await post('/environment/reading', { sensor_code: document.getElementById('env-code').value, value: Number(document.getElementById('env-value').value) });
             U.toast('读数已上报，状态：' + res.state + (res.alarm_desc ? '（' + res.alarm_desc + '）' : ''));
-            RENDERERS.environment(main);
+            window.RENDERERS.environment(main);
         } catch (e) { U.toast(e.message, 'error'); }
     };
 };
 
 // ============ 危化品 ============
-RENDERERS.hazardous_chemical = async function (main) {
+window.RENDERERS.hazardous_chemical = async function (main) {
     const rows = await safeFetch(main, '/hazchem/list');
     if (!rows) return;
-    main.innerHTML = U.pageHeader('危化品管理', '<button class="btn" onclick="window.RENDERERS.hazardous_chemical(document.querySelector(\'.main\'))">🔄 刷新</button>') +
+    main.innerHTML = U.pageHeader('危化品管理', '<button class="btn" onclick="window.window.RENDERERS.hazardous_chemical(document.querySelector(\'.main\'))">🔄 刷新</button>') +
         `<div class="card"><div class="card-header"><h3>领用出库 (双人双锁)</h3></div><div class="card-body">
             <div class="row" style="gap:12px; flex-wrap:wrap;">
                 <label>危化品 <select id="hc-code" style="width:200px">${rows.map((c) => `<option value="${c.code}">${c.code} ${c.name}</option>`).join('')}</select></label>
@@ -274,16 +274,16 @@ RENDERERS.hazardous_chemical = async function (main) {
         try {
             const res = await post('/hazchem/issue', { chemical_code: document.getElementById('hc-code').value, qty: Number(document.getElementById('hc-qty').value), dual_custody_confirmed: document.getElementById('hc-dual').checked });
             U.toast('领用成功 ' + res.name);
-            RENDERERS.hazardous_chemical(main);
+            window.RENDERERS.hazardous_chemical(main);
         } catch (e) { U.toast(e.message, 'error'); }
     };
 };
 
 // ============ 能耗 ============
-RENDERERS.energy = async function (main) {
+window.RENDERERS.energy = async function (main) {
     const rows = await safeFetch(main, '/energy/latest');
     if (!rows) return;
-    main.innerHTML = U.pageHeader('能耗管理', '<button class="btn" onclick="window.RENDERERS.energy(document.querySelector(\'.main\'))">🔄 刷新</button>') +
+    main.innerHTML = U.pageHeader('能耗管理', '<button class="btn" onclick="window.window.RENDERERS.energy(document.querySelector(\'.main\'))">🔄 刷新</button>') +
         U.renderTable(
             [
                 { label: '表计编号', key: 'code' }, { label: '名称', key: 'name' }, { label: '能源', key: 'energy_type' }, { label: '层级', key: 'meter_level' },
@@ -295,10 +295,10 @@ RENDERERS.energy = async function (main) {
 };
 
 // ============ 设备维护工单 ============
-RENDERERS.maintenance = async function (main) {
+window.RENDERERS.maintenance = async function (main) {
     const rows = await safeFetch(main, '/maintenance/list');
     if (!rows) return;
-    main.innerHTML = U.pageHeader('设备维护工单', '<button class="btn" onclick="window.RENDERERS.maintenance(document.querySelector(\'.main\'))">🔄 刷新</button>') +
+    main.innerHTML = U.pageHeader('设备维护工单', '<button class="btn" onclick="window.window.RENDERERS.maintenance(document.querySelector(\'.main\'))">🔄 刷新</button>') +
         `<div class="card"><div class="card-header"><h3>新建工单</h3></div><div class="card-body">
             <div class="row" style="gap:12px; flex-wrap:wrap;">
                 <label>设备 <input id="mt-equip" value="OBP-001" style="width:120px"></label>
@@ -318,16 +318,16 @@ RENDERERS.maintenance = async function (main) {
         try {
             const res = await post('/maintenance/order', { equipment_code: document.getElementById('mt-equip').value, maintenance_type: document.getElementById('mt-type').value, priority: document.getElementById('mt-pri').value });
             U.toast('工单 ' + res.name + ' 已创建');
-            RENDERERS.maintenance(main);
+            window.RENDERERS.maintenance(main);
         } catch (e) { U.toast(e.message, 'error'); }
     };
 };
 
 // ============ 备品备件 ============
-RENDERERS.spare_part = async function (main) {
+window.RENDERERS.spare_part = async function (main) {
     const rows = await safeFetch(main, '/spare_part/list');
     if (!rows) return;
-    main.innerHTML = U.pageHeader('备品备件', '<button class="btn" onclick="window.RENDERERS.spare_part(document.querySelector(\'.main\'))">🔄 刷新</button>') +
+    main.innerHTML = U.pageHeader('备品备件', '<button class="btn" onclick="window.window.RENDERERS.spare_part(document.querySelector(\'.main\'))">🔄 刷新</button>') +
         U.renderTable(
             [
                 { label: '编号', key: 'code' }, { label: '名称', key: 'name' }, { label: '类别', key: 'category' }, { label: '适用设备', key: 'equipment' },
@@ -339,12 +339,12 @@ RENDERERS.spare_part = async function (main) {
 };
 
 // ============ 资质证书 ============
-RENDERERS.certificate = async function (main) {
+window.RENDERERS.certificate = async function (main) {
     const rows = await safeFetch(main, '/certificate/list');
     if (!rows) return;
     const expiring = rows.filter((r) => r.is_valid && r.days_to_expire <= 30).length;
     const expired = rows.filter((r) => !r.is_valid).length;
-    main.innerHTML = U.pageHeader('员工资质证书', '<button class="btn" onclick="window.RENDERERS.certificate(document.querySelector(\'.main\'))">🔄 刷新</button>') +
+    main.innerHTML = U.pageHeader('员工资质证书', '<button class="btn" onclick="window.window.RENDERERS.certificate(document.querySelector(\'.main\'))">🔄 刷新</button>') +
         U.kpiCards([
             { label: '持证有效', value: rows.filter((r) => r.is_valid).length, sub: '有效证书', success: true },
             { label: '即将到期', value: expiring, sub: '30 天内', danger: expiring > 0 },
@@ -361,10 +361,10 @@ RENDERERS.certificate = async function (main) {
 };
 
 // ============ 考勤 / 工时 ============
-RENDERERS.attendance = async function (main) {
+window.RENDERERS.attendance = async function (main) {
     const rows = await safeFetch(main, '/attendance/list');
     if (!rows) return;
-    main.innerHTML = U.pageHeader('考勤 / 工时', '<button class="btn" onclick="window.RENDERERS.attendance(document.querySelector(\'.main\'))">🔄 刷新</button>') +
+    main.innerHTML = U.pageHeader('考勤 / 工时', '<button class="btn" onclick="window.window.RENDERERS.attendance(document.querySelector(\'.main\'))">🔄 刷新</button>') +
         U.renderTable(
             [
                 { label: '员工', key: 'employee' }, { label: '班次', key: 'shift_type' }, { label: '工位', key: 'workstation' },
@@ -377,10 +377,10 @@ RENDERERS.attendance = async function (main) {
 };
 
 // ============ SOP ============
-RENDERERS.sop = async function (main) {
+window.RENDERERS.sop = async function (main) {
     const rows = await safeFetch(main, '/sop/list');
     if (!rows) return;
-    main.innerHTML = U.pageHeader('SOP 作业指导书', '<button class="btn" onclick="window.RENDERERS.sop(document.querySelector(\'.main\'))">🔄 刷新</button>') +
+    main.innerHTML = U.pageHeader('SOP 作业指导书', '<button class="btn" onclick="window.window.RENDERERS.sop(document.querySelector(\'.main\'))">🔄 刷新</button>') +
         U.renderTable(
             [
                 { label: '编号', key: 'code' }, { label: '名称', key: 'name' }, { label: '关联工序', key: 'operation' }, { label: '版本', key: 'version' },
@@ -392,10 +392,10 @@ RENDERERS.sop = async function (main) {
 };
 
 // ============ ECN ============
-RENDERERS.ecn = async function (main) {
+window.RENDERERS.ecn = async function (main) {
     const rows = await safeFetch(main, '/ecn/list');
     if (!rows) return;
-    main.innerHTML = U.pageHeader('工程变更单 (ECN)', '<button class="btn" onclick="window.RENDERERS.ecn(document.querySelector(\'.main\'))">🔄 刷新</button>') +
+    main.innerHTML = U.pageHeader('工程变更单 (ECN)', '<button class="btn" onclick="window.window.RENDERERS.ecn(document.querySelector(\'.main\'))">🔄 刷新</button>') +
         U.renderTable(
             [
                 { label: '变更单号', key: 'name' }, { label: '标题', key: 'title' }, { label: '类型', key: 'change_type' }, { label: '状态', key: 'state', badge: true },
