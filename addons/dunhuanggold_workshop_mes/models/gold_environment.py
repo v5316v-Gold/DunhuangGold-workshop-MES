@@ -41,7 +41,7 @@ class GoldEnvironmentSensor(models.Model):
     _order = "code"
     _rec_name = "name"
 
-    code = fields.Char(string="传感器编号", required=True, size=32)
+    code = fields.Char(string="传感器编号", required=True, size=32, index=True)
     name = fields.Char(string="传感器名称", required=True)
     sensor_type = fields.Selection(
         ENV_SENSOR_TYPE_SELECTION,
@@ -56,12 +56,14 @@ class GoldEnvironmentSensor(models.Model):
     location_id = fields.Many2one(
         "stock.location",
         string="监测点位",
+        index=True,
         help="电镀车间 / 钻石房 / 抛光车间 / 金库等",
     )
     location_desc = fields.Char(string="点位描述")
     workstation_id = fields.Many2one(
         "gold.workstation",
         string="关联工位",
+        index=True,
     )
     # 报警阈值
     alarm_min = fields.Float(string="报警下限", digits=(12, 3))
@@ -166,6 +168,7 @@ class GoldEnvironmentReading(models.Model):
         string="状态",
         compute="_compute_state",
         store=True,
+        index=True,
     )
     alarm_desc = fields.Char(string="报警说明", compute="_compute_state", store=True)
     source = fields.Selection(

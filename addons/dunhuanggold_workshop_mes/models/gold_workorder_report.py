@@ -63,31 +63,37 @@ class GoldWorkorderReport(models.Model):
         "mrp.production",
         string="生产订单",
         required=True,
+        index=True,
         ondelete="cascade",
     )
     workorder_id = fields.Many2one(
         "mrp.workorder",
         string="工单",
+        index=True,
         ondelete="cascade",
     )
     operation_id = fields.Many2one(
         "gold.process.operation",
         string="工序",
         required=True,
+        index=True,
     )
     workstation_id = fields.Many2one(
         "gold.workstation",
         string="工位",
+        index=True,
     )
     equipment_id = fields.Many2one(
         "gold.equipment",
         string="设备",
+        index=True,
     )
     # 人员
     operator_id = fields.Many2one(
         "res.users",
         string="操作员",
         required=True,
+        index=True,
     )
     inspector_id = fields.Many2one(
         "res.users",
@@ -181,6 +187,7 @@ class GoldWorkorderReport(models.Model):
         string="报工时间",
         required=True,
         default=fields.Datetime.now,
+        index=True,
     )
     start_time = fields.Datetime(string="开始时间")
     end_time = fields.Datetime(string="结束时间")

@@ -63,7 +63,7 @@ class GoldEquipment(models.Model):
     _order = "code"
     _rec_name = "name"
 
-    code = fields.Char(string="设备编号", required=True, size=32)
+    code = fields.Char(string="设备编号", required=True, size=32, index=True)
     name = fields.Char(string="设备名称", required=True)
     category = fields.Selection(
         EQUIPMENT_CATEGORY_SELECTION,

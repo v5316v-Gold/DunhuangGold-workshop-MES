@@ -65,6 +65,7 @@ class GoldMaterialBatch(models.Model):
         "product.product",
         string="物料",
         required=True,
+        index=True,
         domain="[('categ_id.gold_metal_type', '!=', '')]",
     )
     categ_id = fields.Many2one(
@@ -171,10 +172,12 @@ class GoldMaterialBatch(models.Model):
         default="draft",
         required=True,
         tracking=True,
+        index=True,
     )
     location_id = fields.Many2one(
         "stock.location",
         string="库存位置",
+        index=True,
         help="金库 / 半成品库 / 不良品库",
     )
     company_id = fields.Many2one(

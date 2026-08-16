@@ -47,6 +47,8 @@ from odoo import http, _, fields
 from odoo.http import request
 from odoo.exceptions import UserError, ValidationError
 
+from odoo.addons.dunhuanggold_workshop_mes.tools.rate_limit import rate_limit
+
 _logger = logging.getLogger(__name__)
 
 
@@ -151,6 +153,7 @@ class GoldMESApiController(http.Controller):
         methods=["POST"],
         csrf=False,
     )
+    @rate_limit(calls=200, period=60, key="workorder_report", scope="user")
     def api_workorder_report(self, **kwargs):
         try:
             data = json.loads(request.httprequest.data or "{}")
@@ -385,41 +388,7 @@ class GoldMESApiController(http.Controller):
         methods=["GET"],
     )
     def api_dashboard_kpi(self, **kwargs):
-        Process = request.env["mrp.production"]
-        today = fields.Date.context_today(request.env["res.users"].browse(request.uid))
-
-        # 当日完工
-        done_today = Process.search([
-            ("gold_state", "=", "done"),
-            ("date_finished", ">=", today),
-        ])
-        # 进行中
-        in_progress = Process.search([("gold_state", "=", "in_progress")])
-        # 异常工序
-        over_loss = request.env["gold.workorder.report"].search([
-            ("is_over_loss", "=", True),
-            ("report_time", ">=", today),
-        ])
-        # 模具寿命预警
-        Mold = request.env["gold.mold"]
-        critical = Mold.search([("state", "!=", "scrapped")]).filtered(
-            lambda m: m.remaining_count <= m.rated_life_count * m.life_warning_pct / 100
-        )
-
-        # 油压线 / 失蜡线分布
-        oil_press = Process.search([("gold_process_type", "=", "oil_press"), ("gold_state", "in", ["confirmed", "in_progress"])])
-        lost_wax = Process.search([("gold_process_type", "=", "lost_wax"), ("gold_state", "in", ["confirmed", "in_progress"])])
-
-        # 当前金价
-        current_price = request.env["gold.price.engine"].get_current_price("au9999")
-
-        return self._ok({
-            "today": str(today),
-            "done_today": len(done_today),
-            "in_progress": len(in_progress),
-            "over_loss_today": len(over_loss),
-            "critical_mold_count": len(critical),
-            "oil_press_orders": len(oil_press),
-            "lost_wax_orders": len(lost_wax),
-            "current_gold_price": current_price,
-        })
+        # 委托给 gold.dashboard.get_kpi() —— Phase 2 修复重复实现
+        # controller 不再持有 KPI 计算逻辑,只负责 HTTP 封装
+        data = request.env["gold.dashboard"].get_kpi()
+        return self._ok(data)

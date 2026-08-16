@@ -176,11 +176,13 @@ class GoldHazardousChemicalUsage(models.Model):
         string="领用时间",
         default=fields.Datetime.now,
         required=True,
+        index=True,
     )
     purpose = fields.Char(string="用途")
     production_id = fields.Many2one(
         "mrp.production",
         string="关联生产订单",
+        index=True,
     )
     workstation_id = fields.Many2one(
         "gold.workstation",
