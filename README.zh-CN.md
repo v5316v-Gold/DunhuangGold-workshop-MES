@@ -1,4 +1,4 @@
-﻿# DunhuangGold-workshop-MES — 油压 + 失蜡铸造
+# DunhuangGold-workshop-MES — 油压 + 失蜡铸造
 
 > **贵金属首饰加工车间 MES**：油压 + 失蜡铸造 双工艺路线，专为贵金属行业（黄金/K金/铂金/银/钻石镶嵌）打造的人机料法环全覆盖 + 生产后闭环的制造执行系统。
 ---
@@ -28,6 +28,41 @@ DunhuangGold-workshop-MES — 模块验证
 
 ✅ 全部检查通过
 ```
+
+## 最新改进（2026-08）
+
+### 后端：人机料法环 (4M1E) + 生产后闭环
+
+| 要素 | 新增模型 / 增强 |
+|------|----------------|
+| **人 (Man)** | `gold.employee.certificate`(资质证书矩阵 + 有效期自动校验) / `gold.work.attendance`(考勤/工时) |
+| **机 (Machine)** | `gold.maintenance.order`(PM/CM/BM 维护工单) / `gold.spare.part`(备品备件 + 低库存预警) |
+| **法 (Method)** | `gold.sop.document`(SOP 作业指导书 版本化) / `gold.ecn`(ECN 工程变更审批流) |
+| **环 (Environment)** | `gold.environment.sensor` / `.reading`(超限自动报警) + `gold.hazardous.chemical` / `.usage`(双人双锁领用) + `gold.energy.meter` / `.reading`(分项计量) |
+| **料 (Material)** 增强 | `gold.material.batch` 新增 `receive()` / `adjust()` 方法，盘点/回料可直接调用 |
+| **生产后** | `gold.inventory.count` + `.line`(盘盈盘亏回写) / `gold.finished.goods` + `.line`(件级 SN 入库) / `gold.material.return`(班后回料) |
+
+配套：8 个角色 / 108 条权限 / 34 个 action / 27 个 REST 端点 / 35 个主模型
+
+### 前端：动态交互 UI 预览
+
+- `ui_preview/` 32 个页面 + Node 静态服务器 + Mock REST API (对齐 Odoo 27 端点契约)
+- 16 个页面**动态化**（fetch 真实数据渲染）：看板/批次/报工/设备/环境/危化品/能耗/维护/备件/资质/考勤/SOP/ECN/盘点/成品入库/回料
+- 8 个页面**带表单交互**：报工录入 / 新建盘点 / 班后回料 / SN 扫码入库 / 危化品领用 / 环境上报 / 维护工单创建
+- 详见 `ui_preview/ARCHITECTURE.md`
+
+### 文档与项目
+
+- 完整 README.zh-CN.md / README.en.md / docs (API / DATA_MODEL / QUICKSTART) 同步
+- `CHANGELOG.md` 按 Keep a Changelog 规范记录所有变更
+- `scripts/validate_dunhuanggold_workshop_mes.py`：5 项自动验证（Python/XML/manifest/access CSV/menu action）
+
+### 项目改名（深度统一）
+
+- **项目显示名**: `DunhuangGold-workshop-MES`（README 标题 + 所有文档）
+- **Odoo 模块名**: `dunhuang_gold_mes` → `dunhuanggold_workshop_mes`（目录 + manifest + XML + Python 共 112 文件改动）
+- **API 路径**: `/dunhuang_gold_mes/api/v1/...` → `/dunhuanggold_workshop_mes/api/v1/...`
+- **GitHub 仓库名**: 保持 `Dunhuang-workshop-ERP` 不变（需在 GitHub Settings 手动 rename + 同步 remote URL）
 
 ## 技术栈
 

@@ -1,10 +1,6 @@
-﻿# DunhuangGold-workshop-MES
+# DunhuangGold-workshop-MES
 
 > **Dunhuang Gold Workshop MES**: oil-press stamping + lost-wax casting, purpose-built for precious-metal jewelry (Au / K-gold / Pt / Ag / stone setting) with full **4M1E (Man / Machine / Material / Method / Environment)** coverage + post-production closed loop.
-
-> Dedicated MES-ERP for precious metal jewelry workshops — Internal version 17.0.1.1.0
-> Focus: **oil-press stamping + lost-wax casting** with 0.001g gold material tracking.
-> Full **4M1E (Man/Machine/Material/Method/Environment)** coverage + post-production closed loop.
 
 [![CI](https://github.com/v5316v-Gold/Dunhuang-workshop-ERP/workflows/CI/badge.svg)](https://github.com/v5316v-Gold/Dunhuang-workshop-ERP/actions)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
@@ -14,6 +10,41 @@
 
 **English** | [中文](README.zh-CN.md)
 
+
+## Recent Updates (2026-08)
+
+### Backend: 4M1E (Man/Machine/Material/Method/Environment) + post-production closed loop
+
+| Element | New models / enhancements |
+|---|---|
+| **Man** | `gold.employee.certificate` (skill matrix + auto-expiry) / `gold.work.attendance` (work-hours) |
+| **Machine** | `gold.maintenance.order` (PM/CM/BM) / `gold.spare.part` (low-stock alert) |
+| **Method** | `gold.sop.document` (versioned) / `gold.ecn` (engineering change approval) |
+| **Environment** | `gold.environment.sensor` / `.reading` (threshold auto-alarm) + `gold.hazardous.chemical` / `.usage` (dual-custody) + `gold.energy.meter` / `.reading` |
+| **Material** enhancement | `gold.material.batch` new `receive()` / `adjust()` methods (for inventory & return) |
+| **Post-production** | `gold.inventory.count` + `.line` (write-back) / `gold.finished.goods` + `.line` (SN receipt) / `gold.material.return` (back-to-vault) |
+
+Plus: 8 roles / 108 access rights / 34 menu actions / 27 REST endpoints / 35 data models.
+
+### Frontend: dynamic UI preview
+
+- `ui_preview/` 32 pages + Node static server + Mock REST API (aligned to Odoo 27 endpoints)
+- 16 pages **dynamic** (fetch real data): dashboard / batches / workorder / equipment / environment / hazchem / energy / maintenance / spare_part / certificate / attendance / SOP / ECN / inventory / finished_goods / material_return
+- 8 pages **with form interaction**: workorder entry / inventory count / material return / SN scan receipt / hazchem issue / environment report / maintenance order
+- See `ui_preview/ARCHITECTURE.md`
+
+### Docs & validation
+
+- README (en/zh) / docs (API / DATA_MODEL / QUICKSTART) all in sync
+- `CHANGELOG.md` follows Keep a Changelog format
+- `scripts/validate_dunhuanggold_workshop_mes.py`: 5 checks (Python/XML/manifest/access CSV/menu action) all green
+
+### Project rename (deep unified)
+
+- **Project display name**: `DunhuangGold-workshop-MES` (README title + all docs)
+- **Odoo module**: `dunhuang_gold_mes` → `dunhuanggold_workshop_mes` (directory + manifest + XML + Python, 112 files)
+- **API path**: `/dunhuang_gold_mes/api/v1/...` → `/dunhuanggold_workshop_mes/api/v1/...`
+- **GitHub repo name**: kept as `Dunhuang-workshop-ERP` (rename via GitHub Settings + sync remote URL to complete)
 
 ## Why This Project?
 
