@@ -550,6 +550,15 @@ table.data tbody tr {
 table.data tbody tr:hover {
     background: var(--gold-muted);
 }
+
+/* 表格状态行 (深色背景下语义化标记, 左边色条 + 淡色径向渐变) */
+table.data tr.row-warning td { background: linear-gradient(90deg, var(--warning-bg) 0%, transparent 100%); border-left: 3px solid var(--warning); }
+table.data tr.row-warning td:first-child { border-left: 3px solid var(--warning); }
+table.data tr.row-danger td { background: linear-gradient(90deg, var(--error-bg) 0%, transparent 100%); border-left: 3px solid var(--error); }
+table.data tr.row-danger td:first-child { border-left: 3px solid var(--error); }
+table.data tr.row-gold td { background: linear-gradient(90deg, var(--gold-muted) 0%, transparent 100%); border-left: 3px solid var(--gold); }
+table.data tr.row-info td { background: linear-gradient(90deg, var(--info-bg) 0%, transparent 100%); border-left: 3px solid var(--info); }
+table.data tr.row-success td { background: linear-gradient(90deg, var(--success-bg) 0%, transparent 100%); border-left: 3px solid var(--success); }
 table.data tfoot td {
     background: var(--bg-tertiary);
     color: var(--gold-bright);

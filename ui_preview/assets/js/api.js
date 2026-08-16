@@ -85,9 +85,9 @@ function renderTable(columns, rows, foot) {
             else val = escapeHtml(row[c.key]);
             return `<td class="${c.cls || ''}">${val}</td>`;
         }).join('');
-        return `<tr${danger ? ' style="background:#FFEBEE;"' : ''}>${tds}</tr>`;
+        return `<tr class="${danger ? 'row-danger' : ''}">${tds}</tr>`;
     }).join('');
-    const footHtml = foot ? `<tfoot><tr style="background: var(--bg); font-weight: 600;">${foot}</tr></tfoot>` : '';
+    const footHtml = foot ? `<tfoot><tr style="background: var(--bg-tertiary); font-weight: 600;">${foot}</tr></tfoot>` : '';
     return `<div class="card"><div class="card-body dense"><table class="data"><thead>${head}</thead><tbody>${body}</tbody>${footHtml}</table></div></div>`;
 }
 
