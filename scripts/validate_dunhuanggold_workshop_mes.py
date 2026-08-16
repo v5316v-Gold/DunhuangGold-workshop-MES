@@ -8,12 +8,23 @@ import ast
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
+# 强制 UTF-8 输出,避免 Windows GBK 控制台 UnicodeEncodeError
+try:
+    sys.stdout.reconfigure(encoding="utf-8")
+    sys.stderr.reconfigure(encoding="utf-8")
+except (AttributeError, ValueError):
+    # Python < 3.7 或已被重定向时的回退
+    import io
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8", errors="replace")
+
 BASE_DIR = Path(__file__).parent.parent / "addons" / "dunhuanggold_workshop_mes"
 MANIFEST = BASE_DIR / "__manifest__.py"
 
 
 def log(name, ok):
-    sign = "✓" if ok else "✗"
+    # 用 ASCII 符号以兼容所有控制台编码
+    sign = "[OK]" if ok else "[FAIL]"
     print(f"  {sign} {name}")
     return ok
 
@@ -111,7 +122,8 @@ def check_csv():
     success = True
     csv_lines = [
         line for line in csv_path.read_text(encoding="utf-8").splitlines()
-        if line.strip() and not line.startswith("id,")
+        # 过滤 header: 形如 'id,name,...' 或 'id\tname\t...'
+        if line.strip() and not (line.startswith("id,") or line.startswith("id\t") or line.startswith("id;"))
     ]
     for line in csv_lines:
         parts = line.split(",")
@@ -182,15 +194,15 @@ def main():
     print("=" * 60)
     failed = 0
     for name, ok in results:
-        sign = "✓" if ok else "✗"
+        sign = "[OK]" if ok else "[FAIL]"
         print(f"  {sign} {name}")
         if not ok:
             failed += 1
     print()
     if failed == 0:
-        print("✅ 全部检查通过")
+        print("[PASS] 全部检查通过")
         return 0
-    print(f"❌ {failed} 项检查失败")
+    print(f"[FAIL] {failed} 项检查失败")
     return 1
 
 

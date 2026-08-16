@@ -23,7 +23,7 @@ jobs:
           python-version: '3.11'
 
       - name: Validate module structure
-        run: python scripts/validate_dunhuang_gold_mes.py
+        run: python scripts/validate_dunhuanggold_workshop_mes.py
 
   # ============================================
   # 2. 核心算法单元测试
@@ -61,7 +61,7 @@ jobs:
 
       - name: Run pyflakes
         run: |
-          pyflakes addons/dunhuang_gold_mes/models/ addons/dunhuang_gold_mes/controllers/ scripts/ tests/ || true
+          pyflakes addons/dunhuanggold_workshop_mes/models/ addons/dunhuanggold_workshop_mes/controllers/ scripts/ tests/ || true
 
   # ============================================
   # 4. YAML / 文档校验
