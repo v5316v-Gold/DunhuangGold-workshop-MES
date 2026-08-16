@@ -68,5 +68,8 @@ from . import gold_inventory
 from . import gold_finished_goods
 from . import gold_material_return
 
+# ---- 审计日志 (Phase 2) ----
+from . import gold_audit_log
+
 # 看板
 from . import gold_dashboard

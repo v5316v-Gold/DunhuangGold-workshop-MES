@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data noupdate="1">
 
@@ -67,6 +67,117 @@
             <field name="name">生产订单按公司隔离</field>
             <field name="model_id" ref="model_mrp_production"/>
             <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('group_dunhuanggold_workshop_mes_user'))]"/>
+        </record>
+
+        <!-- ============================================================
+             多公司隔离补全 (Phase 2: 覆盖剩余带 company_id 的核心表)
+             ============================================================ -->
+
+        <record id="rule_dunhuanggold_workshop_mes_company_recycle" model="ir.rule">
+            <field name="name">旧金回收按公司隔离</field>
+            <field name="model_id" ref="model_gold_recycle"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('group_dunhuanggold_workshop_mes_user'))]"/>
+        </record>
+
+        <record id="rule_dunhuanggold_workshop_mes_company_finished" model="ir.rule">
+            <field name="name">成品入库按公司隔离</field>
+            <field name="model_id" ref="model_gold_finished_goods"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('group_dunhuanggold_workshop_mes_user'))]"/>
+        </record>
+
+        <record id="rule_dunhuanggold_workshop_mes_company_inventory" model="ir.rule">
+            <field name="name">盘点单按公司隔离</field>
+            <field name="model_id" ref="model_gold_inventory_count"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('group_dunhuanggold_workshop_mes_user'))]"/>
+        </record>
+
+        <record id="rule_dunhuanggold_workshop_mes_company_material_return" model="ir.rule">
+            <field name="name">班后回料单按公司隔离</field>
+            <field name="model_id" ref="model_gold_material_return"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('group_dunhuanggold_workshop_mes_user'))]"/>
+        </record>
+
+        <record id="rule_dunhuanggold_workshop_mes_company_outsource" model="ir.rule">
+            <field name="name">委外订单按公司隔离</field>
+            <field name="model_id" ref="model_gold_outsource_order"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('group_dunhuanggold_workshop_mes_user'))]"/>
+        </record>
+
+        <record id="rule_dunhuanggold_workshop_mes_company_quality" model="ir.rule">
+            <field name="name">质检记录按公司隔离</field>
+            <field name="model_id" ref="model_gold_quality_inspection"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('group_dunhuanggold_workshop_mes_user'))]"/>
+        </record>
+
+        <!-- ============================================================
+             角色级 row-level 限制 (Phase 2)
+
+             设计原则:
+               - 班组长 / 主任 可看全部(由 leader/director implied 链保证)
+               - 普通操作员仅看自己创建 / 自己工序的记录
+               - 设备维护员: 仅看分配给自己的或草稿/已计划工单
+               - 质检员: 仅看自己录入或复核的记录
+             ============================================================ -->
+
+        <record id="rule_dunhuanggold_workshop_mes_workorder_user" model="ir.rule">
+            <field name="name">报工: 操作员仅看自己</field>
+            <field name="model_id" ref="model_gold_workorder_report"/>
+            <field name="domain_force">[
+                '|',
+                ('operator_id', '=', user.id),
+                ('state', 'in', ['confirmed', 'cancelled']),
+            ]</field>
+            <field name="groups" eval="[(4, ref('group_dunhuanggold_workshop_mes_user'))]"/>
+        </record>
+
+        <record id="rule_dunhuanggold_workshop_mes_imprint_user" model="ir.rule">
+            <field name="name">印记: 操作员仅看自己</field>
+            <field name="model_id" ref="model_gold_imprint"/>
+            <field name="domain_force">[
+                '|',
+                ('operator_id', '=', user.id),
+                ('reviewer_id', '=', user.id),
+            ]</field>
+            <field name="groups" eval="[(4, ref('group_dunhuanggold_workshop_mes_user'))]"/>
+        </record>
+
+        <record id="rule_dunhuanggold_workshop_mes_maintenance_user" model="ir.rule">
+            <field name="name">维护工单: 仅看分配给自己或草稿/已计划</field>
+            <field name="model_id" ref="model_gold_maintenance_order"/>
+            <field name="domain_force">[
+                '|',
+                ('assignee_id', '=', user.id),
+                ('state', 'in', ['draft', 'planned']),
+            ]</field>
+            <field name="groups" eval="[(4, ref('group_dunhuanggold_workshop_mes_device'))]"/>
+        </record>
+
+        <record id="rule_dunhuanggold_workshop_mes_quality_qc" model="ir.rule">
+            <field name="name">质检: 质检员仅看自己</field>
+            <field name="model_id" ref="model_gold_quality_inspection"/>
+            <field name="domain_force">[
+                '|',
+                ('inspector_id', '=', user.id),
+                ('reviewer_id', '=', user.id),
+            ]</field>
+            <field name="groups" eval="[(4, ref('group_dunhuanggold_workshop_mes_qc'))]"/>
+        </record>
+
+        <record id="rule_dunhuanggold_workshop_mes_hazchem_user" model="ir.rule">
+            <field name="name">危化品领用: 操作员仅看自己</field>
+            <field name="model_id" ref="model_gold_hazardous_chemical_usage"/>
+            <field name="domain_force">[
+                '|',
+                ('requester_id', '=', user.id),
+                ('keeper_id', '=', user.id),
+            ]</field>
             <field name="groups" eval="[(4, ref('group_dunhuanggold_workshop_mes_user'))]"/>
         </record>
 

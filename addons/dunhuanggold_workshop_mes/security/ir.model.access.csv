@@ -107,3 +107,5 @@ access_gold_finished_goods_line_director,gold.finished.goods.line.director,model
 access_gold_material_return_user,gold.material.return.user,model_gold_material_return,group_dunhuanggold_workshop_mes_user,1,1,1,0
 access_gold_material_return_warehouse,gold.material.return.warehouse,model_gold_material_return,group_dunhuanggold_workshop_mes_warehouse,1,1,1,0
 access_gold_material_return_director,gold.material.return.director,model_gold_material_return,group_dunhuanggold_workshop_mes_director,1,1,1,1
+access_gold_audit_log_director,gold.audit.log.director,model_gold_audit_log,group_dunhuanggold_workshop_mes_director,1,0,0,0
+access_gold_audit_log_leader,gold.audit.log.leader,model_gold_audit_log,group_dunhuanggold_workshop_mes_leader,1,0,0,0
