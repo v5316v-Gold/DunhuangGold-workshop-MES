@@ -1,10 +1,26 @@
-# 敦煌金加工车间 ERP - 离线 UI 预览
+# 敦煌金加工车间 ERP - 动态交互 UI 预览
 
-纯 HTML + CSS + JS 模拟 Odoo 17 风格界面,展示车间 ERP 项目的所有核心页面。
+HTML + CSS + JS 模拟 Odoo 17 风格界面,前端通过 `fetch` 调用本机 **Mock REST API** 实现动态数据渲染与交互(报工/盘点/回料/领用等)。
+
+## 动态交互说明
+
+- **数据层**: `server.js` 内置 Mock API(内存数据, 结构对齐 Odoo 27 个 REST 端点契约)
+- **前端**: `assets/js/api.js`(fetch 封装) + `renderers.js`(页面渲染 + 表单交互) + `app.js`(导航)
+- **已动态化页面**: 车间看板 / 金料批次 / 工序报工 / 设备台账 / 环境监测 / 危化品 / 能耗 / 维护工单 / 备件 / 资质 / 考勤 / SOP / ECN / 盘点 / 成品入库 / 回料
+- **可交互操作**: 报工录入、新建盘点、班后回料、扫码入库、危化品领用、环境上报、维护工单创建
+- **切换真实后端**: 修改 `api.js` 中 `API_BASE` 指向 Odoo 实例即可(接口契约一致)
 
 ## 启动方式
 
-### 方式 1: Python HTTP 服务器(推荐)
+### 方式 1: Node.js server.js (推荐, 含 Mock API)
+
+```bash
+cd ui_preview
+node server.js
+# → http://localhost:8080
+```
+
+### 方式 2: Python HTTP 服务器(仅静态, 无 API)
 
 ```bash
 cd ui_preview

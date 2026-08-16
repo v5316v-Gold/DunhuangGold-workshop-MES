@@ -117,13 +117,17 @@ async function loadPage(itemId) {
         if (!resp.ok) throw new Error("HTTP " + resp.status);
         const html = await resp.text();
         main.innerHTML = html;
+        // 动态渲染: 页面加载后调用对应 renderer
+        if (window.RENDERERS && typeof window.RENDERERS[itemId] === 'function') {
+            await window.RENDERERS[itemId](main);
+        }
     } catch (e) {
         main.innerHTML = `
             <div class="notice danger">
                 ❌ 加载失败: ${e.message}
             </div>
             <div class="notice">
-                注意: 本离线预览需要通过 HTTP 服务器访问,不能直接打开本地文件(file://)。
+                注意: 本预览需要通过 HTTP 服务器访问,不能直接打开本地文件(file://)。
             </div>
         `;
     }
