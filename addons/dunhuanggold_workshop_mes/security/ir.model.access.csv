@@ -1,4 +1,4 @@
-﻿id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_gold_measurement_user,gold.measurement.user,model_gold_measurement,group_dunhuanggold_workshop_mes_user,1,0,0,0
 access_gold_measurement_leader,gold.measurement.leader,model_gold_measurement,group_dunhuanggold_workshop_mes_leader,1,1,1,0
 access_gold_measurement_director,gold.measurement.director,model_gold_measurement,group_dunhuanggold_workshop_mes_director,1,1,1,1

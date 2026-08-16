@@ -1,4 +1,4 @@
-﻿"""
+"""
 OPC UA Bridge to Odoo MES (Stub Demo)
 ======================================
 
