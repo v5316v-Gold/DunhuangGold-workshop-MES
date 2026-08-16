@@ -1,11 +1,11 @@
-#!/bin/bash
+﻿#!/bin/bash
 # Odoo 数据库自动备份脚本
 # 保留: 每天 7 天 / 每周 12 周 / 每月 12 月
 
 set -e
 
 BACKUP_DIR="/var/backups/odoo"
-DB_NAME="${DB_NAME:-dunhuang_gold_mes}"
+DB_NAME="${DB_NAME:-dunhuanggold_workshop_mes}"
 DB_USER="${DB_USER:-odoo}"
 DB_HOST="${DB_HOST:-localhost}"
 RETENTION_DAILY=7

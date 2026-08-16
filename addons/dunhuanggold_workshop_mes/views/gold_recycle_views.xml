@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
         <record id="view_gold_recycle_tree" model="ir.ui.view">
@@ -33,21 +33,21 @@
                     <header>
                         <button name="action_inspecting" string="启动化验" type="object"
                             class="btn-primary" states="draft"
-                            groups="group_dunhuang_gold_mes_director"/>
+                            groups="group_dunhuanggold_workshop_mes_director"/>
                         <button name="action_quoted" string="报价" type="object"
                             class="btn-primary" states="inspecting"
-                            groups="group_dunhuang_gold_mes_director"/>
+                            groups="group_dunhuanggold_workshop_mes_director"/>
                         <button name="action_confirmed" string="客户确认" type="object"
                             class="btn-primary" states="quoted"
-                            groups="group_dunhuang_gold_mes_director"/>
+                            groups="group_dunhuanggold_workshop_mes_director"/>
                         <button name="action_refining" string="提纯" type="object"
                             class="btn-primary" states="confirmed"
-                            groups="group_dunhuang_gold_mes_director"/>
+                            groups="group_dunhuanggold_workshop_mes_director"/>
                         <button name="action_done" string="入库" type="object"
                             class="btn-primary" states="refining"
-                            groups="group_dunhuang_gold_mes_director"/>
+                            groups="group_dunhuanggold_workshop_mes_director"/>
                         <button name="action_cancel" string="取消" type="object"
-                            states="draft,inspecting,quoted,confirmed" groups="group_dunhuang_gold_mes_director"/>
+                            states="draft,inspecting,quoted,confirmed" groups="group_dunhuanggold_workshop_mes_director"/>
                         <field name="state" widget="statusbar"
                             statusbar_visible="draft,inspecting,quoted,confirmed,refining,done"/>
                     </header>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
         <record id="view_gold_piece_tree" model="ir.ui.view">
@@ -31,7 +31,7 @@
                 <form string="件级 SN">
                     <header>
                         <button name="action_verify" string="扫码验证" type="object"
-                            class="btn-primary" groups="group_dunhuang_gold_mes_qc"/>
+                            class="btn-primary" groups="group_dunhuanggold_workshop_mes_qc"/>
                         <field name="state" widget="statusbar"
                             statusbar_visible="draft,in_process,finished,stored,sold"/>
                     </header>

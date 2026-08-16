@@ -1,4 +1,4 @@
-[tool.ruff]
+﻿[tool.ruff]
 line-length = 100
 target-version = "py311"
 exclude = ["addons/*/static/**", "ui_preview/**", "**/__pycache__/**"]
@@ -18,8 +18,8 @@ ignore = [
 ]
 
 [tool.ruff.lint.per-file-ignores]
-"addons/dunhuang_gold_mes/models/__init__.py" = ["F401"]
-"addons/dunhuang_gold_mes/controllers/__init__.py" = ["F401"]
+"addons/dunhuanggold_workshop_mes/models/__init__.py" = ["F401"]
+"addons/dunhuanggold_workshop_mes/controllers/__init__.py" = ["F401"]
 "tests/*" = ["B011"]
 
 [tool.ruff.format]

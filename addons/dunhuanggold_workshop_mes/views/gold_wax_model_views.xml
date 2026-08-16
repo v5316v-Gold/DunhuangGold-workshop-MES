@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
         <record id="view_gold_wax_model_tree" model="ir.ui.view">
@@ -30,13 +30,13 @@
                 <form string="蜡模">
                     <header>
                         <button name="action_stock" string="入库" type="object"
-                            class="btn-primary" states="draft" groups="group_dunhuang_gold_mes_leader"/>
+                            class="btn-primary" states="draft" groups="group_dunhuanggold_workshop_mes_leader"/>
                         <button name="action_to_tree" string="组树" type="object"
-                            class="btn-primary" states="stock" groups="group_dunhuang_gold_mes_leader"/>
+                            class="btn-primary" states="stock" groups="group_dunhuanggold_workshop_mes_leader"/>
                         <button name="action_casted" string="浇铸完成" type="object"
-                            class="btn-primary" states="in_tree" groups="group_dunhuang_gold_mes_leader"/>
+                            class="btn-primary" states="in_tree" groups="group_dunhuanggold_workshop_mes_leader"/>
                         <button name="action_scrap" string="报废" type="object"
-                            states="draft,stock,in_tree" groups="group_dunhuang_gold_mes_director"/>
+                            states="draft,stock,in_tree" groups="group_dunhuanggold_workshop_mes_director"/>
                         <field name="state" widget="statusbar"
                             statusbar_visible="draft,stock,in_tree,casted"/>
                     </header>

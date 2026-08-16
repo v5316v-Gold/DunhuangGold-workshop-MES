@@ -1,15 +1,15 @@
-"""
+﻿"""
 Odoo model layer integration tests (24 tests + 6 placeholder outline)
 tests: 01-12 金料, 13-15 工序报工, 16-18 印记, 19-21 旧金, 22-24 件级 SN
 Plan: 25-30 金价/委外/集成 (supplementary)
-Run: odoo-bin -d test_db -i dunhuang_gold_mes --test-enable --test-tags=dunhuang_gold_mes
+Run: odoo-bin -d test_db -i dunhuanggold_workshop_mes --test-enable --test-tags=dunhuanggold_workshop_mes
 """
 
 from odoo.tests import TransactionCase, tagged
 from odoo.exceptions import UserError, ValidationError
 
 
-@tagged("dunhuang_gold_mes", "post_install", "-at_install")
+@tagged("dunhuanggold_workshop_mes", "post_install", "-at_install")
 class TestGoldMaterialBatch(TransactionCase):
     @classmethod
     def setUpClass(cls):
@@ -128,7 +128,7 @@ class TestGoldMaterialBatch(TransactionCase):
         self.assertEqual(b.available_weight_g, 0.0)
 
 
-@tagged('dunhuang_gold_mes', 'post_install', '-at_install')
+@tagged('dunhuanggold_workshop_mes', 'post_install', '-at_install')
 class TestGoldWorkorderReport(TransactionCase):
     @classmethod
     def setUpClass(cls):
@@ -211,7 +211,7 @@ from odoo.tests import TransactionCase, tagged
 from odoo.exceptions import ValidationError
 
 
-@tagged('dunhuang_gold_mes', 'post_install', '-at_install')
+@tagged('dunhuanggold_workshop_mes', 'post_install', '-at_install')
 class TestGoldImprint(TransactionCase):
     def test_16_three_role_separation(self):
         u = self.env['res.users'].create({'name': 'A', 'login': 'a_imprint', 'email': 'a@x.com'})
@@ -229,7 +229,7 @@ class TestGoldImprint(TransactionCase):
 from odoo.tests import TransactionCase, tagged
 from odoo.exceptions import ValidationError
 
-@tagged("dunhuang_gold_mes", "post_install", "-at_install")
+@tagged("dunhuanggold_workshop_mes", "post_install", "-at_install")
 class TestGoldImprint(TransactionCase):
 
     def test_17_content_auto(self):
@@ -300,7 +300,7 @@ class TestGoldImprint(TransactionCase):
         self.assertTrue(im.action_ocr_verify("Au 18K X NGTC"))
         self.assertFalse(im.ocr_mismatch)
 
-@tagged("dunhuang_gold_mes", "post_install", "-at_install")
+@tagged("dunhuanggold_workshop_mes", "post_install", "-at_install")
 class TestGoldRecycle(TransactionCase):
     def test_19_valuation(self):
         r = self.env["gold.recycle"].create({
@@ -339,7 +339,7 @@ class TestGoldRecycle(TransactionCase):
 
 
 # === Step 4 finish: Piece SN (test_22-24) ===
-@tagged("dunhuang_gold_mes", "post_install", "-at_install")
+@tagged("dunhuanggold_workshop_mes", "post_install", "-at_install")
 class TestGoldPiece(TransactionCase):
     def test_22_generate_sn(self):
         p = self.env["product.product"].create({

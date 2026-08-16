@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
         <!-- ============== 质量检验报告 ============== -->
@@ -6,8 +6,8 @@
             <field name="name">质量检验报告</field>
             <field name="model">gold.quality.inspection</field>
             <field name="report_type">qweb-pdf</field>
-            <field name="report_name">dunhuang_gold_mes.quality_report_template</field>
-            <field name="report_file">dunhuang_gold_mes.quality_report_template</field>
+            <field name="report_name">dunhuanggold_workshop_mes.quality_report_template</field>
+            <field name="report_file">dunhuanggold_workshop_mes.quality_report_template</field>
             <field name="print_report_name">'Quality_%s' % (object.name)</field>
             <field name="binding_model_id" ref="model_gold_quality_inspection"/>
             <field name="binding_type">report</field>
@@ -140,8 +140,8 @@
             <field name="name">XRF 含量检测报告</field>
             <field name="model">gold.xrf.record</field>
             <field name="report_type">qweb-pdf</field>
-            <field name="report_name">dunhuang_gold_mes.xrf_report_template</field>
-            <field name="report_file">dunhuang_gold_mes.xrf_report_template</field>
+            <field name="report_name">dunhuanggold_workshop_mes.xrf_report_template</field>
+            <field name="report_file">dunhuanggold_workshop_mes.xrf_report_template</field>
             <field name="print_report_name">'XRF_%s' % (object.name)</field>
             <field name="binding_model_id" ref="model_gold_xrf_record"/>
             <field name="binding_type">report</field>
@@ -243,8 +243,8 @@
             <field name="name">金料批次详情</field>
             <field name="model">gold.material.batch</field>
             <field name="report_type">qweb-pdf</field>
-            <field name="report_name">dunhuang_gold_mes.batch_report_template</field>
-            <field name="report_file">dunhuang_gold_mes.batch_report_template</field>
+            <field name="report_name">dunhuanggold_workshop_mes.batch_report_template</field>
+            <field name="report_file">dunhuanggold_workshop_mes.batch_report_template</field>
             <field name="print_report_name">'Batch_%s' % (object.batch_no)</field>
             <field name="binding_model_id" ref="model_gold_material_batch"/>
             <field name="binding_type">report</field>
@@ -295,8 +295,8 @@
             <field name="name">工序报工汇总</field>
             <field name="model">mrp.production</field>
             <field name="report_type">qweb-pdf</field>
-            <field name="report_name">dunhuang_gold_mes.workorder_summary_template</field>
-            <field name="report_file">dunhuang_gold_mes.workorder_summary_template</field>
+            <field name="report_name">dunhuanggold_workshop_mes.workorder_summary_template</field>
+            <field name="report_file">dunhuanggold_workshop_mes.workorder_summary_template</field>
             <field name="print_report_name">'WO_%s' % (object.name)</field>
             <field name="binding_model_id" ref="mrp.model_mrp_production"/>
             <field name="binding_type">report</field>
@@ -376,8 +376,8 @@
             <field name="name">委外加工单</field>
             <field name="model">gold.outsource.order</field>
             <field name="report_type">qweb-pdf</field>
-            <field name="report_name">dunhuang_gold_mes.outsource_report_template</field>
-            <field name="report_file">dunhuang_gold_mes.outsource_report_template</field>
+            <field name="report_name">dunhuanggold_workshop_mes.outsource_report_template</field>
+            <field name="report_file">dunhuanggold_workshop_mes.outsource_report_template</field>
             <field name="print_report_name">'Outsource_%s' % (object.name)</field>
             <field name="binding_model_id" ref="model_gold_outsource_order"/>
             <field name="binding_type">report</field>
@@ -432,8 +432,8 @@
             <field name="name">损耗追溯报告</field>
             <field name="model">gold.loss.trace</field>
             <field name="report_type">qweb-pdf</field>
-            <field name="report_name">dunhuang_gold_mes.loss_trace_report_template</field>
-            <field name="report_file">dunhuang_gold_mes.loss_trace_report_template</field>
+            <field name="report_name">dunhuanggold_workshop_mes.loss_trace_report_template</field>
+            <field name="report_file">dunhuanggold_workshop_mes.loss_trace_report_template</field>
             <field name="print_report_name">'LossTrace_%s' % (object.name)</field>
             <field name="binding_model_id" ref="model_gold_loss_trace"/>
             <field name="binding_type">report</field>

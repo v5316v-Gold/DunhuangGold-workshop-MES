@@ -1,4 +1,4 @@
-# DunhuangGold-workshop-MES — 油压 + 失蜡铸造
+﻿# DunhuangGold-workshop-MES — 油压 + 失蜡铸造
 
 > **贵金属首饰加工车间 MES**：油压 + 失蜡铸造 双工艺路线，专为贵金属行业（黄金/K金/铂金/银/钻石镶嵌）打造的人机料法环全覆盖 + 生产后闭环的制造执行系统。
 ---
@@ -34,7 +34,7 @@ DunhuangGold-workshop-MES — 模块验证
 | 层 | 选型 | 备注 |
 |---|---|---|
 | 框架 | Odoo 17.0 CE | Python 3.11 + PostgreSQL 15 |
-| 模块 | addons/dunhuang_gold_mes | 单一业务模块,深度定制 |
+| 模块 | addons/dunhuanggold_workshop_mes | 单一业务模块,深度定制 |
 | DB | PostgreSQL 15 | 0.001g 重量用 NUMERIC(18,6) |
 | API | Odoo HTTP Controllers | REST 形式,供 MES 工位 / 移动端调用 |
 | 设备 | OPC UA / MQTT 预留接口 | python-opcua / paho-mqtt |
@@ -110,7 +110,7 @@ DunhuangGold-workshop-MES — 模块验证
 ```
 project/
 ├── README.md                     # 本文件
-├── addons/dunhuang_gold_mes/              # Odoo 17 业务模块
+├── addons/dunhuanggold_workshop_mes/              # Odoo 17 业务模块
 │   ├── __manifest__.py
 │   ├── __init__.py
 │   ├── models/                   # 35 个主模型 (人机料法环 + 生产后)
@@ -121,7 +121,7 @@ project/
 │   ├── controllers/              # 27 个 REST API 端点
 │   └── static/                   # 看板 JS / CSS / XML
 ├── scripts/
-│   └── validate_dunhuang_gold_mes.py     # 5 项自动验证
+│   └── validate_dunhuanggold_workshop_mes.py     # 5 项自动验证
 ├── docs/
 │   ├── DATA_MODEL.md            # 模型清单 / 字段表
 │   ├── API.md                   # REST API 文档
@@ -132,7 +132,7 @@ project/
 ## 快速验证
 
 ```bash
-python scripts/validate_dunhuang_gold_mes.py
+python scripts/validate_dunhuanggold_workshop_mes.py
 ```
 
 ```
@@ -143,10 +143,10 @@ python scripts/validate_dunhuang_gold_mes.py
 
 ```bash
 # 1. 复制模块
-cp -r addons/dunhuang_gold_mes /path/to/odoo/addons/
+cp -r addons/dunhuanggold_workshop_mes /path/to/odoo/addons/
 
 # 2. 安装
-odoo-bin -d mydb -i dunhuang_gold_mes --addons-path=/path/to/addons \
+odoo-bin -d mydb -i dunhuanggold_workshop_mes --addons-path=/path/to/addons \
   --db_host=localhost -r odoo -w odoo --stop-after-init
 
 # 3. 启动
@@ -185,33 +185,33 @@ odoo-bin -d mydb --addons-path=/path/to/addons
 详见 [docs/API.md](docs/API.md)。
 
 27 个端点:
-- `POST /dunhuang_gold_mes/api/v1/login`
-- `GET /dunhuang_gold_mes/api/v1/production/{id}`
-- `GET /dunhuang_gold_mes/api/v1/workorder/by_station/{station_id}`
-- `POST /dunhuang_gold_mes/api/v1/workorder_report`
-- `GET /dunhuang_gold_mes/api/v1/batch/{batch_no}`
-- `POST /dunhuang_gold_mes/api/v1/batch/allocate`
-- `GET /dunhuang_gold_mes/api/v1/price/current`
-- `POST /dunhuang_gold_mes/api/v1/price/push`
-- `POST /dunhuang_gold_mes/api/v1/imprint/verify`
-- `POST /dunhuang_gold_mes/api/v1/xrf/save`
-- `GET /dunhuang_gold_mes/api/v1/dashboard/kpi`
-- `POST /dunhuang_gold_mes/api/v1/device/heartbeat`
-- `POST /dunhuang_gold_mes/api/v1/device/metric`
-- `GET /dunhuang_gold_mes/api/v1/device/list`
-- `POST /dunhuang_gold_mes/api/v1/environment/reading` (环)
-- `GET /dunhuang_gold_mes/api/v1/environment/latest` (环)
-- `GET /dunhuang_gold_mes/api/v1/environment/alarms` (环)
-- `GET /dunhuang_gold_mes/api/v1/hazchem/list` (环)
-- `POST /dunhuang_gold_mes/api/v1/hazchem/issue` (环)
-- `POST /dunhuang_gold_mes/api/v1/energy/reading` (环)
-- `POST /dunhuang_gold_mes/api/v1/maintenance/order` (机)
-- `GET /dunhuang_gold_mes/api/v1/maintenance/list` (机)
-- `GET /dunhuang_gold_mes/api/v1/certificate/verify` (人)
-- `POST /dunhuang_gold_mes/api/v1/inventory/count` (生产后)
-- `GET /dunhuang_gold_mes/api/v1/inventory/list` (生产后)
-- `POST /dunhuang_gold_mes/api/v1/finished_goods/post` (生产后)
-- `POST /dunhuang_gold_mes/api/v1/material_return/confirm` (生产后)
+- `POST /dunhuanggold_workshop_mes/api/v1/login`
+- `GET /dunhuanggold_workshop_mes/api/v1/production/{id}`
+- `GET /dunhuanggold_workshop_mes/api/v1/workorder/by_station/{station_id}`
+- `POST /dunhuanggold_workshop_mes/api/v1/workorder_report`
+- `GET /dunhuanggold_workshop_mes/api/v1/batch/{batch_no}`
+- `POST /dunhuanggold_workshop_mes/api/v1/batch/allocate`
+- `GET /dunhuanggold_workshop_mes/api/v1/price/current`
+- `POST /dunhuanggold_workshop_mes/api/v1/price/push`
+- `POST /dunhuanggold_workshop_mes/api/v1/imprint/verify`
+- `POST /dunhuanggold_workshop_mes/api/v1/xrf/save`
+- `GET /dunhuanggold_workshop_mes/api/v1/dashboard/kpi`
+- `POST /dunhuanggold_workshop_mes/api/v1/device/heartbeat`
+- `POST /dunhuanggold_workshop_mes/api/v1/device/metric`
+- `GET /dunhuanggold_workshop_mes/api/v1/device/list`
+- `POST /dunhuanggold_workshop_mes/api/v1/environment/reading` (环)
+- `GET /dunhuanggold_workshop_mes/api/v1/environment/latest` (环)
+- `GET /dunhuanggold_workshop_mes/api/v1/environment/alarms` (环)
+- `GET /dunhuanggold_workshop_mes/api/v1/hazchem/list` (环)
+- `POST /dunhuanggold_workshop_mes/api/v1/hazchem/issue` (环)
+- `POST /dunhuanggold_workshop_mes/api/v1/energy/reading` (环)
+- `POST /dunhuanggold_workshop_mes/api/v1/maintenance/order` (机)
+- `GET /dunhuanggold_workshop_mes/api/v1/maintenance/list` (机)
+- `GET /dunhuanggold_workshop_mes/api/v1/certificate/verify` (人)
+- `POST /dunhuanggold_workshop_mes/api/v1/inventory/count` (生产后)
+- `GET /dunhuanggold_workshop_mes/api/v1/inventory/list` (生产后)
+- `POST /dunhuanggold_workshop_mes/api/v1/finished_goods/post` (生产后)
+- `POST /dunhuanggold_workshop_mes/api/v1/material_return/confirm` (生产后)
 
 ## 工艺范围
 

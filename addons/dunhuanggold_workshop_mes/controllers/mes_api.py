@@ -1,41 +1,41 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """
 敦煌金加工车间 ERP — MES REST API
 ==============================
 
 端点列表(供工位 PDA / 移动端 / 看板调用):
 
-  POST /dunhuang_gold_mes/api/v1/login
+  POST /dunhuanggold_workshop_mes/api/v1/login
        工位登录
 
-  GET  /dunhuang_gold_mes/api/v1/production/<id>
+  GET  /dunhuanggold_workshop_mes/api/v1/production/<id>
        获取生产订单详情
 
-  GET  /dunhuang_gold_mes/api/v1/workorder/by_station/<station_id>
+  GET  /dunhuanggold_workshop_mes/api/v1/workorder/by_station/<station_id>
        工位获取当前待执行工单
 
-  POST /dunhuang_gold_mes/api/v1/workorder_report
+  POST /dunhuanggold_workshop_mes/api/v1/workorder_report
        工序报工(电子天平直采)
 
-  GET  /dunhuang_gold_mes/api/v1/batch/<batch_no>
+  GET  /dunhuanggold_workshop_mes/api/v1/batch/<batch_no>
        查询金料批次
 
-  POST /dunhuang_gold_mes/api/v1/batch/allocate
+  POST /dunhuanggold_workshop_mes/api/v1/batch/allocate
        分配批次重量
 
-  GET  /dunhuang_gold_mes/api/v1/price/current
+  GET  /dunhuanggold_workshop_mes/api/v1/price/current
        当前金价
 
-  POST /dunhuang_gold_mes/api/v1/price/push
+  POST /dunhuanggold_workshop_mes/api/v1/price/push
        推送金价(SGE / LBMA)
 
-  POST /dunhuang_gold_mes/api/v1/imprint/verify
+  POST /dunhuanggold_workshop_mes/api/v1/imprint/verify
        印记 OCR 校验
 
-  POST /dunhuang_gold_mes/api/v1/xrf/save
+  POST /dunhuanggold_workshop_mes/api/v1/xrf/save
        XRF 检测结果保存
 
-  GET  /dunhuang_gold_mes/api/v1/dashboard/kpi
+  GET  /dunhuanggold_workshop_mes/api/v1/dashboard/kpi
        看板 KPI 数据
 """
 
@@ -69,7 +69,7 @@ class GoldMESApiController(http.Controller):
 
     # ----- 1. 登录 -----
     @http.route(
-        "/dunhuang_gold_mes/api/v1/login",
+        "/dunhuanggold_workshop_mes/api/v1/login",
         type="http",
         auth="public",
         methods=["POST"],
@@ -96,7 +96,7 @@ class GoldMESApiController(http.Controller):
 
     # ----- 2. 生产订单 -----
     @http.route(
-        "/dunhuang_gold_mes/api/v1/production/<int:prod_id>",
+        "/dunhuanggold_workshop_mes/api/v1/production/<int:prod_id>",
         type="http",
         auth="user",
         methods=["GET"],
@@ -123,7 +123,7 @@ class GoldMESApiController(http.Controller):
 
     # ----- 3. 工位待执行工单 -----
     @http.route(
-        "/dunhuang_gold_mes/api/v1/workorder/by_station/<int:station_id>",
+        "/dunhuanggold_workshop_mes/api/v1/workorder/by_station/<int:station_id>",
         type="http",
         auth="user",
         methods=["GET"],
@@ -145,7 +145,7 @@ class GoldMESApiController(http.Controller):
 
     # ----- 4. 工序报工 -----
     @http.route(
-        "/dunhuang_gold_mes/api/v1/workorder_report",
+        "/dunhuanggold_workshop_mes/api/v1/workorder_report",
         type="http",
         auth="user",
         methods=["POST"],
@@ -199,7 +199,7 @@ class GoldMESApiController(http.Controller):
 
     # ----- 5. 金料批次查询 -----
     @http.route(
-        "/dunhuang_gold_mes/api/v1/batch/<string:batch_no>",
+        "/dunhuanggold_workshop_mes/api/v1/batch/<string:batch_no>",
         type="http",
         auth="user",
         methods=["GET"],
@@ -222,7 +222,7 @@ class GoldMESApiController(http.Controller):
 
     # ----- 6. 批次分配 -----
     @http.route(
-        "/dunhuang_gold_mes/api/v1/batch/allocate",
+        "/dunhuanggold_workshop_mes/api/v1/batch/allocate",
         type="http",
         auth="user",
         methods=["POST"],
@@ -252,7 +252,7 @@ class GoldMESApiController(http.Controller):
 
     # ----- 7. 当前金价 -----
     @http.route(
-        "/dunhuang_gold_mes/api/v1/price/current",
+        "/dunhuanggold_workshop_mes/api/v1/price/current",
         type="http",
         auth="user",
         methods=["GET"],
@@ -270,7 +270,7 @@ class GoldMESApiController(http.Controller):
 
     # ----- 8. 金价推送 -----
     @http.route(
-        "/dunhuang_gold_mes/api/v1/price/push",
+        "/dunhuanggold_workshop_mes/api/v1/price/push",
         type="http",
         auth="user",
         methods=["POST"],
@@ -302,7 +302,7 @@ class GoldMESApiController(http.Controller):
 
     # ----- 9. 印记 OCR 校验 -----
     @http.route(
-        "/dunhuang_gold_mes/api/v1/imprint/verify",
+        "/dunhuanggold_workshop_mes/api/v1/imprint/verify",
         type="http",
         auth="user",
         methods=["POST"],
@@ -334,7 +334,7 @@ class GoldMESApiController(http.Controller):
 
     # ----- 10. XRF 检测保存 -----
     @http.route(
-        "/dunhuang_gold_mes/api/v1/xrf/save",
+        "/dunhuanggold_workshop_mes/api/v1/xrf/save",
         type="http",
         auth="user",
         methods=["POST"],
@@ -374,7 +374,7 @@ class GoldMESApiController(http.Controller):
 
     # ----- 11. 看板 KPI -----
     @http.route(
-        "/dunhuang_gold_mes/api/v1/dashboard/kpi",
+        "/dunhuanggold_workshop_mes/api/v1/dashboard/kpi",
         type="http",
         auth="user",
         methods=["GET"],

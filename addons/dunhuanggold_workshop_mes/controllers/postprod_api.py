@@ -1,14 +1,14 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """
 敦煌金加工车间 ERP — 生产后 REST API
 =====================================
 
 生产后闭环端点(盘库 / 成品入库 / 班后回料):
 
-  POST /dunhuang_gold_mes/api/v1/inventory/count       创建金料盘点单
-  GET  /dunhuang_gold_mes/api/v1/inventory/list        盘点单列表
-  POST /dunhuang_gold_mes/api/v1/finished_goods/post   成品入库(按件级 SN)
-  POST /dunhuang_gold_mes/api/v1/material_return/confirm 班后回料
+  POST /dunhuanggold_workshop_mes/api/v1/inventory/count       创建金料盘点单
+  GET  /dunhuanggold_workshop_mes/api/v1/inventory/list        盘点单列表
+  POST /dunhuanggold_workshop_mes/api/v1/finished_goods/post   成品入库(按件级 SN)
+  POST /dunhuanggold_workshop_mes/api/v1/material_return/confirm 班后回料
 """
 
 import json
@@ -41,7 +41,7 @@ class GoldPostprodApiController(http.Controller):
 
     # ----- 金料盘点: 创建盘点单 -----
     @http.route(
-        "/dunhuang_gold_mes/api/v1/inventory/count",
+        "/dunhuanggold_workshop_mes/api/v1/inventory/count",
         type="http",
         auth="user",
         methods=["POST"],
@@ -91,7 +91,7 @@ class GoldPostprodApiController(http.Controller):
 
     # ----- 金料盘点: 列表 -----
     @http.route(
-        "/dunhuang_gold_mes/api/v1/inventory/list",
+        "/dunhuanggold_workshop_mes/api/v1/inventory/list",
         type="http",
         auth="user",
         methods=["GET"],
@@ -112,7 +112,7 @@ class GoldPostprodApiController(http.Controller):
 
     # ----- 成品入库: 按件级 SN -----
     @http.route(
-        "/dunhuang_gold_mes/api/v1/finished_goods/post",
+        "/dunhuanggold_workshop_mes/api/v1/finished_goods/post",
         type="http",
         auth="user",
         methods=["POST"],
@@ -166,7 +166,7 @@ class GoldPostprodApiController(http.Controller):
 
     # ----- 班后回料 -----
     @http.route(
-        "/dunhuang_gold_mes/api/v1/material_return/confirm",
+        "/dunhuanggold_workshop_mes/api/v1/material_return/confirm",
         type="http",
         auth="user",
         methods=["POST"],

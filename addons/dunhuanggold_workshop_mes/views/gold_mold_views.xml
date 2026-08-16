@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
         <record id="view_gold_mold_tree" model="ir.ui.view">
@@ -30,7 +30,7 @@
                 <form string="模具">
                     <header>
                         <button name="action_scrap" string="报废" type="object"
-                            states="new,in_use,idle,maintenance" groups="group_dunhuang_gold_mes_director"/>
+                            states="new,in_use,idle,maintenance" groups="group_dunhuanggold_workshop_mes_director"/>
                         <field name="state" widget="statusbar"
                             statusbar_visible="new,in_use,maintenance,scrapped"/>
                     </header>

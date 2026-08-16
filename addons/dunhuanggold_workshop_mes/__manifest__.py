@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-敦煌金加工车间 ERP — 油压 + 失蜡铸造
+DunhuangGold-workshop-MES — 油压 + 失蜡铸造
 =========================================
 
 本模块为 Odoo 17 CE 定制模块,覆盖:
@@ -15,17 +15,17 @@
   - 车间看板(总看板 / 油压线 / 失蜡线 / 金料 / 质量)
   - QWeb 报告(质检 / XRF / 工序汇总 / 批次 / 委外 / 损耗追溯)
 
-版本: dunhuang_gold_mes 17.0.1.1.0
+版本: dunhuanggold_workshop_mes 17.0.1.1.0
 适配: Odoo 17.0 CE / Python 3.11 / PostgreSQL 15
 """
 
 {
-    "name": "敦煌金加工车间 ERP — 油压 + 失蜡铸造",
+    "name": "DunhuangGold-workshop-MES — 油压 + 失蜡铸造",
     "version": "17.0.1.1.0",
-    "summary": "敦煌金加工车间专用 ERP,聚焦工艺执行 / 金料 / 损耗 / 印记",
+    "summary": "DunhuangGold-workshop-MES,聚焦工艺执行 / 金料 / 损耗 / 印记",
     "description": """
-敦煌金加工车间 ERP
-=====================
+DunhuangGold-workshop-MES
+==========================
 
 - 工艺: 油压(9 道) + 失蜡铸造(11 道)
 - 金料: 0.001g 精度 + 实时金价 + 旧金回收
@@ -55,7 +55,7 @@
     ],
     "data": [
         # 基础数据
-        "security/dunhuang_gold_mes_security.xml",
+        "security/dunhuanggold_workshop_mes_security.xml",
         "security/ir.model.access.csv",
         "data/ir_sequence_data.xml",
         "data/measurement_uom_data.xml",
@@ -103,7 +103,7 @@
         "report/gold_report_templates.xml",
     ],
     "demo": [
-        "demo/demo_dunhuang_gold_mes.xml",
+        "demo/demo_dunhuanggold_workshop_mes.xml",
     ],
     "installable": True,
     "application": True,

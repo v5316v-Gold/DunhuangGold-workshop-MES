@@ -1,4 +1,4 @@
-# ui_preview 架构梳理
+﻿# ui_preview 架构梳理
 
 > 文档化时间：今天（动态交互 + 点击修复后）
 > 范围：`ui_preview/` 全部前端 + Mock 后端的树状结构
@@ -211,7 +211,7 @@ DOMContentLoaded → app.js 初始化
 仅需修改 `assets/js/api.js`：
 
 ```js
-const API_BASE = 'https://your-odoo.example.com/dunhuang_gold_mes/api/v1';
+const API_BASE = 'https://your-odoo.example.com/dunhuanggold_workshop_mes/api/v1';
 ```
 
 接口契约已对齐 Odoo controllers，无需改前端逻辑。

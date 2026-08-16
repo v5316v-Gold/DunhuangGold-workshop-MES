@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
         <record id="view_gold_material_batch_tree" model="ir.ui.view">
@@ -38,13 +38,13 @@
                     <header>
                         <button name="action_available" string="入库" type="object"
                             class="btn-primary" states="draft"
-                            groups="group_dunhuang_gold_mes_warehouse"/>
+                            groups="group_dunhuanggold_workshop_mes_warehouse"/>
                         <button name="action_lock" string="锁定" type="object"
-                            states="available" groups="group_dunhuang_gold_mes_warehouse"/>
+                            states="available" groups="group_dunhuanggold_workshop_mes_warehouse"/>
                         <button name="action_unlock" string="解锁" type="object"
-                            states="locked" groups="group_dunhuang_gold_mes_warehouse"/>
+                            states="locked" groups="group_dunhuanggold_workshop_mes_warehouse"/>
                         <button name="action_scrap" string="报废" type="object"
-                            states="available,locked" groups="group_dunhuang_gold_mes_director"/>
+                            states="available,locked" groups="group_dunhuanggold_workshop_mes_director"/>
                         <field name="state" widget="statusbar"
                             statusbar_visible="draft,available,locked,depleted"/>
                     </header>

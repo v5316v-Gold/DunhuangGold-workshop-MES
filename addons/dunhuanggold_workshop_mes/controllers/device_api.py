@@ -1,9 +1,9 @@
-"""
+﻿"""
 敦煌金加工车间 ERP — 设备接入适配(预留)
 ====================================
 
 预留接口:
-  - MQTT 接入: dunhuang_gold_mes/api/v1/device/mqtt/payload
+  - MQTT 接入: dunhuanggold_workshop_mes/api/v1/device/mqtt/payload
   - OPC UA 桥接: 通过外部服务把 OPC UA 节点值 POST
   - Modbus 接入: 通过 Edge Gateway 转 JSON
   - 电子天平 RS-232: 通过串口服务器转 JSON
@@ -40,7 +40,7 @@ class GoldDeviceApiController(http.Controller):
     """设备接入 API(适配器层)"""
 
     @http.route(
-        "/dunhuang_gold_mes/api/v1/device/heartbeat",
+        "/dunhuanggold_workshop_mes/api/v1/device/heartbeat",
         type="http",
         auth="user",
         methods=["POST"],
@@ -82,7 +82,7 @@ class GoldDeviceApiController(http.Controller):
         })
 
     @http.route(
-        "/dunhuang_gold_mes/api/v1/device/metric",
+        "/dunhuanggold_workshop_mes/api/v1/device/metric",
         type="http",
         auth="user",
         methods=["POST"],
@@ -125,7 +125,7 @@ class GoldDeviceApiController(http.Controller):
         return _json_ok({"device_code": code, "metrics_received": list(metrics.keys())})
 
     @http.route(
-        "/dunhuang_gold_mes/api/v1/device/list",
+        "/dunhuanggold_workshop_mes/api/v1/device/list",
         type="http",
         auth="user",
         methods=["GET"],

@@ -7,9 +7,9 @@
 ### Changed
 - **项目重命名**: 敦煌金加工车间 ERP → **DunhuangGold-workshop-MES**
   - README.zh-CN.md / README.en.md / ui_preview/README.md 标题与正文同步
-  - Odoo 模块名 `dunhuang_gold_mes` 保持不变 (技术标识)
+  - Odoo 模块名 `dunhuanggold_workshop_mes` 保持不变 (技术标识)
   - GitHub 仓库名 `Dunhuang-workshop-ERP` 保持不变 (需在 GitHub Settings 重命名后再同步 remote)
-- README.en.md: 标题 Dunhuang Gold Workshop ERP
+- README.en.md: 标题 DunhuangGold-workshop-MES
 
 ### Changed
 - 项目重命名: 贵金属首饰车间 ERP → **敦煌金加工车间 ERP**

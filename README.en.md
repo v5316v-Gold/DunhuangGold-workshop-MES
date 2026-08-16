@@ -1,4 +1,4 @@
-# DunhuangGold-workshop-MES
+﻿# DunhuangGold-workshop-MES
 
 > **Dunhuang Gold Workshop MES**: oil-press stamping + lost-wax casting, purpose-built for precious-metal jewelry (Au / K-gold / Pt / Ag / stone setting) with full **4M1E (Man / Machine / Material / Method / Environment)** coverage + post-production closed loop.
 
@@ -71,20 +71,20 @@ A precious metal jewelry workshop has unique ERP requirements that generic syste
 ### 6. MES REST API
 27 endpoints for workshop terminals / mobile apps:
 ```
-POST /dunhuang_gold_mes/api/v1/login
-POST /dunhuang_gold_mes/api/v1/workorder_report      # Electronic balance → report
-POST /dunhuang_gold_mes/api/v1/price/push           # SGE / LBMA gold price push
-POST /dunhuang_gold_mes/api/v1/imprint/verify       # OCR mark check
-POST /dunhuang_gold_mes/api/v1/device/heartbeat     # Equipment OEE + status
-GET  /dunhuang_gold_mes/api/v1/dashboard/kpi        # Big-screen KPI
-POST /dunhuang_gold_mes/api/v1/environment/reading  # Env sensor reading (4M1E)
-POST /dunhuang_gold_mes/api/v1/hazchem/issue        # Hazardous chemical dual-custody issue
-POST /dunhuang_gold_mes/api/v1/energy/reading       # Energy meter reading
-POST /dunhuang_gold_mes/api/v1/maintenance/order    # Maintenance order
-GET  /dunhuang_gold_mes/api/v1/certificate/verify   # Employee certificate check
-POST /dunhuang_gold_mes/api/v1/inventory/count      # Inventory count (post-production)
-POST /dunhuang_gold_mes/api/v1/finished_goods/post  # Finished goods receipt by SN
-POST /dunhuang_gold_mes/api/v1/material_return/confirm  # Material return
+POST /dunhuanggold_workshop_mes/api/v1/login
+POST /dunhuanggold_workshop_mes/api/v1/workorder_report      # Electronic balance → report
+POST /dunhuanggold_workshop_mes/api/v1/price/push           # SGE / LBMA gold price push
+POST /dunhuanggold_workshop_mes/api/v1/imprint/verify       # OCR mark check
+POST /dunhuanggold_workshop_mes/api/v1/device/heartbeat     # Equipment OEE + status
+GET  /dunhuanggold_workshop_mes/api/v1/dashboard/kpi        # Big-screen KPI
+POST /dunhuanggold_workshop_mes/api/v1/environment/reading  # Env sensor reading (4M1E)
+POST /dunhuanggold_workshop_mes/api/v1/hazchem/issue        # Hazardous chemical dual-custody issue
+POST /dunhuanggold_workshop_mes/api/v1/energy/reading       # Energy meter reading
+POST /dunhuanggold_workshop_mes/api/v1/maintenance/order    # Maintenance order
+GET  /dunhuanggold_workshop_mes/api/v1/certificate/verify   # Employee certificate check
+POST /dunhuanggold_workshop_mes/api/v1/inventory/count      # Inventory count (post-production)
+POST /dunhuanggold_workshop_mes/api/v1/finished_goods/post  # Finished goods receipt by SN
+POST /dunhuanggold_workshop_mes/api/v1/material_return/confirm  # Material return
 ```
 
 ### 7. Workshop Dashboard
@@ -119,13 +119,13 @@ docker-compose up -d
 ### Standard (Odoo)
 ```bash
 # 1. Copy module
-cp -r addons/dunhuang_gold_mes /path/to/odoo/addons/
+cp -r addons/dunhuanggold_workshop_mes /path/to/odoo/addons/
 
 # 2. Validate
-python scripts/validate_dunhuang_gold_mes.py
+python scripts/validate_dunhuanggold_workshop_mes.py
 
 # 3. Install
-odoo-bin -d mydb -i dunhuang_gold_mes --addons-path=/path/to/addons --stop-after-init
+odoo-bin -d mydb -i dunhuanggold_workshop_mes --addons-path=/path/to/addons --stop-after-init
 
 # 4. Start
 odoo-bin -d mydb
@@ -138,7 +138,7 @@ See [deploy/README.md](deploy/README.md).
 
 ```bash
 # 5 checks all green
-python scripts/validate_dunhuang_gold_mes.py
+python scripts/validate_dunhuanggold_workshop_mes.py
 
 # 35 unit tests all pass
 python -m unittest discover -s tests -p 'test_*.py' -v

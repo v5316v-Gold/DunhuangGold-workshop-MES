@@ -1,4 +1,4 @@
-# DunhuangGold-workshop-MES — 部署指南
+﻿# DunhuangGold-workshop-MES — 部署指南
 
 ## 一、Docker 部署(推荐)
 
@@ -35,28 +35,28 @@ admin / YourAdminPwd
 
 ### 3. 第一次启动
 
-- 自动初始化数据库 `dunhuang_gold_mes`
-- 自动安装 `dunhuang_gold_mes` 模块
+- 自动初始化数据库 `dunhuanggold_workshop_mes`
+- 自动安装 `dunhuanggold_workshop_mes` 模块
 - 自动创建演示数据(如 demo 启用)
 
 ### 4. 访问
 
 - Odoo 主界面:http://localhost
-- 看板(OWL):http://localhost/dunhuang_gold_mes
-- MES REST API:http://localhost/dunhuang_gold_mes/api/v1/...
+- 看板(OWL):http://localhost/dunhuanggold_workshop_mes
+- MES REST API:http://localhost/dunhuanggold_workshop_mes/api/v1/...
 
 ### 5. 备份
 
 - 自动备份:每天凌晨 2 点,保留 7 天 / 12 周 / 12 月
 - 备份路径:`./backups/`(容器内 `/backups/`)
-- 备份格式:`dunhuang_gold_mes_YYYYMMDD_HHMMSS.dump`(PostgreSQL 自定义格式)
+- 备份格式:`dunhuanggold_workshop_mes_YYYYMMDD_HHMMSS.dump`(PostgreSQL 自定义格式)
 
 ```bash
 # 手动备份
-docker-compose exec postgres pg_dump -U odoo -Fc dunhuang_gold_mes > my_backup.dump
+docker-compose exec postgres pg_dump -U odoo -Fc dunhuanggold_workshop_mes > my_backup.dump
 
 # 恢复
-docker-compose exec -T postgres pg_restore -U odoo -d dunhuang_gold_mes --clean < my_backup.dump
+docker-compose exec -T postgres pg_restore -U odoo -d dunhuanggold_workshop_mes --clean < my_backup.dump
 ```
 
 ### 6. 升级
@@ -72,7 +72,7 @@ docker-compose build odoo
 docker-compose up -d
 
 # 4. 升级模块
-docker-compose exec odoo odoo -u dunhuang_gold_mes -d dunhuang_gold_mes --stop-after-init
+docker-compose exec odoo odoo -u dunhuanggold_workshop_mes -d dunhuanggold_workshop_mes --stop-after-init
 ```
 
 ## 二、systemd 部署(物理机)
@@ -93,8 +93,8 @@ apt-get install -y postgresql-15
 ### 2. 复制模块
 
 ```bash
-cp -r addons/dunhuang_gold_mes /usr/lib/python3/dist-packages/odoo/addons/
-chown -R odoo:odoo /usr/lib/python3/dist-packages/odoo/addons/dunhuang_gold_mes
+cp -r addons/dunhuanggold_workshop_mes /usr/lib/python3/dist-packages/odoo/addons/
+chown -R odoo:odoo /usr/lib/python3/dist-packages/odoo/addons/dunhuanggold_workshop_mes
 ```
 
 ### 3. 配置
@@ -120,7 +120,7 @@ systemctl status odoo
 ### 5. 安装模块
 
 ```bash
-sudo -u odoo odoo -d dunhuang_gold_mes -i dunhuang_gold_mes --stop-after-init
+sudo -u odoo odoo -d dunhuanggold_workshop_mes -i dunhuanggold_workshop_mes --stop-after-init
 ```
 
 ## 三、监控
@@ -138,7 +138,7 @@ curl http://localhost:8069/web/health
 ### 3. 看板 KPI
 
 ```bash
-curl http://localhost:8069/dunhuang_gold_mes/api/v1/dashboard/kpi
+curl http://localhost:8069/dunhuanggold_workshop_mes/api/v1/dashboard/kpi
 ```
 
 ## 四、生产加固
@@ -181,17 +181,17 @@ ufw deny 5432/tcp  # 禁止直连 PostgreSQL
 
 ```bash
 # 备份源
-docker exec -t postgres pg_dump -U odoo -Fc dunhuang_gold_mes > source.dump
+docker exec -t postgres pg_dump -U odoo -Fc dunhuanggold_workshop_mes > source.dump
 
 # 恢复目标
-docker exec -i postgres pg_restore -U odoo -d dunhuang_gold_mes --clean < source.dump
+docker exec -i postgres pg_restore -U odoo -d dunhuanggold_workshop_mes --clean < source.dump
 ```
 
 ### 2. 模块迁移
 
 ```bash
-# 复制 addons/dunhuang_gold_mes/
-rsync -az addons/dunhuang_gold_mes/ target:/usr/lib/python3/dist-packages/odoo/addons/dunhuang_gold_mes/
+# 复制 addons/dunhuanggold_workshop_mes/
+rsync -az addons/dunhuanggold_workshop_mes/ target:/usr/lib/python3/dist-packages/odoo/addons/dunhuanggold_workshop_mes/
 ```
 
 ## 六、常见问题
@@ -207,14 +207,14 @@ NUMERIC(18,6) = 18 位整数 + 6 位小数 = 0.001g 精度。
 ### Q3:金价 API 推送?
 
 ```bash
-curl -X POST http://localhost:8069/dunhuang_gold_mes/api/v1/price/push \
+curl -X POST http://localhost:8069/dunhuanggold_workshop_mes/api/v1/price/push \
   -u user:pass \
   -d '{"price_close": 582.5, "gold_type": "au9999", "source": "sge"}'
 ```
 
 ### Q4:设备接入?
 
-参考 `docs/API.md` 的 `/dunhuang_gold_mes/api/v1/device/metric` 端点。
+参考 `docs/API.md` 的 `/dunhuanggold_workshop_mes/api/v1/device/metric` 端点。
 OPC UA / MQTT / RS-232 适配器示例:
 
 ```python
@@ -225,7 +225,7 @@ import requests
 def on_message(client, userdata, msg):
     payload = json.loads(msg.payload)
     requests.post(
-        "http://odoo:8069/dunhuang_gold_mes/api/v1/device/metric",
+        "http://odoo:8069/dunhuanggold_workshop_mes/api/v1/device/metric",
         json=payload,
         auth=("admin", "pwd"),
     )
@@ -233,7 +233,7 @@ def on_message(client, userdata, msg):
 client = mqtt.Client()
 client.on_message = on_message
 client.connect("emqx", 1883)
-client.subscribe("dunhuang_gold_mes/device/+/metric")
+client.subscribe("dunhuanggold_workshop_mes/device/+/metric")
 client.loop_forever()
 ```
 

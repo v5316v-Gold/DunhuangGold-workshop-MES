@@ -8,7 +8,7 @@ import ast
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
-BASE_DIR = Path(__file__).parent.parent / "addons" / "dunhuang_gold_mes"
+BASE_DIR = Path(__file__).parent.parent / "addons" / "dunhuanggold_workshop_mes"
 MANIFEST = BASE_DIR / "__manifest__.py"
 
 

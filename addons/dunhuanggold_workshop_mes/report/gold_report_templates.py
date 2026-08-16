@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """
 敦煌金加工车间 ERP — 报告模型
 ==========================
@@ -33,7 +33,7 @@ class GoldReportMixin(models.AbstractModel):
 
 
 class GoldQualityReport(models.AbstractModel):
-    _name = "report.dunhuang_gold_mes.quality_report"
+    _name = "report.dunhuanggold_workshop_mes.quality_report"
     _description = "质量检验报告(QWeb)"
 
     @api.model
@@ -48,7 +48,7 @@ class GoldQualityReport(models.AbstractModel):
 
 
 class GoldXrfReport(models.AbstractModel):
-    _name = "report.dunhuang_gold_mes.xrf_report"
+    _name = "report.dunhuanggold_workshop_mes.xrf_report"
     _description = "XRF 含量检测报告(QWeb)"
 
     @api.model
@@ -71,7 +71,7 @@ class GoldXrfReport(models.AbstractModel):
 
 
 class GoldBatchReport(models.AbstractModel):
-    _name = "report.dunhuang_gold_mes.batch_report"
+    _name = "report.dunhuanggold_workshop_mes.batch_report"
     _description = "金料批次详情报告(QWeb)"
 
     @api.model
@@ -86,7 +86,7 @@ class GoldBatchReport(models.AbstractModel):
 
 
 class GoldWorkorderReport(models.AbstractModel):
-    _name = "report.dunhuang_gold_mes.workorder_summary"
+    _name = "report.dunhuanggold_workshop_mes.workorder_summary"
     _description = "工序报工汇总报告(QWeb)"
 
     @api.model
@@ -105,7 +105,7 @@ class GoldWorkorderReport(models.AbstractModel):
 
 
 class GoldOutsourceReport(models.AbstractModel):
-    _name = "report.dunhuang_gold_mes.outsource_report"
+    _name = "report.dunhuanggold_workshop_mes.outsource_report"
     _description = "委外加工单报告(QWeb)"
 
     @api.model
@@ -120,7 +120,7 @@ class GoldOutsourceReport(models.AbstractModel):
 
 
 class GoldLossTraceReport(models.AbstractModel):
-    _name = "report.dunhuang_gold_mes.loss_trace_report"
+    _name = "report.dunhuanggold_workshop_mes.loss_trace_report"
     _description = "损耗追溯报告(QWeb)"
 
     @api.model

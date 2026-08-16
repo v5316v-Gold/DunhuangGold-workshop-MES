@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
         <record id="view_gold_outsource_order_tree" model="ir.ui.view">
@@ -37,22 +37,22 @@
                     <header>
                         <button name="action_issue" string="发料" type="object"
                             class="btn-primary" states="draft"
-                            groups="group_dunhuang_gold_mes_warehouse"/>
+                            groups="group_dunhuanggold_workshop_mes_warehouse"/>
                         <button name="action_processing" string="加工中" type="object"
                             class="btn-primary" states="issued"
-                            groups="group_dunhuang_gold_mes_leader"/>
+                            groups="group_dunhuanggold_workshop_mes_leader"/>
                         <button name="action_receive" string="收回" type="object"
                             class="btn-primary" states="issued,processing"
                             context="{'default_incoming_weight_g': 0, 'default_incoming_piece_count': 0}"
-                            groups="group_dunhuang_gold_mes_warehouse"/>
+                            groups="group_dunhuanggold_workshop_mes_warehouse"/>
                         <button name="action_invoice" string="结算" type="object"
                             class="btn-primary" states="received"
-                            groups="group_dunhuang_gold_mes_director"/>
+                            groups="group_dunhuanggold_workshop_mes_director"/>
                         <button name="action_close" string="关闭" type="object"
                             class="btn-primary" states="received,invoiced"
-                            groups="group_dunhuang_gold_mes_director"/>
+                            groups="group_dunhuanggold_workshop_mes_director"/>
                         <button name="action_cancel" string="取消" type="object"
-                            states="draft,issued,processing" groups="group_dunhuang_gold_mes_director"/>
+                            states="draft,issued,processing" groups="group_dunhuanggold_workshop_mes_director"/>
                         <field name="state" widget="statusbar"
                             statusbar_visible="draft,issued,processing,received,closed"/>
                     </header>

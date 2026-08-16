@@ -1,4 +1,4 @@
-#!/bin/bash
+﻿#!/bin/bash
 # Odoo 容器入口 - 等待 PostgreSQL 就绪 + 模块初始化
 set -e
 
@@ -18,9 +18,9 @@ if [ ! -f /mnt/odoo/.initialized ]; then
     --db_port=5432 \
     --db_user=odoo \
     --db_password=odoo \
-    --db_name=dunhuang_gold_mes \
+    --db_name=dunhuanggold_workshop_mes \
     --addons-path=/mnt/odoo/addons \
-    --init=base,dunhuang_gold_mes \
+    --init=base,dunhuanggold_workshop_mes \
     --stop-after-init \
     --without-demo=False
 
@@ -35,6 +35,6 @@ exec odoo \
   --db_port=5432 \
   --db_user=odoo \
   --db_password=odoo \
-  --db_name=dunhuang_gold_mes \
+  --db_name=dunhuanggold_workshop_mes \
   --addons-path=/mnt/odoo/addons \
   --config=/etc/odoo/odoo.conf

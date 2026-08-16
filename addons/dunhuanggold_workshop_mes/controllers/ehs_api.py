@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """
 敦煌金加工车间 ERP — 人机料法环补全 REST API
 =============================================
@@ -6,19 +6,19 @@
 新增端点(人机料法环之「环 / 机 / 人」):
 
   环 (Environment):
-    POST /dunhuang_gold_mes/api/v1/environment/reading   环境读数上报
-    GET  /dunhuang_gold_mes/api/v1/environment/latest    最新环境读数
-    GET  /dunhuang_gold_mes/api/v1/environment/alarms    环境超限报警
-    POST /dunhuang_gold_mes/api/v1/hazchem/issue         危化品领用(双人双锁)
-    GET  /dunhuang_gold_mes/api/v1/hazchem/list          危化品台账列表
-    POST /dunhuang_gold_mes/api/v1/energy/reading        能耗读数上报
+    POST /dunhuanggold_workshop_mes/api/v1/environment/reading   环境读数上报
+    GET  /dunhuanggold_workshop_mes/api/v1/environment/latest    最新环境读数
+    GET  /dunhuanggold_workshop_mes/api/v1/environment/alarms    环境超限报警
+    POST /dunhuanggold_workshop_mes/api/v1/hazchem/issue         危化品领用(双人双锁)
+    GET  /dunhuanggold_workshop_mes/api/v1/hazchem/list          危化品台账列表
+    POST /dunhuanggold_workshop_mes/api/v1/energy/reading        能耗读数上报
 
   机 (Machine):
-    POST /dunhuang_gold_mes/api/v1/maintenance/order     设备维护工单上报
-    GET  /dunhuang_gold_mes/api/v1/maintenance/list      维护工单列表
+    POST /dunhuanggold_workshop_mes/api/v1/maintenance/order     设备维护工单上报
+    GET  /dunhuanggold_workshop_mes/api/v1/maintenance/list      维护工单列表
 
   人 (Man):
-    GET  /dunhuang_gold_mes/api/v1/certificate/verify    人员资质校验
+    GET  /dunhuanggold_workshop_mes/api/v1/certificate/verify    人员资质校验
 """
 
 import json
@@ -51,7 +51,7 @@ class GoldEhsApiController(http.Controller):
 
     # ----- 环: 环境读数上报 -----
     @http.route(
-        "/dunhuang_gold_mes/api/v1/environment/reading",
+        "/dunhuanggold_workshop_mes/api/v1/environment/reading",
         type="http",
         auth="user",
         methods=["POST"],
@@ -93,7 +93,7 @@ class GoldEhsApiController(http.Controller):
 
     # ----- 环: 最新环境读数 -----
     @http.route(
-        "/dunhuang_gold_mes/api/v1/environment/latest",
+        "/dunhuanggold_workshop_mes/api/v1/environment/latest",
         type="http",
         auth="user",
         methods=["GET"],
@@ -125,7 +125,7 @@ class GoldEhsApiController(http.Controller):
 
     # ----- 环: 环境超限报警 -----
     @http.route(
-        "/dunhuang_gold_mes/api/v1/environment/alarms",
+        "/dunhuanggold_workshop_mes/api/v1/environment/alarms",
         type="http",
         auth="user",
         methods=["GET"],
@@ -148,7 +148,7 @@ class GoldEhsApiController(http.Controller):
 
     # ----- 环: 危化品台账列表 -----
     @http.route(
-        "/dunhuang_gold_mes/api/v1/hazchem/list",
+        "/dunhuanggold_workshop_mes/api/v1/hazchem/list",
         type="http",
         auth="user",
         methods=["GET"],
@@ -169,7 +169,7 @@ class GoldEhsApiController(http.Controller):
 
     # ----- 环: 危化品领用 -----
     @http.route(
-        "/dunhuang_gold_mes/api/v1/hazchem/issue",
+        "/dunhuanggold_workshop_mes/api/v1/hazchem/issue",
         type="http",
         auth="user",
         methods=["POST"],
@@ -218,7 +218,7 @@ class GoldEhsApiController(http.Controller):
 
     # ----- 环: 能耗读数上报 -----
     @http.route(
-        "/dunhuang_gold_mes/api/v1/energy/reading",
+        "/dunhuanggold_workshop_mes/api/v1/energy/reading",
         type="http",
         auth="user",
         methods=["POST"],
@@ -260,7 +260,7 @@ class GoldEhsApiController(http.Controller):
 
     # ----- 机: 维护工单上报 -----
     @http.route(
-        "/dunhuang_gold_mes/api/v1/maintenance/order",
+        "/dunhuanggold_workshop_mes/api/v1/maintenance/order",
         type="http",
         auth="user",
         methods=["POST"],
@@ -300,7 +300,7 @@ class GoldEhsApiController(http.Controller):
 
     # ----- 机: 维护工单列表 -----
     @http.route(
-        "/dunhuang_gold_mes/api/v1/maintenance/list",
+        "/dunhuanggold_workshop_mes/api/v1/maintenance/list",
         type="http",
         auth="user",
         methods=["GET"],
@@ -322,7 +322,7 @@ class GoldEhsApiController(http.Controller):
 
     # ----- 人: 资质校验 -----
     @http.route(
-        "/dunhuang_gold_mes/api/v1/certificate/verify",
+        "/dunhuanggold_workshop_mes/api/v1/certificate/verify",
         type="http",
         auth="user",
         methods=["GET"],

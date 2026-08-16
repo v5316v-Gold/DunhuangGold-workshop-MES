@@ -1,4 +1,4 @@
-# 快速启动 — DunhuangGold-workshop-MES
+﻿# 快速启动 — DunhuangGold-workshop-MES
 
 ## 一、环境要求
 
@@ -12,9 +12,9 @@
 ```
 project/
 ├── addons/
-│   └── dunhuang_gold_mes/                # 主业务模块
+│   └── dunhuanggold_workshop_mes/                # 主业务模块
 ├── scripts/
-│   └── validate_dunhuang_gold_mes.py    # 验证脚本
+│   └── validate_dunhuanggold_workshop_mes.py    # 验证脚本
 ├── docs/
 │   ├── DATA_MODEL.md
 │   ├── API.md
@@ -29,13 +29,13 @@ project/
 ### 1. 复制模块到 Odoo addons 路径
 
 ```bash
-cp -r addons/dunhuang_gold_mes /path/to/odoo/addons/
+cp -r addons/dunhuanggold_workshop_mes /path/to/odoo/addons/
 ```
 
 ### 2. 验证模块完整性
 
 ```bash
-python scripts/validate_dunhuang_gold_mes.py
+python scripts/validate_dunhuanggold_workshop_mes.py
 ```
 
 应当输出:
@@ -63,7 +63,7 @@ DunhuangGold-workshop-MES — 模块验证
 **方法 A: 命令行**
 
 ```bash
-odoo-bin -d mydb -i dunhuang_gold_mes \
+odoo-bin -d mydb -i dunhuanggold_workshop_mes \
   --addons-path=/path/to/addons \
   --db_host=localhost -r odoo -w odoo \
   --stop-after-init
@@ -157,7 +157,7 @@ odoo-bin -d mydb -i dunhuang_gold_mes \
 ### 简单示例:工序报工
 
 ```bash
-curl -X POST http://localhost:8069/dunhuang_gold_mes/api/v1/workorder_report \
+curl -X POST http://localhost:8069/dunhuanggold_workshop_mes/api/v1/workorder_report \
   -H "Content-Type: application/json" \
   -d '{
     "production_id": 42,
@@ -185,13 +185,13 @@ model.cron_id = 'gold.price.engine.update_batch_prices'
 pg_dump -Fc mydb > mydb.dump
 
 # 文件级
-tar -czf addons.tar.gz addons/dunhuang_gold_mes/
+tar -czf addons.tar.gz addons/dunhuanggold_workshop_mes/
 ```
 
 ### 监控
 
 - Prometheus 抓取 `/metrics`(需 OCA 监控模块)
-- 看板 KPI: `GET /dunhuang_gold_mes/api/v1/dashboard/kpi`
+- 看板 KPI: `GET /dunhuanggold_workshop_mes/api/v1/dashboard/kpi`
 
 ## 八、扩展
 
@@ -212,7 +212,7 @@ tar -czf addons.tar.gz addons/dunhuang_gold_mes/
 
 1. 修改对应设备的 `protocol` / `ip_address` / `port` / `device_node_id`
 2. 编写外部协议适配器(OPC UA / MQTT / RS-232)
-3. 适配器调用 `POST /dunhuang_gold_mes/api/v1/device/metric` 上报
+3. 适配器调用 `POST /dunhuanggold_workshop_mes/api/v1/device/metric` 上报
 
 ### 信创环境
 

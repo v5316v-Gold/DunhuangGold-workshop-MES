@@ -1,4 +1,4 @@
-## 变更说明
+﻿## 变更说明
 
 <!-- 简述本次变更 -->
 
@@ -22,7 +22,7 @@ Closes #
 
 ## 测试
 
-- [ ] 单元测试通过 (`python scripts/validate_dunhuang_gold_mes.py`)
+- [ ] 单元测试通过 (`python scripts/validate_dunhuanggold_workshop_mes.py`)
 - [ ] 核心算法测试通过 (`python tests/test_gold_algo.py`)
 - [ ] 已在 Odoo 17 实环境验证
 - [ ] 回归测试通过
