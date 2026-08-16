@@ -33,6 +33,8 @@ from datetime import datetime
 from odoo import http, fields
 from odoo.http import request
 
+from odoo.addons.dunhuanggold_workshop_mes.tools.rate_limit import rate_limit
+
 _logger = logging.getLogger(__name__)
 
 
@@ -46,6 +48,7 @@ class GoldDeviceApiController(http.Controller):
         methods=["POST"],
         csrf=False,
     )
+    @rate_limit(calls=600, period=60, key="device_heartbeat", scope="ip")
     def device_heartbeat(self, **kwargs):
         """
         设备心跳上报
@@ -88,6 +91,7 @@ class GoldDeviceApiController(http.Controller):
         methods=["POST"],
         csrf=False,
     )
+    @rate_limit(calls=600, period=60, key="device_metric", scope="ip")
     def device_metric(self, **kwargs):
         """
         设备度量上报(用于实时采集)

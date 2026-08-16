@@ -28,6 +28,8 @@ from odoo import http, fields
 from odoo.http import request
 from odoo.exceptions import UserError, ValidationError
 
+from odoo.addons.dunhuanggold_workshop_mes.tools.rate_limit import rate_limit
+
 _logger = logging.getLogger(__name__)
 
 
@@ -57,6 +59,7 @@ class GoldEhsApiController(http.Controller):
         methods=["POST"],
         csrf=False,
     )
+    @rate_limit(calls=300, period=60, key="environment_reading", scope="ip")
     def environment_reading(self, **kwargs):
         try:
             data = json.loads(request.httprequest.data or "{}")
@@ -175,6 +178,7 @@ class GoldEhsApiController(http.Controller):
         methods=["POST"],
         csrf=False,
     )
+    @rate_limit(calls=60, period=60, key="hazchem_issue", scope="user")
     def hazchem_issue(self, **kwargs):
         try:
             data = json.loads(request.httprequest.data or "{}")
@@ -224,6 +228,7 @@ class GoldEhsApiController(http.Controller):
         methods=["POST"],
         csrf=False,
     )
+    @rate_limit(calls=300, period=60, key="energy_reading", scope="ip")
     def energy_reading(self, **kwargs):
         try:
             data = json.loads(request.httprequest.data or "{}")
@@ -266,6 +271,7 @@ class GoldEhsApiController(http.Controller):
         methods=["POST"],
         csrf=False,
     )
+    @rate_limit(calls=30, period=60, key="maintenance_order", scope="user")
     def maintenance_order(self, **kwargs):
         try:
             data = json.loads(request.httprequest.data or "{}")

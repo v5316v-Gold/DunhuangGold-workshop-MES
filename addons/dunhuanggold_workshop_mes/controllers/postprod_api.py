@@ -18,6 +18,8 @@ from odoo import http, fields
 from odoo.http import request
 from odoo.exceptions import UserError, ValidationError
 
+from odoo.addons.dunhuanggold_workshop_mes.tools.rate_limit import rate_limit
+
 _logger = logging.getLogger(__name__)
 
 
@@ -47,6 +49,7 @@ class GoldPostprodApiController(http.Controller):
         methods=["POST"],
         csrf=False,
     )
+    @rate_limit(calls=30, period=60, key="inventory_count", scope="user")
     def inventory_count(self, **kwargs):
         try:
             data = json.loads(request.httprequest.data or "{}")
@@ -118,6 +121,7 @@ class GoldPostprodApiController(http.Controller):
         methods=["POST"],
         csrf=False,
     )
+    @rate_limit(calls=60, period=60, key="finished_goods_post", scope="user")
     def finished_goods_post(self, **kwargs):
         try:
             data = json.loads(request.httprequest.data or "{}")
@@ -172,6 +176,7 @@ class GoldPostprodApiController(http.Controller):
         methods=["POST"],
         csrf=False,
     )
+    @rate_limit(calls=60, period=60, key="material_return_confirm", scope="user")
     def material_return_confirm(self, **kwargs):
         try:
             data = json.loads(request.httprequest.data or "{}")

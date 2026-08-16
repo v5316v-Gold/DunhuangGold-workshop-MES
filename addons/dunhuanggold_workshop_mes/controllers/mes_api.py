@@ -236,6 +236,7 @@ class GoldMESApiController(http.Controller):
         methods=["POST"],
         csrf=False,
     )
+    @rate_limit(calls=200, period=60, key="batch_allocate", scope="user")
     def api_batch_allocate(self, **kwargs):
         try:
             data = json.loads(request.httprequest.data or "{}")
@@ -284,6 +285,7 @@ class GoldMESApiController(http.Controller):
         methods=["POST"],
         csrf=False,
     )
+    @rate_limit(calls=60, period=60, key="price_push", scope="user")
     def api_price_push(self, **kwargs):
         try:
             data = json.loads(request.httprequest.data or "{}")
@@ -316,6 +318,7 @@ class GoldMESApiController(http.Controller):
         methods=["POST"],
         csrf=False,
     )
+    @rate_limit(calls=200, period=60, key="imprint_verify", scope="user")
     def api_imprint_verify(self, **kwargs):
         try:
             data = json.loads(request.httprequest.data or "{}")
@@ -348,6 +351,7 @@ class GoldMESApiController(http.Controller):
         methods=["POST"],
         csrf=False,
     )
+    @rate_limit(calls=200, period=60, key="xrf_save", scope="user")
     def api_xrf_save(self, **kwargs):
         try:
             data = json.loads(request.httprequest.data or "{}")
