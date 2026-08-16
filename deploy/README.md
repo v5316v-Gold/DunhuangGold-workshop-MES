@@ -1,4 +1,4 @@
-﻿# DunhuangGold-workshop-MES — 部署指南
+# DunhuangGold-workshop-MES — 部署指南
 
 ## 一、Docker 部署(推荐)
 
@@ -13,8 +13,8 @@
 
 ```bash
 # 1. 检出代码
-git clone https://github.com/your-org/dunhuang-gold-mes.git
-cd dunhuang-gold-mes
+git clone https://github.com/v5316v-Gold/DunhuangGold-workshop-MES.git
+cd DunhuangGold-workshop-MES
 
 # 2. 配置环境变量
 cat > .env << 'EOF'

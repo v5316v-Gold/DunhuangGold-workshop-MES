@@ -2,7 +2,7 @@
 
 > **Dunhuang Gold Workshop MES**: oil-press stamping + lost-wax casting, purpose-built for precious-metal jewelry (Au / K-gold / Pt / Ag / stone setting) with full **4M1E (Man / Machine / Material / Method / Environment)** coverage + post-production closed loop.
 
-[![CI](https://github.com/v5316v-Gold/Dunhuang-workshop-ERP/workflows/CI/badge.svg)](https://github.com/v5316v-Gold/Dunhuang-workshop-ERP/actions)
+[![CI](https://github.com/v5316v-Gold/DunhuangGold-workshop-MES/workflows/CI/badge.svg)](https://github.com/v5316v-Gold/DunhuangGold-workshop-MES/actions)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 [![Odoo](https://img.shields.io/badge/Odoo-17.0-714B67)](https://www.odoo.com)
 [![Python](https://img.shields.io/badge/Python-3.11+-3776AB)](https://www.python.org)
@@ -44,7 +44,7 @@ Plus: 8 roles / 108 access rights / 34 menu actions / 27 REST endpoints / 35 dat
 - **Project display name**: `DunhuangGold-workshop-MES` (README title + all docs)
 - **Odoo module**: `dunhuang_gold_mes` → `dunhuanggold_workshop_mes` (directory + manifest + XML + Python, 112 files)
 - **API path**: `/dunhuang_gold_mes/api/v1/...` → `/dunhuanggold_workshop_mes/api/v1/...`
-- **GitHub repo name**: kept as `Dunhuang-workshop-ERP` (rename via GitHub Settings + sync remote URL to complete)
+- **GitHub repo name**: `Dunhuang-workshop-ERP` → `DunhuangGold-workshop-MES` (renamed on GitHub + local remote URL synced)
 
 ## Why This Project?
 
@@ -140,8 +140,8 @@ POST /dunhuanggold_workshop_mes/api/v1/material_return/confirm  # Material retur
 
 ### Quick (Docker)
 ```bash
-git clone https://github.com/v5316v-Gold/Dunhuang-workshop-ERP.git
-cd Dunhuang-workshop-ERP
+git clone https://github.com/v5316v-Gold/DunhuangGold-workshop-MES.git
+cd DunhuangGold-workshop-MES
 docker-compose up -d
 # Open http://localhost:8069
 # admin / admin (set in .env)

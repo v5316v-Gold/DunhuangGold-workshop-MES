@@ -1,7 +1,12 @@
 # DunhuangGold-workshop-MES — 油压 + 失蜡铸造
 
 > **贵金属首饰加工车间 MES**：油压 + 失蜡铸造 双工艺路线，专为贵金属行业（黄金/K金/铂金/银/钻石镶嵌）打造的人机料法环全覆盖 + 生产后闭环的制造执行系统。
----
+
+[![CI](https://github.com/v5316v-Gold/DunhuangGold-workshop-MES/workflows/CI/badge.svg)](https://github.com/v5316v-Gold/DunhuangGold-workshop-MES/actions)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
+[![Odoo](https://img.shields.io/badge/Odoo-17.0-714B67)](https://www.odoo.com)
+[![Python](https://img.shields.io/badge/Python-3.11+-3776AB)](https://www.python.org)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15+-336791)](https://www.postgresql.org)
 
 **[English](README.md)** | 中文
 
@@ -62,7 +67,7 @@ DunhuangGold-workshop-MES — 模块验证
 - **项目显示名**: `DunhuangGold-workshop-MES`（README 标题 + 所有文档）
 - **Odoo 模块名**: `dunhuang_gold_mes` → `dunhuanggold_workshop_mes`（目录 + manifest + XML + Python 共 112 文件改动）
 - **API 路径**: `/dunhuang_gold_mes/api/v1/...` → `/dunhuanggold_workshop_mes/api/v1/...`
-- **GitHub 仓库名**: 保持 `Dunhuang-workshop-ERP` 不变（需在 GitHub Settings 手动 rename + 同步 remote URL）
+- **GitHub 仓库名**: `Dunhuang-workshop-ERP` → **`DunhuangGold-workshop-MES`**（在 GitHub Settings 完成 + 本地 remote URL 同步）
 
 ## 技术栈
 
