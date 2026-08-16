@@ -122,22 +122,35 @@ class GoldFinishedGoods(models.Model):
             rec.state = "posted"
 
     def _create_batch(self):
+        """为本次入库生成对应的金料批次(source=finished_goods)。
+
+        修复点:
+          1. 不再直接写 ``available_weight_g`` —— 它是 compute 字段,
+             会按 ``net_weight_g - allocated - consumed`` 自动重算,
+             直接 write 会被覆盖,造成账实不符。
+          2. 不再 ``write({'state': 'available'})`` 绕过 action_available,
+             改为正常路径,触发 inspection_state / net_weight_g 校验。
+          3. ``batch_no`` 由 ``ir.sequence`` 自动分配,``name`` 仅做备注,
+             不混用。
+        """
         self.ensure_one()
         products = self.line_ids.mapped("piece_id.product_id")
         if len(products) != 1:
             raise UserError(_("成品批次要求入库明细为同一款物料, 多款式请拆单"))
         product = products
         batch = self.env["gold.material.batch"].create({
-            "name": f"成品入库-{self.name}",
+            "name": f"成品入库-{self.name}",  # 可选备注
             "product_id": product.id,
             "source": "finished_goods",
             "net_weight_g": self.total_weight_g,
             "gross_weight_g": self.total_weight_g,
-            "available_weight_g": self.total_weight_g,
             "inspection_state": "passed",
+            "state": "draft",
         })
-        batch.write({"state": "available"})
+        # 走正常 action_available 路径,触发状态机 + 平衡校验
+        batch.action_available()
         self.batch_id = batch.id
+        return batch
 
     def action_cancel(self):
         for rec in self:

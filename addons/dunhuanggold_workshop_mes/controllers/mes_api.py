@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """
 敦煌金加工车间 ERP — MES REST API
 ==============================
@@ -180,11 +180,16 @@ class GoldMESApiController(http.Controller):
                 "quality_state": data.get("quality_state", "passed"),
                 "note": data.get("note"),
             })
+            # API 默认走完整确认流程(批次消耗 / 生产启动 / 模具累计)。
+            # 若请求方传 confirm=false,则保留草稿态供 UI 编辑后再确认。
+            if data.get("confirm", True):
+                rec.action_confirm()
             # 触发损耗追溯
             trace = request.env["gold.loss.trace"].create_from_report(rec.id)
             return self._ok({
                 "id": rec.id,
                 "name": rec.name,
+                "state": rec.state,
                 "loss_g": rec.loss_g,
                 "loss_rate": rec.loss_rate,
                 "loss_diff_pct": rec.loss_diff_pct,

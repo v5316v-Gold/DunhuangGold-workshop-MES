@@ -20,8 +20,11 @@
 产出物料: 蜡模 / 半成品 / 铸件
 """
 
+import logging
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError, UserError
+
+_logger = logging.getLogger(__name__)
 
 
 REPORT_QUALITY_SELECTION = [
@@ -212,8 +215,11 @@ class GoldWorkorderReport(models.Model):
             ("cancelled", "取消"),
         ],
         string="状态",
-        default="confirmed",
+        default="draft",
         required=True,
+        tracking=True,
+        help="草稿态可改;确认后触发批次消耗/生产订单启动/模具累计;"
+             "取消后不回退批次消耗(避免双花)",
     )
     note = fields.Text(string="备注")
 
@@ -249,6 +255,14 @@ class GoldWorkorderReport(models.Model):
 
     @api.model
     def create(self, vals):
+        """创建报工记录(草稿态)。
+
+        仅做自动填充,不触发任何业务副作用。
+        业务副作用(批次消耗 / 生产订单启动 / 模具累计)统一在
+        :meth:`action_confirm` 中触发,保证:
+          - 草稿态可反复修改 input/output weight
+          - 只有显式确认后才扣减金料,避免误操作双花
+        """
         if vals.get("name", _("新报工")) == _("新报工"):
             vals["name"] = self.env["ir.sequence"].next_by_code("gold.workorder.report")
         # 自动拉取工单的标准值
@@ -258,17 +272,42 @@ class GoldWorkorderReport(models.Model):
                 vals["standard_loss_rate"] = wo.gold_standard_loss_rate
             if wo.gold_standard_time_hours and not vals.get("standard_work_hours"):
                 vals["standard_work_hours"] = wo.gold_standard_time_hours
-        rec = super().create(vals)
-        # 触发批次消耗
-        if rec.input_batch_id and rec.state == "confirmed":
-            rec.input_batch_id.consume(rec.input_weight_g)
-        # 触发生产订单状态
-        if rec.production_id and rec.production_id.gold_state == "confirmed":
-            rec.production_id.action_start()
-        # 触发模具累计使用
-        if rec.production_id and rec.production_id.gold_mold_id:
-            rec.production_id.gold_mold_id.action_add_usage(rec.output_piece_count)
-        return rec
+        return super().create(vals)
+
+    def action_confirm(self):
+        """确认报工,触发批次消耗 / 生产订单启动 / 模具累计。
+
+        仅草稿态可确认。已确认后所有业务副作用已发生,不可回退
+        (如需修改,使用 action_cancel 标记作废后重报)。
+        """
+        for rec in self:
+            if rec.state != "draft":
+                raise UserError(_("报工 %s 仅草稿态可确认 (当前: %s)") % (rec.name, rec.state))
+            # 1. 批次消耗(若报工指定了 input_batch)
+            if rec.input_batch_id:
+                rec.input_batch_id.consume(rec.input_weight_g)
+            # 2. 生产订单进入 in_progress(若仍处 confirmed)
+            if rec.production_id and rec.production_id.gold_state == "confirmed":
+                rec.production_id.action_start()
+            # 3. 模具累计使用
+            if rec.production_id and rec.production_id.gold_mold_id:
+                rec.production_id.gold_mold_id.action_add_usage(rec.output_piece_count)
+            rec.state = "confirmed"
+
+    def action_cancel(self):
+        """作废报工。
+
+        注意:已确认报工作废**不回退**批次消耗 / 生产订单状态 /
+        模具累计 —— 业务上一旦报工即视为实物已发生,后续需通过
+        补报/退料单走反向流程(后续版本实现)。
+        """
+        for rec in self:
+            if rec.state == "confirmed":
+                _logger.warning(
+                    "报工 %s 已确认后取消, 不回退批次消耗/生产订单/模具",
+                    rec.name,
+                )
+            rec.state = "cancelled"
 
     @api.constrains("operation_id", "workorder_id")
     def _check_operation_match(self):
