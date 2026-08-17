@@ -101,3 +101,11 @@ addons/*/static/src/img/upload/
 
 # ============== 排除一些 sun 系统临时 ==============
 .nfs*
+
+# ============== Node.js (ui_preview 巡检工具) ==============
+node_modules/
+package-lock.json
+
+# ============== Playwright / 巡检截图 ==============
+tests/ui_screenshots/
+tests/ui_debug*.js

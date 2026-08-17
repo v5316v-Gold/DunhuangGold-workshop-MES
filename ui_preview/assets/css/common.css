@@ -1462,30 +1462,25 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
 
 /* ===================================================================
    美化 - 大数字展示(财务/库存估值/金价)
+   注: 不依赖 background-clip:text(兼容性问题),改用直接 color
    =================================================================== */
 .big-number {
     font-family: var(--font-mono);
     font-variant-numeric: tabular-nums;
     font-feature-settings: "tnum";
     letter-spacing: -0.02em;
-    background: linear-gradient(180deg, var(--text-primary) 0%, var(--text-secondary) 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--text-primary);
+    font-weight: 600;
 }
 .big-number.gold {
-    background: var(--gold-gradient);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-weight: 700;
+    color: var(--gold-bright);
+    text-shadow: 0 0 12px var(--gold-glow);
 }
 .big-number .unit {
     font-size: 0.5em;
     color: var(--text-muted);
     font-weight: 400;
     margin-left: 4px;
-    -webkit-text-fill-color: var(--text-muted);
 }
 
 /* ===================================================================
@@ -1543,7 +1538,9 @@ body::before {
     0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.4; }
     50%      { transform: translate(-100px, 100px) scale(1.2); opacity: 0.7; }
 }
-.main, .navbar, .sidebar { position: relative; z-index: 1; }
+/* .main / .navbar 提到 z-index: 1(避开 body::before 光斑)
+   注: .sidebar 保持 position: fixed 不动(防止撑高文档流把 main 推出屏幕) */
+.main, .navbar { position: relative; z-index: 1; }
 
 /* ===================================================================
    命令面板 (Ctrl+K / ? 唤起)

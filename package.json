@@ -1,0 +1,14 @@
+{
+  "name": "dunhuanggold-ui-preview",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ui_preview 巡检工具依赖(Playwright 截图 + 布局检查)",
+  "scripts": {
+    "test": "node tests/ui_inspect.js",
+    "test:smoke": "node tests/run_all_tests.js",
+    "test:all": "node tests/run_all_tests.js && node tests/ui_inspect.js"
+  },
+  "dependencies": {
+    "playwright": "^1.62.1"
+  }
+}
