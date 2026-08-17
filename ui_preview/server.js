@@ -106,12 +106,52 @@ async function apiHandler(req, res, pathname, query) {
         return ok(res, batch);
     }
 
+    // 印记 OCR 校验 (Phase 2.3 补 mock)
+    if (p === 'imprint/verify' && method === 'POST') {
+        const b = await readBody(req);
+        const imprint_id = b.imprint_id;
+        if (!imprint_id) return err(res, 'imprint_id required');
+        // 模拟 imprint: 取 demo 内容
+        const expectedContent = `Au 999 XX`;
+        const verified = true;
+        const mismatch = b.expected && expectedContent !== b.expected;
+        const passed = !mismatch;
+        return ok(res, {
+            id: imprint_id,
+            verified,
+            mismatch,
+            content: expectedContent,
+            passed,
+        });
+    }
+
+    // XRF 检测 (Phase 2.3 补 mock)
+    if (p === 'xrf/save' && method === 'POST') {
+        const b = await readBody(req);
+        const gold_pct = Number(b.gold_pct || 0);
+        const standard_pct = Number(b.standard_pct || 99.0);
+        const main_metal_pct = gold_pct;
+        const is_passed = gold_pct >= standard_pct;
+        return ok(res, {
+            id: db.nextId(),
+            is_passed,
+            main_metal_pct,
+        });
+    }
+
     // 工序报工
     if (p === 'workorder_report/list' && method === 'GET') {
         return ok(res, db.workorderReports);
     }
     if (p === 'workorder_report' && method === 'POST') {
         const b = await readBody(req);
+        // Phase 2.3 测试补强:必填字段校验
+        const required = ['production_id', 'operation_id', 'input_weight_g', 'output_weight_g'];
+        for (const k of required) {
+            if (b[k] === undefined || b[k] === null) {
+                return err(res, `字段缺失: ${k}`);
+            }
+        }
         const loss_g = Math.max(0, (b.input_weight_g || 0) - (b.output_weight_g || 0));
         const loss_rate = b.input_weight_g > 0 ? (loss_g / b.input_weight_g) * 100 : 0;
         const std = b.standard_loss_rate || 0;
