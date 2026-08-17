@@ -88,6 +88,10 @@ function navigate(pageId) {
     loadPage(pageId);
 }
 
+// 暴露给 shortcuts.js / 命令面板
+window.navigate = navigate;
+window.NAV = NAV;
+
 function findPage(itemId) {
     for (const section of NAV) {
         const f = section.items.find(i => i.id === itemId);
