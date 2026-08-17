@@ -1193,6 +1193,359 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
 }
 
 /* ===================================================================
+   美化 - 金色 Spinner + 骨架屏 (替换"🔄 加载中...")
+   =================================================================== */
+.loading-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    color: var(--text-muted);
+    gap: 16px;
+}
+.spinner-gold {
+    width: 48px;
+    height: 48px;
+    border: 3px solid var(--bg-tertiary);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spinner-rotate 0.8s linear infinite;
+    box-shadow: var(--shadow-gold);
+}
+.spinner-gold.lg { width: 64px; height: 64px; border-width: 4px; }
+.spinner-gold.sm { width: 20px; height: 20px; border-width: 2px; }
+@keyframes spinner-rotate {
+    to { transform: rotate(360deg); }
+}
+.loading-text {
+    font-size: 13px;
+    letter-spacing: 1px;
+    color: var(--text-secondary);
+    animation: animate-pulse 1.5s ease-in-out infinite;
+}
+
+/* 骨架屏 */
+.skeleton {
+    background: linear-gradient(
+        90deg,
+        var(--bg-tertiary) 0%,
+        var(--bg-hover) 50%,
+        var(--bg-tertiary) 100%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.5s infinite;
+    border-radius: var(--radius-md);
+    display: inline-block;
+}
+@keyframes skeleton-shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+.skeleton-line {
+    height: 12px;
+    margin: 8px 0;
+}
+.skeleton-line.short  { width: 40%; }
+.skeleton-line.medium { width: 70%; }
+.skeleton-line.long   { width: 100%; }
+.skeleton-circle {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+}
+.skeleton-card {
+    height: 100px;
+    width: 100%;
+    border-radius: var(--radius-lg);
+}
+
+/* ===================================================================
+   美化 - 空状态 (无数据时显示)
+   =================================================================== */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 24px;
+    text-align: center;
+    color: var(--text-muted);
+    animation: animate-fade-in 0.4s ease-out;
+}
+.empty-state-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--bg-tertiary) 0%, var(--bg-elevated) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    margin-bottom: 20px;
+    color: var(--gold);
+    box-shadow: inset 0 0 30px var(--gold-muted);
+    border: 1px solid var(--gold-border);
+}
+.empty-state-title {
+    font-size: 16px;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+.empty-state-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    max-width: 320px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+.empty-state .btn {
+    box-shadow: var(--shadow-gold);
+}
+
+/* ===================================================================
+   美化 - 玻璃拟态卡片 + 渐变悬浮边框
+   =================================================================== */
+.kpi-card {
+    position: relative;
+    overflow: hidden;
+    transition: all var(--transition-normal);
+}
+.kpi-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+        135deg,
+        transparent 0%,
+        var(--gold-border) 40%,
+        transparent 70%
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box;
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity var(--transition-normal);
+    pointer-events: none;
+}
+.kpi-card:hover::before { opacity: 1; }
+.kpi-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg), var(--shadow-gold-glow);
+}
+
+/* 玻璃面板(glass morphism) */
+.glass-panel {
+    background: var(--bg-glass);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+}
+
+/* 卡片悬浮渐变光 */
+.card-glow {
+    position: relative;
+}
+.card-glow::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(
+        circle at center,
+        var(--gold-muted) 0%,
+        transparent 50%
+    );
+    opacity: 0;
+    transition: opacity 0.6s ease-out;
+    pointer-events: none;
+}
+.card-glow:hover::after { opacity: 1; }
+
+/* ===================================================================
+   美化 - 微交互(涟漪 + 列表交错入场 + 数字滚动)
+   =================================================================== */
+
+/* 按钮涟漪效果(基于 :active 的 position:relative + ::after 圆环) */
+.btn-ripple {
+    position: relative;
+    overflow: hidden;
+}
+.btn-ripple::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 0; height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+.btn-ripple:active::after {
+    animation: ripple-expand 0.5s ease-out;
+}
+@keyframes ripple-expand {
+    from { width: 0; height: 0; opacity: 0.5; }
+    to   { width: 300px; height: 300px; opacity: 0; }
+}
+
+/* 列表项交错入场(stagger) */
+@keyframes animate-stagger-in {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.stagger-in > * {
+    animation: animate-stagger-in 0.35s ease-out both;
+}
+.stagger-in > *:nth-child(1) { animation-delay: 0.02s; }
+.stagger-in > *:nth-child(2) { animation-delay: 0.06s; }
+.stagger-in > *:nth-child(3) { animation-delay: 0.10s; }
+.stagger-in > *:nth-child(4) { animation-delay: 0.14s; }
+.stagger-in > *:nth-child(5) { animation-delay: 0.18s; }
+.stagger-in > *:nth-child(6) { animation-delay: 0.22s; }
+.stagger-in > *:nth-child(7) { animation-delay: 0.26s; }
+.stagger-in > *:nth-child(8) { animation-delay: 0.30s; }
+.stagger-in > *:nth-child(9) { animation-delay: 0.34s; }
+.stagger-in > *:nth-child(10) { animation-delay: 0.38s; }
+.stagger-in > *:nth-child(n+11) { animation-delay: 0.40s; }
+
+/* 数字滚动占位符(由 JS 控制) */
+.number-roll {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+    transition: color 0.3s ease-out;
+}
+.number-roll.updating {
+    color: var(--gold-bright);
+    text-shadow: 0 0 12px var(--gold-glow);
+}
+
+/* ===================================================================
+   美化 - 状态徽章(SVG 风格圆点 + 文案)
+   =================================================================== */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 10px;
+    border-radius: var(--radius-full);
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.4;
+}
+.status-badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    box-shadow: 0 0 8px currentColor;
+}
+.status-badge.success { background: var(--success-bg); color: var(--success); }
+.status-badge.warning { background: var(--warning-bg); color: var(--warning); }
+.status-badge.danger  { background: var(--error-bg); color: var(--error); }
+.status-badge.info    { background: var(--info-bg); color: var(--info); }
+.status-badge.muted   { background: var(--bg-tertiary); color: var(--text-muted); }
+
+/* ===================================================================
+   美化 - 大数字展示(财务/库存估值/金价)
+   =================================================================== */
+.big-number {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+    letter-spacing: -0.02em;
+    background: linear-gradient(180deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.big-number.gold {
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+}
+.big-number .unit {
+    font-size: 0.5em;
+    color: var(--text-muted);
+    font-weight: 400;
+    margin-left: 4px;
+    -webkit-text-fill-color: var(--text-muted);
+}
+
+/* ===================================================================
+   美化 - 表格行悬浮渐变高亮
+   =================================================================== */
+table tbody tr {
+    transition: all var(--transition-fast);
+}
+table tbody tr:hover {
+    background: linear-gradient(
+        90deg,
+        var(--gold-muted) 0%,
+        transparent 100%
+    );
+}
+table tbody tr:hover td:first-child {
+    border-left: 2px solid var(--gold);
+    padding-left: 12px;
+}
+
+/* ===================================================================
+   美化 - 页面头部渐入背景
+   =================================================================== */
+.page-header {
+    background: linear-gradient(
+        90deg,
+        var(--gold-muted) 0%,
+        transparent 30%
+    );
+    padding: 14px 18px;
+    border-radius: var(--radius-lg);
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* ===================================================================
+   美化 - 暗角背景动画(微妙的浮动光斑)
+   =================================================================== */
+body::before {
+    content: '';
+    position: fixed;
+    top: -200px;
+    right: -200px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(
+        circle,
+        var(--gold-muted) 0%,
+        transparent 70%
+    );
+    pointer-events: none;
+    z-index: 0;
+    animation: animate-float 20s ease-in-out infinite;
+}
+@keyframes animate-float {
+    0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.4; }
+    50%      { transform: translate(-100px, 100px) scale(1.2); opacity: 0.7; }
+}
+.main, .navbar, .sidebar { position: relative; z-index: 1; }
+
+/* ===================================================================
    命令面板 (Ctrl+K / ? 唤起)
    =================================================================== */
 .cmdk-overlay {

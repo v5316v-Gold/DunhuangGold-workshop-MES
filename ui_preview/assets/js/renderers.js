@@ -14,35 +14,113 @@ async function safeFetch(main, path) {
 
 // ============ 车间看板 ============
 window.RENDERERS.dashboard = async function (main) {
+    // 骨架屏 - 加载期间
+    main.innerHTML = U.pageHeader('车间看板') +
+        U.kpiCards([
+            { label: '当日完工', value: '<span class="skeleton skeleton-line" style="height:32px;width:80px"></span>', sub: '加载中...' },
+            { label: '进行中', value: '<span class="skeleton skeleton-line" style="height:32px;width:60px"></span>', sub: '加载中...' },
+            { label: '超耗预警', value: '<span class="skeleton skeleton-line" style="height:32px;width:40px"></span>', sub: '加载中...' },
+            { label: '当前金价', value: '<span class="skeleton skeleton-line" style="height:32px;width:120px"></span>', sub: '加载中...' },
+        ]);
     const k = await safeFetch(main, '/dashboard/kpi');
     if (!k) return;
-    main.innerHTML = U.pageHeader('车间看板', '<button class="btn" onclick="location.reload()">🔄 刷新</button>') +
+
+    // 注入渲染骨架,数字留空待 countUp
+    main.innerHTML = U.pageHeader('车间看板',
+        '<button class="btn btn-ripple" onclick="window.beautify.delay(200).then(()=>window.RENDERERS.dashboard(document.querySelector(\'.main\')))">🔄 刷新</button>'
+        ) +
         U.kpiCards([
-            { label: '当日完工', value: k.done_today, sub: '件级 SN 已入库', success: true },
-            { label: '进行中', value: k.in_progress, sub: '生产订单' },
-            { label: '超耗预警', value: k.over_loss_count, sub: '需复盘', danger: k.over_loss_count > 0 },
-            { label: '当前金价', value: '¥ ' + k.current_gold_price, sub: 'Au9999 SGE', gold: true },
+            {
+                label: '当日完工',
+                value: `<span class="big-number" data-count="${k.done_today}">0</span>`,
+                sub: '件级 SN 已入库',
+                success: true,
+            },
+            {
+                label: '进行中',
+                value: `<span class="big-number" data-count="${k.in_progress}">0</span>`,
+                sub: '生产订单',
+            },
+            {
+                label: '超耗预警',
+                value: `<span class="big-number" data-count="${k.over_loss_count}">0</span>`,
+                sub: k.over_loss_count > 0 ? '需复盘' : '今日正常',
+                danger: k.over_loss_count > 0,
+            },
+            {
+                label: '当前金价',
+                value: `<span class="big-number gold" data-count="${k.current_gold_price}" data-decimals="2">0</span><span class="unit">/g</span>`,
+                sub: 'Au9999 · SGE',
+                gold: true,
+            },
         ]) +
         U.kpiCards([
-            { label: '库存估值', value: U.money(k.total_value), sub: '按当前金价' },
-            { label: '平均损耗率', value: k.avg_loss_rate + '%', sub: '今日' },
-            { label: 'XRF 合格率', value: k.xrf_passed_pct + '%', sub: k.xrf_count_today + ' 次检测' },
-            { label: '油压 / 失蜡', value: k.oil_press_orders + ' / ' + k.lost_wax_orders, sub: '进行中订单' },
+            {
+                label: '库存估值',
+                value: `<span class="big-number gold" data-count="${k.total_value}" data-decimals="0">¥0</span>`,
+                sub: '按当前金价',
+            },
+            {
+                label: '平均损耗率',
+                value: `<span class="big-number" data-count="${k.avg_loss_rate}" data-decimals="2">0</span><span class="unit">%</span>`,
+                sub: '今日',
+            },
+            {
+                label: 'XRF 合格率',
+                value: `<span class="big-number" data-count="${k.xrf_passed_pct}" data-decimals="1">0</span><span class="unit">%</span>`,
+                sub: `${k.xrf_count_today} 次检测`,
+            },
+            {
+                label: '油压 / 失蜡',
+                value: `<span class="big-number" data-count="${k.oil_press_orders + k.lost_wax_orders}">0</span><span class="unit">单</span>`,
+                sub: `油压 ${k.oil_press_orders} / 失蜡 ${k.lost_wax_orders}`,
+            },
         ]) +
-        U.notice('info', '📊 数据来自 <code>/api/v1/dashboard/kpi</code>（实时聚合），点击左侧菜单切换模块。');
+        `<div class="card card-glow" style="margin-top:16px"><div class="card-body">
+            <div class="flex gap-3" style="align-items:center;flex-wrap:wrap">
+                <span class="status-badge ${k.over_loss_count > 0 ? 'warning' : 'success'}">
+                    ${k.over_loss_count > 0 ? '需关注' : '一切正常'}
+                </span>
+                <span class="text-secondary">📊 数据来自 <code>/api/v1/dashboard/kpi</code>(实时聚合)</span>
+                <span class="text-muted hide-mobile">点击左侧菜单切换模块</span>
+                <span class="text-muted" style="margin-left:auto">⌨ 按 <kbd class="kbd-hint">Ctrl+K</kbd> 打开命令面板</span>
+            </div>
+        </div></div>`;
+
+    // 触发数字滚动动画(框架注入完后再启动)
+    setTimeout(() => window.UI && window.UI.autoCountUp(), 80);
 };
 
 // ============ 金料批次 ============
 window.RENDERERS.material_batch = async function (main) {
+    main.innerHTML = U.pageHeader('金料批次') + U.kpiCards([
+        { label: '可用库存', value: '<span class="skeleton skeleton-line" style="height:32px;width:120px"></span>', sub: '加载中...' },
+        { label: '批次总数', value: '<span class="skeleton skeleton-line" style="height:32px;width:50px"></span>', sub: '加载中...' },
+    ]);
     const rows = await safeFetch(main, '/batch/list');
     if (!rows) return;
     const totalNet = rows.reduce((s, r) => s + r.net_weight_g, 0);
     const totalAvail = rows.reduce((s, r) => s + r.available_weight_g, 0);
-    main.innerHTML = U.pageHeader('金料批次', '<button class="btn" onclick="window.window.RENDERERS.material_batch(document.querySelector(\'.main\'))">🔄 刷新</button>') +
+    const totalValue = rows.reduce((s, r) => s + r.current_value, 0);
+
+    // 空状态:无批次数据
+    if (!rows.length) {
+        main.innerHTML = U.pageHeader('金料批次') +
+            U.emptyStateHTML({
+                icon: '💰',
+                title: '暂无金料批次',
+                desc: '金库空空如也,请先入库金料或等待供应商来料',
+                actionLabel: '新建批次',
+                actionOnClick: 'window.toast && window.toast("info", "功能建设中")',
+            });
+        return;
+    }
+
+    main.innerHTML = U.pageHeader('金料批次', '<button class="btn btn-ripple" onclick="window.RENDERERS.material_batch(document.querySelector(\'.main\'))">🔄 刷新</button>') +
         U.kpiCards([
-            { label: '可用库存', value: U.num(totalAvail, 3) + ' g', sub: U.money(rows.reduce((s, r) => s + r.current_value, 0)), gold: true },
-            { label: '批次总数', value: rows.length, sub: '精度 0.001g' },
-            { label: '待检验', value: rows.filter((r) => r.inspection_state === 'pending').length, sub: '100% 已检' },
+            { label: '可用库存', value: `<span class="big-number" data-count="${totalAvail}" data-decimals="3">0</span><span class="unit">g</span>`, sub: '¥ ' + U.num(totalValue, 0), gold: true },
+            { label: '批次总数', value: `<span class="big-number" data-count="${rows.length}">0</span>`, sub: '精度 0.001g' },
+            { label: '待检验', value: `<span class="big-number" data-count="${rows.filter(r => r.inspection_state === 'pending').length}">0</span>`, sub: '100% 已检', success: true },
         ]) +
         U.renderTable(
             [
@@ -54,6 +132,7 @@ window.RENDERERS.material_batch = async function (main) {
             rows,
             `<td colspan="5">合计</td><td class="number">${U.num(totalNet, 3)}</td><td class="number">${U.num(totalAvail, 3)}</td><td colspan="2"></td>`
         );
+    setTimeout(() => window.UI && window.UI.autoCountUp(), 80);
 };
 
 // ============ 工序报工 ============

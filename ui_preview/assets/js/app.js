@@ -115,7 +115,10 @@ async function loadPage(itemId) {
     const page = findPage(itemId);
     if (!page) return;
     const main = document.querySelector(".main");
-    main.innerHTML = '<div class="notice info">🔄 加载中...</div>';
+    // 美化: 金色 spinner + 加载文案
+    main.innerHTML = window.UI
+        ? window.UI.loadingHTML(`正在加载 ${page.name}...`)
+        : '<div class="notice info">🔄 加载中...</div>';
     try {
         const resp = await fetch(`pages/${page.file}`);
         if (!resp.ok) throw new Error("HTTP " + resp.status);
@@ -125,13 +128,20 @@ async function loadPage(itemId) {
         if (window.RENDERERS && typeof window.RENDERERS[itemId] === 'function') {
             await window.RENDERERS[itemId](main);
         }
+        // 美化: 渲染后自动滚动数字 + 应用交错入场动画
+        setTimeout(() => {
+            if (window.UI && window.UI.autoCountUp) window.UI.autoCountUp();
+            // 给主区域加交错入场
+            const cards = main.querySelectorAll('.kpi-cards, tbody, .menu-section');
+            cards.forEach(c => c.classList.add('stagger-in'));
+        }, 50);
     } catch (e) {
         main.innerHTML = `
-            <div class="notice danger">
-                ❌ 加载失败: ${e.message}
-            </div>
-            <div class="notice">
-                注意: 本预览需要通过 HTTP 服务器访问,不能直接打开本地文件(file://)。
+            <div class="empty-state">
+                <div class="empty-state-icon">⚠️</div>
+                <div class="empty-state-title">加载失败</div>
+                <div class="empty-state-desc">${e.message}<br>注意: 本预览需要通过 HTTP 服务器访问</div>
+                <button class="btn btn-primary btn-ripple" onclick="location.reload()">重新加载</button>
             </div>
         `;
     }
