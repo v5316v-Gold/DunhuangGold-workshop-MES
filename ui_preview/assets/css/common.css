@@ -304,10 +304,10 @@ pre { padding: 12px 16px; overflow-x: auto; }
     padding-top: var(--space-2);
 }
 .menu-section-title {
-    font-size: 17px;                  /* 继续加大(15→17) */
+    font-size: 17px;
     text-transform: uppercase;
     color: var(--gold);
-    padding: 12px 14px 10px 12px;
+    padding: 12px 14px 10px 6px;       /* 左 padding 6px,贴边 */
     font-weight: var(--fw-bold);
     letter-spacing: 1.5px;
     display: flex;
@@ -335,7 +335,7 @@ pre { padding: 12px 16px; overflow-x: auto; }
 }
 .menu-item {
     display: flex; align-items: center;
-    padding: 10px 12px 10px 14px;
+    padding: 10px 12px 10px 8px;         /* 左 padding 8px,贴边(与 section 对齐) */
     color: var(--text-secondary);
     text-decoration: none;
     cursor: pointer;
@@ -343,7 +343,7 @@ pre { padding: 12px 16px; overflow-x: auto; }
     border-radius: 0 var(--radius-md) var(--radius-md) 0;
     margin: 2px 6px 2px 0;
     transition: all var(--transition-fast);
-    font-size: 16px;                   /* 加大到 16px (body 同) */
+    font-size: 16px;
     position: relative;
     gap: 10px;
     min-height: 44px;
