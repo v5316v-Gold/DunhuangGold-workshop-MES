@@ -1,170 +1,363 @@
-<!-- Phase 3: 车间大屏 - 65寸车间屏 -->
-<div class="page-header">
-    <h1>🏭 车间大屏</h1>
-    <div class="actions">
-        <button class="btn btn-ripple" onclick="window.RENDERERS.bigscreen(document.querySelector('.main'))">🔄 刷新</button>
+<!-- 车间大屏 - 65寸车间屏(已优化 v2) -->
+<div class="bigscreen-wrap">
+    <div class="page-header">
+        <div>
+            <h1 style="display:flex;align-items:center;gap:12px">
+                🏭 车间大屏
+                <span class="live-dot" id="live-dot"></span>
+                <span class="text-muted" style="font-size:14px;font-weight:normal">实时数据</span>
+            </h1>
+            <div class="text-muted" style="font-size:13px;margin-top:2px">
+                <span id="bs-time"></span> · 车间大屏(65寸实时)
+            </div>
+        </div>
+        <div class="actions">
+            <button class="btn btn-ripple" id="bs-refresh" onclick="window.RENDERERS.bigscreen(document.querySelector('.main'))">🔄 刷新</button>
+            <button class="btn btn-ripple" onclick="window.toggleSidebar && window.toggleSidebar()">☰ 折叠侧栏</button>
+        </div>
     </div>
-</div>
 
-<!-- 顶部 KPI 条 -->
-<div class="bigscreen-top">
-    <div class="kpi-card success">
-        <div class="label">今日完工</div>
-        <div class="value" data-count="28">0</div>
+    <!-- 顶部 KPI 条(7 个,大字 65寸屏) -->
+    <div class="bigscreen-kpis" id="bs-kpis">
+        <div class="kpi-card"><div class="label">今日完工</div><div class="value">0</div></div>
+        <div class="kpi-card"><div class="label">进行中</div><div class="value">0</div></div>
+        <div class="kpi-card warning"><div class="label">待接收</div><div class="value">0</div></div>
+        <div class="kpi-card danger"><div class="label">超耗预警</div><div class="value">0</div></div>
+        <div class="kpi-card danger"><div class="label">NCR 待处置</div><div class="value">0</div></div>
+        <div class="kpi-card success"><div class="label">今日包装</div><div class="value">0</div></div>
+        <div class="kpi-card gold"><div class="label">平均损耗率</div><div class="value">0<span class="unit">%</span></div></div>
     </div>
-    <div class="kpi-card">
-        <div class="label">进行中</div>
-        <div class="value" data-count="5">0</div>
-    </div>
-    <div class="kpi-card warning">
-        <div class="label">待接收</div>
-        <div class="value" data-count="1">0</div>
-    </div>
-    <div class="kpi-card danger">
-        <div class="label">超耗预警</div>
-        <div class="value" data-count="1">0</div>
-    </div>
-    <div class="kpi-card danger">
-        <div class="label">NCR 待处置</div>
-        <div class="value" data-count="1">0</div>
-    </div>
-    <div class="kpi-card success">
-        <div class="label">今日包装</div>
-        <div class="value" data-count="3">0</div>
-    </div>
-    <div class="kpi-card gold">
-        <div class="label">平均损耗率</div>
-        <div class="value" data-count="3.85" data-decimals="2">0<span class="unit">%</span></div>
-    </div>
-</div>
 
-<!-- 工序状态条 -->
-<div class="card card-glow" style="margin-top:16px">
-    <div class="card-header">
-        <h3>🔧 9 道工序实时状态</h3>
-    </div>
-    <div class="card-body">
-        <div id="bigscreen-operations" class="operations-strip"></div>
-    </div>
-</div>
-
-<!-- 中间: 损耗趋势 + 瓶颈工位 -->
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px">
-    <div class="card card-glow">
+    <!-- 9 道工序状态条 -->
+    <div class="card bigscreen-card">
         <div class="card-header">
-            <h3>📈 5 天损耗趋势</h3>
+            <h3>🔧 9 道工序实时状态</h3>
+            <span class="text-muted" style="font-size:13px">绿色运行 / 黄色积压 / 红色故障</span>
         </div>
         <div class="card-body">
-            <div id="bigscreen-loss-trend"></div>
+            <div id="bs-operations" class="bs-op-strip"></div>
         </div>
     </div>
-    <div class="card card-glow">
-        <div class="card-header">
-            <h3>🐌 瓶颈工位 TOP 3</h3>
-        </div>
-        <div class="card-body">
-            <div id="bigscreen-bottlenecks"></div>
-        </div>
-    </div>
-</div>
 
-<!-- 底部: 报警滚动条(后续接 SSE) -->
-<div class="card" style="margin-top:16px;background:linear-gradient(90deg,var(--error-bg) 0%,transparent 100%)">
-    <div class="card-body">
-        <span class="text-danger text-bold">⚠ 实时报警:</span>
-        <span class="text-secondary" style="margin-left:12px">
-            [10:35] NCR-20260805-0001 执模工序划痕,已返工
-            &nbsp;&nbsp; [11:15] NCR-20260805-0002 XRF 含量 99.42% 不达标,班组长处置中
-        </span>
+    <!-- 损耗趋势(SVG 折线图) + 瓶颈工位 -->
+    <div class="bigscreen-grid">
+        <div class="card bigscreen-card">
+            <div class="card-header">
+                <h3>📈 5 天损耗趋势</h3>
+                <span class="text-muted" style="font-size:13px">点击柱子查看详情</span>
+            </div>
+            <div class="card-body" style="padding:16px 8px">
+                <div id="bs-loss-chart" class="bs-loss-chart"></div>
+            </div>
+        </div>
+
+        <div class="card bigscreen-card">
+            <div class="card-header">
+                <h3>🐌 瓶颈工位 TOP 3</h3>
+                <span class="text-muted" style="font-size:13px">按平均等待时长排序</span>
+            </div>
+            <div class="card-body" id="bs-bottlenecks"></div>
+        </div>
+    </div>
+
+    <!-- 实时报警滚动 -->
+    <div class="card bigscreen-alert-bar" id="bs-alert-bar">
+        <div class="alert-bar-content">
+            <span class="alert-bar-label">⚠ 实时报警</span>
+            <span class="alert-bar-text" id="bs-alert-text">
+                [10:35] NCR-20260805-0001 执模工序划痕 已返工
+                 [11:15] NCR-20260805-0002 XRF 含量 99.42% 不达标 处置中
+            </span>
+        </div>
     </div>
 </div>
 
 <style>
-.bigscreen-top {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 12px;
+/* 大屏专属 - 大字号,适合 65 寸屏 */
+.bigscreen-wrap {
+    max-width: 1600px;
+    margin: 0 auto;
 }
-.bigscreen-top .kpi-card .value {
-    font-size: 36px;
+.bigscreen-wrap .page-header h1 {
+    font-size: 28px !important;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    margin: 0 0 6px 0;
+}
+.bigscreen-wrap .kpi-card {
+    min-height: 130px;
+    padding: 18px 22px;
+}
+.bigscreen-wrap .kpi-card .value {
+    font-size: 42px !important;   /* 大屏 65寸字号 */
     font-weight: 700;
 }
-.operations-strip {
+.bigscreen-wrap .kpi-card .label {
+    font-size: 13px !important;
+}
+.bigscreen-wrap .kpi-card .sub {
+    font-size: 12px !important;
+}
+
+/* 实时点动画 */
+.live-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--success);
+    box-shadow: 0 0 8px var(--success);
+    display: inline-block;
+    animation: live-pulse 1.5s ease-in-out infinite;
+}
+@keyframes live-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+/* KPI 网格(7 列) */
+.bigscreen-kpis {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 14px;
+    margin-bottom: 18px;
+}
+@media (max-width: 1400px) {
+    .bigscreen-kpis { grid-template-columns: repeat(4, 1fr); }
+}
+@media (max-width: 900px) {
+    .bigscreen-kpis { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* 工序条 - 9 列 */
+.bs-op-strip {
     display: grid;
     grid-template-columns: repeat(9, 1fr);
     gap: 8px;
 }
-.op-block {
-    text-align: center;
-    padding: 12px 4px;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--border-color);
-    background: var(--bg-tertiary);
-    transition: all var(--transition-fast);
+@media (max-width: 1100px) {
+    .bs-op-strip { grid-template-columns: repeat(5, 1fr); }
 }
-.op-block .op-name {
-    font-size: 11px;
+.bs-op {
+    text-align: center;
+    padding: 14px 6px 12px;
+    border-radius: 8px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-left: 3px solid var(--text-muted);
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+.bs-op:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+.bs-op .op-name {
+    font-size: 12px;
     color: var(--text-muted);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    margin-bottom: 4px;
 }
-.op-block .op-state {
-    font-size: 22px;
+.bs-op .op-state {
+    font-size: 28px;
+    line-height: 1.1;
     margin: 4px 0;
+    filter: drop-shadow(0 0 4px currentColor);
 }
-.op-block .op-queue {
-    font-size: 12px;
-    color: var(--text-secondary);
-}
-.op-block.running { border-left: 3px solid var(--success); }
-.op-block.idle { border-left: 3px solid var(--text-muted); opacity: 0.6; }
-.op-block.warning { border-left: 3px solid var(--warning); background: var(--warning-bg); }
-.op-block.danger { border-left: 3px solid var(--error); background: var(--error-bg); }
-.loss-bars { display: flex; align-items: end; gap: 12px; height: 120px; padding: 8px 0; }
-.loss-bar {
-    flex: 1;
-    background: linear-gradient(180deg, var(--gold) 0%, var(--gold-dark) 100%);
-    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
-    position: relative;
-    min-width: 40px;
-    transition: all var(--transition-normal);
-}
-.loss-bar:hover { transform: scaleY(1.05); transform-origin: bottom; }
-.loss-bar .value {
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    color: var(--gold-bright);
-    font-weight: 600;
+.bs-op .op-queue {
     font-size: 13px;
-    padding-bottom: 4px;
+    color: var(--text-secondary);
+    font-weight: 500;
 }
-.loss-bar .label {
+.bs-op .op-pulse {
     position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    color: var(--text-muted);
-    font-size: 11px;
-    padding-top: 4px;
-    white-space: nowrap;
+    top: 4px; right: 4px;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    box-shadow: 0 0 6px currentColor;
+    animation: op-pulse 1.5s ease-in-out infinite;
 }
-.bn-row {
+@keyframes op-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.3; transform: scale(0.7); }
+}
+.bs-op.running { border-left-color: var(--success); color: var(--success); }
+.bs-op.running .op-pulse { display: block; }
+.bs-op.idle { border-left-color: var(--text-muted); opacity: 0.55; color: var(--text-muted); }
+.bs-op.idle .op-pulse { display: none; }
+.bs-op.warning {
+    border-left-color: var(--warning);
+    background: linear-gradient(135deg, var(--warning-bg) 0%, var(--bg-tertiary) 100%);
+    color: var(--warning);
+}
+.bs-op.danger {
+    border-left-color: var(--error);
+    background: linear-gradient(135deg, var(--error-bg) 0%, var(--bg-tertiary) 100%);
+    color: var(--error);
+    animation: op-danger-pulse 2s ease-in-out infinite;
+}
+@keyframes op-danger-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(184, 84, 80, 0); }
+    50% { box-shadow: 0 0 0 4px rgba(184, 84, 80, 0.3); }
+}
+
+/* 中间双列 */
+.bigscreen-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 16px;
+    margin-top: 16px;
+}
+@media (max-width: 900px) {
+    .bigscreen-grid { grid-template-columns: 1fr; }
+}
+.bigscreen-card .card-header h3 { font-size: 16px; }
+
+/* SVG 折线图 */
+.bs-loss-chart {
+    position: relative;
+    height: 180px;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--border-color);
+    align-items: stretch;
 }
-.bn-row:last-child { border-bottom: none; }
-.bn-row .bn-rank { font-size: 20px; color: var(--gold); font-weight: 700; margin-right: 12px; }
-.bn-row .bn-info { flex: 1; }
-.bn-row .bn-stats { text-align: right; color: var(--text-secondary); font-size: 13px; }
-.bn-row .bn-stats .wait { font-size: 20px; color: var(--warning); font-weight: 700; }
+.bs-loss-chart svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+.bs-loss-line { fill: none; stroke: url(#bs-grad); stroke-width: 2.5; }
+.bs-loss-dot {
+    fill: var(--gold);
+    stroke: var(--bg-card);
+    stroke-width: 2;
+    filter: drop-shadow(0 0 4px var(--gold));
+}
+.bs-loss-label {
+    fill: var(--text-muted);
+    font-size: 11px;
+    font-family: var(--font-mono);
+}
+.bs-loss-value {
+    fill: var(--gold-bright);
+    font-size: 12px;
+    font-weight: 600;
+    font-family: var(--font-mono);
+}
+.bs-threshold {
+    stroke: var(--warning);
+    stroke-width: 1;
+    stroke-dasharray: 3 3;
+    fill: none;
+    opacity: 0.6;
+}
+.bs-threshold-label {
+    fill: var(--warning);
+    font-size: 10px;
+    font-family: var(--font-mono);
+}
+
+/* 瓶颈列表 */
+.bs-bn-list { display: flex; flex-direction: column; gap: 8px; }
+.bs-bn-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 14px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-left: 3px solid var(--gold);
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+.bs-bn-item:hover { background: var(--bg-hover); }
+.bs-bn-item.danger { border-left-color: var(--error); }
+.bs-bn-item.warning { border-left-color: var(--warning); }
+.bs-bn-rank {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--gold);
+    font-family: var(--font-mono);
+    min-width: 32px;
+    text-align: center;
+}
+.bs-bn-item.danger .bs-bn-rank { color: var(--error); }
+.bs-bn-item.warning .bs-bn-rank { color: var(--warning); }
+.bs-bn-info { flex: 1; }
+.bs-bn-name { font-size: 14px; font-weight: 500; }
+.bs-bn-meta { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.bs-bn-stat { text-align: right; }
+.bs-bn-wait {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--warning);
+    font-family: var(--font-mono);
+    line-height: 1;
+}
+.bs-bn-item.danger .bs-bn-wait { color: var(--error); }
+.bs-bn-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* 报警滚动条 */
+.bigscreen-alert-bar {
+    margin-top: 16px;
+    background: linear-gradient(90deg, var(--error-bg) 0%, rgba(184, 84, 80, 0.05) 50%, var(--error-bg) 100%);
+    border: 1px solid var(--error);
+    border-left: 4px solid var(--error);
+    overflow: hidden;
+    position: relative;
+}
+.bigscreen-alert-bar::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent 0%, rgba(184, 84, 80, 0.15) 50%, transparent 100%);
+    animation: alert-shine 3s ease-in-out infinite;
+    pointer-events: none;
+}
+@keyframes alert-shine {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+.alert-bar-content {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    gap: 16px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.alert-bar-label {
+    color: var(--error);
+    font-weight: 700;
+    font-size: 14px;
+    flex-shrink: 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.alert-bar-text {
+    color: var(--text-primary);
+    font-size: 13px;
+    animation: alert-scroll 30s linear infinite;
+    display: inline-block;
+}
+@keyframes alert-scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+.alert-bar-content:hover .alert-bar-text {
+    animation-play-state: paused;
+}
 </style>
 
 <script>
-// 由 bigscreen renderer 填充数据
+// 大屏渲染器会填充数据
+// 自动更新时间
+(function startClock() {
+    const tick = () => {
+        const el = document.getElementById('bs-time');
+        if (el) el.textContent = '🕐 ' + new Date().toLocaleString('zh-CN');
+    };
+    tick();
+    setInterval(tick, 1000);
+})();
 </script>

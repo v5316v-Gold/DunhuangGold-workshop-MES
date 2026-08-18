@@ -1,56 +1,244 @@
-<!-- Phase 3.2 增强: 损耗监控预警(3 层) -->
+<!-- 损耗监控预警 v2: 3 层监控 + 实时状态 -->
 <div class="page-header">
     <h1>📉 损耗监控预警</h1>
     <div class="actions">
+        <input type="text" id="loss-search" class="loss-search" placeholder="🔍 搜索预警 (操作员/工位/设备)">
+        <select id="loss-filter-severity" class="loss-filter">
+            <option value="">全部级别</option>
+            <option value="danger">🔴 红色</option>
+            <option value="warning">🟡 黄色</option>
+            <option value="info">ℹ️ 提示</option>
+        </select>
+        <select id="loss-filter-status" class="loss-filter">
+            <option value="">全部状态</option>
+            <option value="open">⏳ 待处理</option>
+            <option value="acknowledged">👀 已确认</option>
+            <option value="resolved">✅ 已解决</option>
+        </select>
         <button class="btn btn-ripple" onclick="window.RENDERERS.loss_monitor(document.querySelector('.main'))">🔄 刷新</button>
     </div>
 </div>
 
-<div id="loss-monitor-content"></div>
+<div id="loss-monitor-content">
+    <div class="empty-state">
+        <div class="spinner-gold"></div>
+        <div class="loading-text">加载损耗数据...</div>
+    </div>
+</div>
 
 <style>
-.alert-row {
-    display: flex;
-    gap: 12px;
-    padding: 12px 14px;
-    margin-bottom: 6px;
+/* 顶部工具条 (整合到 page-header .actions) */
+.loss-search, .loss-filter {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    border-radius: var(--radius-md);
+    padding: 8px 12px;
+    font-size: var(--text-base);
+    min-height: 36px;
+    margin-right: 8px;
+}
+.loss-search { min-width: 220px; }
+.loss-filter { min-width: 130px; }
+.loss-search:focus, .loss-filter:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px var(--gold-muted);
+    outline: none;
+}
+
+/* 预警卡片 - 加强版 */
+.alert-card {
+    display: grid;
+    grid-template-columns: 64px 1fr auto;
+    gap: 16px;
+    padding: 16px 18px;
+    margin-bottom: 8px;
     background: var(--bg-card);
     border: 1px solid var(--border-color);
     border-left: 4px solid var(--text-muted);
     border-radius: var(--radius-md);
-    transition: all var(--transition-fast);
+    transition: all 0.2s;
+    align-items: center;
 }
-.alert-row:hover { transform: translateX(2px); box-shadow: var(--shadow-gold); }
-.alert-row.severity-info { border-left-color: var(--info); }
-.alert-row.severity-warning { border-left-color: var(--warning); background: var(--warning-bg); }
-.alert-row.severity-danger { border-left-color: var(--error); background: var(--error-bg); }
-.alert-row.status-acknowledged { opacity: 0.7; }
-.alert-row.status-resolved { opacity: 0.4; }
-.alert-row.status-ignored { opacity: 0.3; text-decoration: line-through; }
-.alert-row .alert-icon { font-size: 22px; flex-shrink: 0; }
-.alert-row .alert-body { flex: 1; }
-.alert-row .alert-title { font-size: 14px; color: var(--text-primary); font-weight: 500; }
-.alert-row .alert-meta { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
-.alert-row .alert-stats { display: flex; gap: 16px; margin-top: 6px; font-size: 13px; }
-.alert-row .alert-actions { display: flex; gap: 6px; }
-.alert-row .alert-actions .btn { padding: 4px 10px; font-size: 12px; min-height: 32px; }
-.layer-section { margin-top: 20px; }
-.layer-title {
-    display: flex; align-items: center; gap: 8px;
-    font-size: 16px; color: var(--gold);
-    margin-bottom: 12px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid var(--gold-border);
+.alert-card.severity-danger {
+    border-left-color: var(--error);
+    background: linear-gradient(90deg, var(--error-bg) 0%, var(--bg-card) 50%);
 }
-.layer-title .layer-num {
-    background: var(--gold);
-    color: var(--text-inverse);
-    width: 28px; height: 28px;
+.alert-card.severity-warning {
+    border-left-color: var(--warning);
+    background: linear-gradient(90deg, var(--warning-bg) 0%, var(--bg-card) 50%);
+}
+.alert-card.severity-info {
+    border-left-color: var(--info);
+}
+.alert-card.status-resolved { opacity: 0.45; }
+.alert-card.status-ignored { opacity: 0.3; text-decoration: line-through; }
+.alert-card:hover { transform: translateX(2px); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+.alert-card-icon {
+    font-size: 36px;
+    line-height: 1;
+    text-align: center;
+    filter: drop-shadow(0 0 6px currentColor);
+}
+.alert-card.severity-danger .alert-card-icon { color: var(--error); }
+.alert-card.severity-warning .alert-card-icon { color: var(--warning); }
+.alert-card.severity-info .alert-card-icon { color: var(--info); }
+.alert-card-body { flex: 1; min-width: 0; }
+.alert-card-title {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 4px;
+}
+.alert-card-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+.alert-card-badge {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 9999px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+.alert-card-badge.severity-danger { background: var(--error); color: white; }
+.alert-card-badge.severity-warning { background: var(--warning); color: var(--text-inverse); }
+.alert-card-badge.severity-info { background: var(--info); color: white; }
+.alert-card-type {
+    font-size: 11px;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.alert-card-desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+.alert-card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+.alert-card-meta b { color: var(--text-primary); font-weight: 500; }
+.alert-card-suggestion {
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--gold);
+    background: var(--gold-muted);
+    padding: 4px 10px;
+    border-radius: 4px;
+    display: inline-block;
+}
+.alert-card-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.alert-card-actions .btn { font-size: 12px; padding: 4px 10px; min-height: 28px; }
+
+/* Z-Score 进度条 - 增强版 */
+.zscore-bar-wrap {
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+.zscore-bar-wrap:last-child { border-bottom: none; }
+.zscore-bar-wrap .z-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    margin-bottom: 4px;
+}
+.zscore-bar-wrap .z-name { color: var(--text-primary); font-weight: 500; }
+.zscore-bar-wrap .z-value { font-family: var(--font-mono); color: var(--text-muted); }
+.zscore-bar-wrap .z-value.danger { color: var(--error); font-weight: 700; }
+.zscore-bar-wrap .z-value.warning { color: var(--warning); font-weight: 700; }
+.zscore-bar-track {
+    height: 8px;
+    background: var(--bg-tertiary);
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+}
+.zscore-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: var(--success);
+    transition: width 0.5s;
+}
+.zscore-bar-fill.warning { background: var(--warning); }
+.zscore-bar-fill.danger { background: var(--error); }
+.zscore-bar-wrap .z-detail {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 3px;
+}
+
+/* SVG Z-Score 仪表盘 */
+.zscore-gauge {
+    background: var(--bg-tertiary);
     border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 700;
+    margin: 0 auto;
+    display: block;
 }
-.zscore-bar { display: flex; align-items: center; gap: 8px; }
-.zscore-bar .bar-track { flex: 1; height: 8px; background: var(--bg-tertiary); border-radius: 4px; position: relative; }
-.zscore-bar .bar-fill { height: 100%; background: linear-gradient(90deg, var(--success) 0%, var(--gold) 50%, var(--error) 100%); border-radius: 4px; }
+
+/* 图层统计卡片 */
+.layer-stat {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 16px 18px;
+    text-align: center;
+    transition: all 0.2s;
+}
+.layer-stat:hover { transform: translateY(-2px); }
+.layer-stat-num {
+    font-size: 32px;
+    font-weight: 700;
+    font-family: var(--font-mono);
+    line-height: 1;
+}
+.layer-stat-num.danger { color: var(--error); }
+.layer-stat-num.warning { color: var(--warning); }
+.layer-stat-num.success { color: var(--success); }
+.layer-stat-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.layer-stat-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+
+/* 预警数量徽章 */
+.alert-section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin: 20px 0 12px;
+}
+.alert-section-title { font-size: 16px; color: var(--text-primary); font-weight: 600; }
+.alert-section-count {
+    background: var(--bg-tertiary);
+    color: var(--text-muted);
+    padding: 2px 10px;
+    border-radius: 9999px;
+    font-size: 12px;
+    font-weight: 600;
+}
+.alert-empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-muted);
+}
+.alert-empty-icon { font-size: 48px; opacity: 0.5; margin-bottom: 8px; }
 </style>

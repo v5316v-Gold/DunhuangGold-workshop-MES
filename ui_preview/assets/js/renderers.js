@@ -92,105 +92,87 @@ window.RENDERERS.dashboard = async function (main) {
 };
 
 // 损耗监控预警(Phase 3.2 增强)
+// 损耗监控预警 v3: 过滤 + 强卡片
 window.RENDERERS.loss_monitor = async function (main) {
-    main.innerHTML = U.pageHeader('📉 损耗监控预警 (3 层)',
-        '<button class="btn btn-ripple" onclick="window.RENDERERS.loss_monitor(document.querySelector(\'.main\'))">🔄 刷新</button>') +
-        '<div id="loss-monitor-content">' + U.loadingHTML('加载损耗数据...') + '</div>';
-    const [alerts, dash] = await Promise.all([
+    main.innerHTML = U.pageHeader('📉 损耗监控预警', '<button class="btn btn-ripple" onclick="window.RENDERERS.loss_monitor(document.querySelector(' + "'" + '.main' + "'" + '))">🔄 刷新</button>') + '<div id="loss-monitor-content">' + U.loadingHTML('加载损耗数据...') + '</div>';
+    const [alertsRaw, dash] = await Promise.all([
         safeFetch(main, '/loss/alerts'),
         safeFetch(main, '/loss/dashboard'),
     ]);
-    if (!alerts || !dash) return;
+    if (!alertsRaw || !dash) return;
     const d = dash || {};
+    const sevF = document.getElementById('loss-filter-severity')?.value || '';
+    const statusF = document.getElementById('loss-filter-status')?.value || '';
+    const searchK = document.getElementById('loss-search')?.value.toLowerCase().trim() || '';
+    let alerts = alertsRaw;
+    if (sevF) alerts = alerts.filter(a => a.severity === sevF);
+    if (statusF) alerts = alerts.filter(a => a.status === statusF);
+    if (searchK) alerts = alerts.filter(a => (a.name + ' ' + (a.description||'')).toLowerCase().includes(searchK));
 
-    const statusLabel = { open: '待处理', acknowledged: '已确认', resolved: '已解决', ignored: '已忽略' };
-    const severityLabel = { info: '提示', warning: '黄色', danger: '红色' };
+    const severityLabel = { info: 'ℹ️ 提示', warning: '🟡 黄色', danger: '🔴 红色' };
     const typeLabel = { operation: '工序级', cumulative: '累积级', trend: '趋势级' };
-    const iconMap = { info: 'ℹ️', warning: '🟡', danger: '🔴' };
-    const statusIcon = { open: '⏳', acknowledged: '👀', resolved: '✅', ignored: '🚫' };
+    const statusBadge = { open: '⏳ 待处理', acknowledged: '👀 已确认', resolved: '✅ 已解决', ignored: '🚫 已忽略' };
+    const iconMap = { info: 'ℹ️', warning: '⚠️', danger: '🔴' };
 
-    const html = `
-        <div class="kpi-cards stagger-in">
-            <div class="kpi-card danger"><div class="label">待处理</div><div class="value">${d.open_count || 0}</div><div class="sub">需立即处置</div></div>
-            <div class="kpi-card warning"><div class="label">已确认</div><div class="value">${d.acknowledged_count || 0}</div><div class="sub">处置中</div></div>
-            <div class="kpi-card success"><div class="label">已解决</div><div class="value">${d.resolved_count || 0}</div><div class="sub">本周期</div></div>
-            <div class="kpi-card"><div class="label">工序级</div><div class="value">${(d.by_type && d.by_type.operation) || 0}</div><div class="sub">Layer 1</div></div>
-            <div class="kpi-card"><div class="label">累积级</div><div class="value">${(d.by_type && d.by_type.cumulative) || 0}</div><div class="sub">Layer 2</div></div>
-            <div class="kpi-card gold"><div class="label">趋势级</div><div class="value">${(d.by_type && d.by_type.trend) || 0}</div><div class="sub">Layer 3</div></div>
-        </div>
+    const layerStats = '<div class="kpi-cards stagger-in" style="margin-bottom:16px">' +
+        '<div class="kpi-card danger"><div class="label">待处理</div><div class="value">' + (d.open_count || 0) + '</div><div class="sub">需立即处置</div></div>' +
+        '<div class="kpi-card warning"><div class="label">已确认</div><div class="value">' + (d.acknowledged_count || 0) + '</div><div class="sub">处置中</div></div>' +
+        '<div class="kpi-card success"><div class="label">已解决</div><div class="value">' + (d.resolved_count || 0) + '</div><div class="sub">本周期</div></div>' +
+        '<div class="kpi-card"><div class="label">工序级</div><div class="value">' + ((d.by_type && d.by_type.operation) || 0) + '</div><div class="sub">Layer 1</div></div>' +
+        '<div class="kpi-card"><div class="label">累积级</div><div class="value">' + ((d.by_type && d.by_type.cumulative) || 0) + '</div><div class="sub">Layer 2</div></div>' +
+        '<div class="kpi-card gold"><div class="label">趋势级</div><div class="value">' + ((d.by_type && d.by_type.trend) || 0) + '</div><div class="sub">Layer 3</div></div>' +
+    '</div>';
 
-        <div class="layer-section">
-            <div class="layer-title">
-                <span class="layer-num">1</span>
-                <span>🔍 预警列表 (${alerts.length} 条)</span>
-            </div>
-            <div class="stagger-in">
-                ${alerts.map(a => {
-                    const isPending = a.status === 'open';
-                    return `<div class="alert-row severity-${a.severity} status-${a.status}">
-                        <div class="alert-icon">${iconMap[a.severity] || '⚠️'}</div>
-                        <div class="alert-body">
-                            <div class="alert-title">
-                                ${statusIcon[a.status] || '?'} ${escapeHtml(a.name)} ·
-                                <span class="text-gold">${typeLabel[a.alert_type] || a.alert_type}</span> ·
-                                <span class="text-secondary">${severityLabel[a.severity] || a.severity}</span> ·
-                                <span class="text-muted">${statusLabel[a.status] || a.status}</span>
-                            </div>
-                            <div class="alert-meta">${a.description || ''}</div>
-                            <div class="alert-stats">
-                                ${a.operation_id ? `<span>📍 ${escapeHtml(a.operation_id)}</span>` : ''}
-                                ${a.operator_id ? `<span>👤 ${escapeHtml(a.operator_id)}</span>` : ''}
-                                ${a.equipment_id ? `<span>🔧 ${escapeHtml(a.equipment_id)}</span>` : ''}
-                                ${a.z_score ? `<span>📊 Z=${a.z_score.toFixed(2)}</span>` : ''}
-                                <span class="text-muted">⏰ ${a.triggered_at}</span>
-                            </div>
-                            ${a.suggestion ? `<div class="alert-meta" style="margin-top:4px;color:var(--text-secondary)">💡 ${escapeHtml(a.suggestion)}</div>` : ''}
-                        </div>
-                        ${isPending ? `<div class="alert-actions">
-                            <button class="btn btn-ripple" onclick="window.apiPost('/loss/alerts/acknowledge', {alert_id:${a.id}}).then(r=>{window.toast('success','✓ 已确认 ' + r.data.name); window.RENDERERS.loss_monitor(document.querySelector('.main'))})">👀 确认</button>
-                            <button class="btn btn-primary btn-ripple" onclick="resolveAlert(${a.id})">✓ 解决</button>
-                        </div>` : ''}
-                    </div>`;
-                }).join('')}
-            </div>
-        </div>
+    const ackFn = "window.apiPost('/loss/alerts/acknowledge', {alert_id:ID}).then(r=>{window.toast('success', '✓ ' + r.data.name); window.RENDERERS.loss_monitor(document.querySelector('.main'));})";
+    const resolveFn = "resolveAlert(ID)";
 
-        <div class="layer-section">
-            <div class="layer-title">
-                <span class="layer-num">2</span>
-                <span>📈 趋势分析 (Layer 3, 3σ 检测)</span>
-            </div>
-            <div class="card card-glow">
-                <div class="card-body" id="trend-container">
-                    <div class="loading-state"><div class="spinner-gold sm"></div><div class="loading-text">分析趋势数据...</div></div>
-                </div>
-            </div>
-        </div>
-    `;
-    main.querySelector('#loss-monitor-content').innerHTML = html;
+    const alertCards = alerts.length === 0
+        ? '<div class="alert-empty"><div class="alert-empty-icon">✅</div><div>暂无符合筛选条件的预警</div></div>'
+        : alerts.map(a => {
+            const isPending = a.status === 'open';
+            const sevCls = a.severity || 'info';
+            return '<div class="alert-card severity-' + sevCls + ' status-' + a.status + '">' +
+                '<div class="alert-card-icon">' + (iconMap[sevCls] || '⚠️') + '</div>' +
+                '<div class="alert-card-body">' +
+                    '<div class="alert-card-title">' +
+                        '<span class="alert-card-name">' + escapeHtml(a.name) + '</span>' +
+                        '<span class="alert-card-badge severity-' + sevCls + '">' + (severityLabel[sevCls] || sevCls) + '</span>' +
+                        '<span class="alert-card-type">' + (typeLabel[a.alert_type] || a.alert_type) + '</span>' +
+                        '<span class="text-muted" style="font-size:11px;margin-left:auto">' + (statusBadge[a.status] || a.status) + '</span>' +
+                    '</div>' +
+                    '<div class="alert-card-desc">' + escapeHtml(a.description || '') + '</div>' +
+                    '<div class="alert-card-meta">' +
+                        (a.operation_id ? '<span>📍 ' + escapeHtml(a.operation_id) + '</span>' : '') +
+                        (a.operator_id ? '<span>👤 ' + escapeHtml(a.operator_id) + '</span>' : '') +
+                        (a.equipment_id ? '<span>🔧 ' + escapeHtml(a.equipment_id) + '</span>' : '') +
+                        (a.z_score ? '<span>📊 Z=' + a.z_score.toFixed(2) + '</span>' : '') +
+                        '<span>⏰ ' + a.triggered_at + '</span>' +
+                    '</div>' +
+                    (a.suggestion ? '<div class="alert-card-suggestion">💡 ' + escapeHtml(a.suggestion) + '</div>' : '') +
+                '</div>' +
+                (isPending ? '<div class="alert-card-actions">' +
+                    '<button class="btn btn-ripple" onclick="' + ackFn.replace('ID', a.id) + '">👀 确认</button>' +
+                    '<button class="btn btn-primary btn-ripple" onclick="' + resolveFn.replace('ID', a.id) + '">✓ 解决</button>' +
+                '</div>' : '') +
+            '</div>';
+        }).join('');
 
-    // 拉取趋势数据
-    const trendResp = await safeFetch(main, '/loss/trend?dimension=all');
-    if (trendResp && trendResp.items) {
-        const trendContainer = main.querySelector('#trend-container');
-        if (trendContainer) {
-            trendContainer.innerHTML = trendResp.items.map(t => {
-                const zAbs = Math.abs(t.z);
-                const barW = Math.min(100, zAbs * 12);
-                const statusColor = t.status === 'danger' ? 'var(--error)' :
-                                     t.status === 'warning' ? 'var(--warning)' : 'var(--success)';
-                return `<div class="zscore-bar" style="padding:6px 0;border-bottom:1px solid var(--border-color)">
-                    <div style="width:120px;font-size:13px">${escapeHtml(t.name)}</div>
-                    <div style="width:60px;text-align:right;font-family:monospace;color:${statusColor}">Z=${t.z.toFixed(2)}</div>
-                    <div class="bar-track" style="position:relative">
-                        <div class="bar-fill" style="width:${barW}%;background:${statusColor};opacity:0.7"></div>
-                    </div>
-                    <div style="width:100px;font-size:11px;color:var(--text-muted)">当前 ${t.current}% / 均 ${t.avg}%</div>
-                </div>`;
-            }).join('');
-        }
-    }
+    const html = layerStats + '<div class="alert-section-header">' +
+        '<span class="alert-section-title">🔍 预警列表</span>' +
+        '<span class="alert-section-count">' + alerts.length + ' / ' + alertsRaw.length + ' 条</span>' +
+    '</div>' + alertCards;
+
+    const el = main.querySelector('#loss-monitor-content');
+    if (el) el.innerHTML = html;
 };
+
+function resolveAlert(alertId) {
+    const note = prompt('解决说明(可选):', '');
+    if (note === null) return;
+    window.apiPost('/loss/alerts/resolve', { alert_id: alertId, note })
+        .then(r => { window.toast('success', '✓ 已解决 ' + r.data.name); window.RENDERERS.loss_monitor(document.querySelector('.main')); });
+}
+
 
 function resolveAlert(alertId) {
     const note = prompt('解决说明(可选):', '');
@@ -244,106 +226,6 @@ window.RENDERERS.material_batch = async function (main) {
 };
 
 // 损耗监控预警(Phase 3.2 增强)
-window.RENDERERS.loss_monitor = async function (main) {
-    main.innerHTML = U.pageHeader('📉 损耗监控预警 (3 层)',
-        '<button class="btn btn-ripple" onclick="window.RENDERERS.loss_monitor(document.querySelector(\'.main\'))">🔄 刷新</button>') +
-        '<div id="loss-monitor-content">' + U.loadingHTML('加载损耗数据...') + '</div>';
-    const [alerts, dash] = await Promise.all([
-        safeFetch(main, '/loss/alerts'),
-        safeFetch(main, '/loss/dashboard'),
-    ]);
-    if (!alerts || !dash) return;
-    const d = dash || {};
-
-    const statusLabel = { open: '待处理', acknowledged: '已确认', resolved: '已解决', ignored: '已忽略' };
-    const severityLabel = { info: '提示', warning: '黄色', danger: '红色' };
-    const typeLabel = { operation: '工序级', cumulative: '累积级', trend: '趋势级' };
-    const iconMap = { info: 'ℹ️', warning: '🟡', danger: '🔴' };
-    const statusIcon = { open: '⏳', acknowledged: '👀', resolved: '✅', ignored: '🚫' };
-
-    const html = `
-        <div class="kpi-cards stagger-in">
-            <div class="kpi-card danger"><div class="label">待处理</div><div class="value">${d.open_count || 0}</div><div class="sub">需立即处置</div></div>
-            <div class="kpi-card warning"><div class="label">已确认</div><div class="value">${d.acknowledged_count || 0}</div><div class="sub">处置中</div></div>
-            <div class="kpi-card success"><div class="label">已解决</div><div class="value">${d.resolved_count || 0}</div><div class="sub">本周期</div></div>
-            <div class="kpi-card"><div class="label">工序级</div><div class="value">${(d.by_type && d.by_type.operation) || 0}</div><div class="sub">Layer 1</div></div>
-            <div class="kpi-card"><div class="label">累积级</div><div class="value">${(d.by_type && d.by_type.cumulative) || 0}</div><div class="sub">Layer 2</div></div>
-            <div class="kpi-card gold"><div class="label">趋势级</div><div class="value">${(d.by_type && d.by_type.trend) || 0}</div><div class="sub">Layer 3</div></div>
-        </div>
-
-        <div class="layer-section">
-            <div class="layer-title">
-                <span class="layer-num">1</span>
-                <span>🔍 预警列表 (${alerts.length} 条)</span>
-            </div>
-            <div class="stagger-in">
-                ${alerts.map(a => {
-                    const isPending = a.status === 'open';
-                    return `<div class="alert-row severity-${a.severity} status-${a.status}">
-                        <div class="alert-icon">${iconMap[a.severity] || '⚠️'}</div>
-                        <div class="alert-body">
-                            <div class="alert-title">
-                                ${statusIcon[a.status] || '?'} ${escapeHtml(a.name)} ·
-                                <span class="text-gold">${typeLabel[a.alert_type] || a.alert_type}</span> ·
-                                <span class="text-secondary">${severityLabel[a.severity] || a.severity}</span> ·
-                                <span class="text-muted">${statusLabel[a.status] || a.status}</span>
-                            </div>
-                            <div class="alert-meta">${a.description || ''}</div>
-                            <div class="alert-stats">
-                                ${a.operation_id ? `<span>📍 ${escapeHtml(a.operation_id)}</span>` : ''}
-                                ${a.operator_id ? `<span>👤 ${escapeHtml(a.operator_id)}</span>` : ''}
-                                ${a.equipment_id ? `<span>🔧 ${escapeHtml(a.equipment_id)}</span>` : ''}
-                                ${a.z_score ? `<span>📊 Z=${a.z_score.toFixed(2)}</span>` : ''}
-                                <span class="text-muted">⏰ ${a.triggered_at}</span>
-                            </div>
-                            ${a.suggestion ? `<div class="alert-meta" style="margin-top:4px;color:var(--text-secondary)">💡 ${escapeHtml(a.suggestion)}</div>` : ''}
-                        </div>
-                        ${isPending ? `<div class="alert-actions">
-                            <button class="btn btn-ripple" onclick="window.apiPost('/loss/alerts/acknowledge', {alert_id:${a.id}}).then(r=>{window.toast('success','✓ 已确认 ' + r.data.name); window.RENDERERS.loss_monitor(document.querySelector('.main'))})">👀 确认</button>
-                            <button class="btn btn-primary btn-ripple" onclick="resolveAlert(${a.id})">✓ 解决</button>
-                        </div>` : ''}
-                    </div>`;
-                }).join('')}
-            </div>
-        </div>
-
-        <div class="layer-section">
-            <div class="layer-title">
-                <span class="layer-num">2</span>
-                <span>📈 趋势分析 (Layer 3, 3σ 检测)</span>
-            </div>
-            <div class="card card-glow">
-                <div class="card-body" id="trend-container">
-                    <div class="loading-state"><div class="spinner-gold sm"></div><div class="loading-text">分析趋势数据...</div></div>
-                </div>
-            </div>
-        </div>
-    `;
-    main.querySelector('#loss-monitor-content').innerHTML = html;
-
-    // 拉取趋势数据
-    const trendResp = await safeFetch(main, '/loss/trend?dimension=all');
-    if (trendResp && trendResp.items) {
-        const trendContainer = main.querySelector('#trend-container');
-        if (trendContainer) {
-            trendContainer.innerHTML = trendResp.items.map(t => {
-                const zAbs = Math.abs(t.z);
-                const barW = Math.min(100, zAbs * 12);
-                const statusColor = t.status === 'danger' ? 'var(--error)' :
-                                     t.status === 'warning' ? 'var(--warning)' : 'var(--success)';
-                return `<div class="zscore-bar" style="padding:6px 0;border-bottom:1px solid var(--border-color)">
-                    <div style="width:120px;font-size:13px">${escapeHtml(t.name)}</div>
-                    <div style="width:60px;text-align:right;font-family:monospace;color:${statusColor}">Z=${t.z.toFixed(2)}</div>
-                    <div class="bar-track" style="position:relative">
-                        <div class="bar-fill" style="width:${barW}%;background:${statusColor};opacity:0.7"></div>
-                    </div>
-                    <div style="width:100px;font-size:11px;color:var(--text-muted)">当前 ${t.current}% / 均 ${t.avg}%</div>
-                </div>`;
-            }).join('');
-        }
-    }
-};
-
 function resolveAlert(alertId) {
     const note = prompt('解决说明(可选):', '');
     if (note === null) return;
@@ -684,13 +566,13 @@ window.RENDERERS.bigscreen = async function (main) {
 
     main.innerHTML = U.pageHeader('🖥️ 车间大屏 (65寸实时)', '<button class="btn btn-ripple" onclick="window.RENDERERS.bigscreen(document.querySelector(\'.main\'))">🔄 刷新</button>') + `
         <div class="bigscreen-top stagger-in">
-            <div class="kpi-card success"><div class="label">今日完工</div><div class="value" data-count="${s.done_today}">0</div></div>
-            <div class="kpi-card"><div class="label">进行中</div><div class="value" data-count="${s.in_progress}">0</div></div>
-            <div class="kpi-card warning"><div class="label">待接收</div><div class="value" data-count="${s.pending_receive}">0</div></div>
-            <div class="kpi-card danger"><div class="label">超耗预警</div><div class="value" data-count="${s.over_loss_alerts}">0</div></div>
-            <div class="kpi-card danger"><div class="label">NCR 待处置</div><div class="value" data-count="${s.ncr_pending}">0</div></div>
-            <div class="kpi-card success"><div class="label">今日包装</div><div class="value" data-count="${s.packages_today}">0</div></div>
-            <div class="kpi-card gold"><div class="label">平均损耗率</div><div class="value" data-count="${s.avg_loss_rate}" data-decimals="2">0<span class="unit">%</span></div></div>
+            <div class="kpi-card success"><div class="label">今日完工</div><div class="value" data-count="${s.done_today}">${s.done_today}</div></div>
+            <div class="kpi-card"><div class="label">进行中</div><div class="value" data-count="${s.in_progress}">${s.in_progress}</div></div>
+            <div class="kpi-card warning"><div class="label">待接收</div><div class="value" data-count="${s.pending_receive}">${s.pending_receive}</div></div>
+            <div class="kpi-card danger"><div class="label">超耗预警</div><div class="value" data-count="${s.over_loss_alerts}">${s.over_loss_alerts}</div></div>
+            <div class="kpi-card danger"><div class="label">NCR 待处置</div><div class="value" data-count="${s.ncr_pending}">${s.ncr_pending}</div></div>
+            <div class="kpi-card success"><div class="label">今日包装</div><div class="value" data-count="${s.packages_today}">${s.packages_today}</div></div>
+            <div class="kpi-card gold"><div class="label">平均损耗率</div><div class="value" data-count="${s.avg_loss_rate}" data-decimals="2">${s.avg_loss_rate.toFixed(1)}<span class="unit">%</span></div></div>
         </div>
         <div class="card card-glow" style="margin-top:16px">
             <div class="card-header"><h3>🔧 9 道工序实时状态</h3></div>
@@ -753,106 +635,6 @@ window.RENDERERS.bigscreen = async function (main) {
 };
 
 // 损耗监控预警(Phase 3.2 增强)
-window.RENDERERS.loss_monitor = async function (main) {
-    main.innerHTML = U.pageHeader('📉 损耗监控预警 (3 层)',
-        '<button class="btn btn-ripple" onclick="window.RENDERERS.loss_monitor(document.querySelector(\'.main\'))">🔄 刷新</button>') +
-        '<div id="loss-monitor-content">' + U.loadingHTML('加载损耗数据...') + '</div>';
-    const [alerts, dash] = await Promise.all([
-        safeFetch(main, '/loss/alerts'),
-        safeFetch(main, '/loss/dashboard'),
-    ]);
-    if (!alerts || !dash) return;
-    const d = dash || {};
-
-    const statusLabel = { open: '待处理', acknowledged: '已确认', resolved: '已解决', ignored: '已忽略' };
-    const severityLabel = { info: '提示', warning: '黄色', danger: '红色' };
-    const typeLabel = { operation: '工序级', cumulative: '累积级', trend: '趋势级' };
-    const iconMap = { info: 'ℹ️', warning: '🟡', danger: '🔴' };
-    const statusIcon = { open: '⏳', acknowledged: '👀', resolved: '✅', ignored: '🚫' };
-
-    const html = `
-        <div class="kpi-cards stagger-in">
-            <div class="kpi-card danger"><div class="label">待处理</div><div class="value">${d.open_count || 0}</div><div class="sub">需立即处置</div></div>
-            <div class="kpi-card warning"><div class="label">已确认</div><div class="value">${d.acknowledged_count || 0}</div><div class="sub">处置中</div></div>
-            <div class="kpi-card success"><div class="label">已解决</div><div class="value">${d.resolved_count || 0}</div><div class="sub">本周期</div></div>
-            <div class="kpi-card"><div class="label">工序级</div><div class="value">${(d.by_type && d.by_type.operation) || 0}</div><div class="sub">Layer 1</div></div>
-            <div class="kpi-card"><div class="label">累积级</div><div class="value">${(d.by_type && d.by_type.cumulative) || 0}</div><div class="sub">Layer 2</div></div>
-            <div class="kpi-card gold"><div class="label">趋势级</div><div class="value">${(d.by_type && d.by_type.trend) || 0}</div><div class="sub">Layer 3</div></div>
-        </div>
-
-        <div class="layer-section">
-            <div class="layer-title">
-                <span class="layer-num">1</span>
-                <span>🔍 预警列表 (${alerts.length} 条)</span>
-            </div>
-            <div class="stagger-in">
-                ${alerts.map(a => {
-                    const isPending = a.status === 'open';
-                    return `<div class="alert-row severity-${a.severity} status-${a.status}">
-                        <div class="alert-icon">${iconMap[a.severity] || '⚠️'}</div>
-                        <div class="alert-body">
-                            <div class="alert-title">
-                                ${statusIcon[a.status] || '?'} ${escapeHtml(a.name)} ·
-                                <span class="text-gold">${typeLabel[a.alert_type] || a.alert_type}</span> ·
-                                <span class="text-secondary">${severityLabel[a.severity] || a.severity}</span> ·
-                                <span class="text-muted">${statusLabel[a.status] || a.status}</span>
-                            </div>
-                            <div class="alert-meta">${a.description || ''}</div>
-                            <div class="alert-stats">
-                                ${a.operation_id ? `<span>📍 ${escapeHtml(a.operation_id)}</span>` : ''}
-                                ${a.operator_id ? `<span>👤 ${escapeHtml(a.operator_id)}</span>` : ''}
-                                ${a.equipment_id ? `<span>🔧 ${escapeHtml(a.equipment_id)}</span>` : ''}
-                                ${a.z_score ? `<span>📊 Z=${a.z_score.toFixed(2)}</span>` : ''}
-                                <span class="text-muted">⏰ ${a.triggered_at}</span>
-                            </div>
-                            ${a.suggestion ? `<div class="alert-meta" style="margin-top:4px;color:var(--text-secondary)">💡 ${escapeHtml(a.suggestion)}</div>` : ''}
-                        </div>
-                        ${isPending ? `<div class="alert-actions">
-                            <button class="btn btn-ripple" onclick="window.apiPost('/loss/alerts/acknowledge', {alert_id:${a.id}}).then(r=>{window.toast('success','✓ 已确认 ' + r.data.name); window.RENDERERS.loss_monitor(document.querySelector('.main'))})">👀 确认</button>
-                            <button class="btn btn-primary btn-ripple" onclick="resolveAlert(${a.id})">✓ 解决</button>
-                        </div>` : ''}
-                    </div>`;
-                }).join('')}
-            </div>
-        </div>
-
-        <div class="layer-section">
-            <div class="layer-title">
-                <span class="layer-num">2</span>
-                <span>📈 趋势分析 (Layer 3, 3σ 检测)</span>
-            </div>
-            <div class="card card-glow">
-                <div class="card-body" id="trend-container">
-                    <div class="loading-state"><div class="spinner-gold sm"></div><div class="loading-text">分析趋势数据...</div></div>
-                </div>
-            </div>
-        </div>
-    `;
-    main.querySelector('#loss-monitor-content').innerHTML = html;
-
-    // 拉取趋势数据
-    const trendResp = await safeFetch(main, '/loss/trend?dimension=all');
-    if (trendResp && trendResp.items) {
-        const trendContainer = main.querySelector('#trend-container');
-        if (trendContainer) {
-            trendContainer.innerHTML = trendResp.items.map(t => {
-                const zAbs = Math.abs(t.z);
-                const barW = Math.min(100, zAbs * 12);
-                const statusColor = t.status === 'danger' ? 'var(--error)' :
-                                     t.status === 'warning' ? 'var(--warning)' : 'var(--success)';
-                return `<div class="zscore-bar" style="padding:6px 0;border-bottom:1px solid var(--border-color)">
-                    <div style="width:120px;font-size:13px">${escapeHtml(t.name)}</div>
-                    <div style="width:60px;text-align:right;font-family:monospace;color:${statusColor}">Z=${t.z.toFixed(2)}</div>
-                    <div class="bar-track" style="position:relative">
-                        <div class="bar-fill" style="width:${barW}%;background:${statusColor};opacity:0.7"></div>
-                    </div>
-                    <div style="width:100px;font-size:11px;color:var(--text-muted)">当前 ${t.current}% / 均 ${t.avg}%</div>
-                </div>`;
-            }).join('');
-        }
-    }
-};
-
 function resolveAlert(alertId) {
     const note = prompt('解决说明(可选):', '');
     if (note === null) return;
