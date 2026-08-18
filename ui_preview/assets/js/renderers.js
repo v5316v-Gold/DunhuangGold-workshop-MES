@@ -1,4 +1,4 @@
-// 敦煌金 ERP - 页面动态渲染器
+﻿// 敦煌金 MES - 页面动态渲染器
 // 每个页面加载后调用对应 renderer(main)，fetch 真实(mock)数据并渲染 + 绑定交互
 
 window.RENDERERS = {};

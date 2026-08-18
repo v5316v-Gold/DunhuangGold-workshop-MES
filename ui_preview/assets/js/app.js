@@ -1,4 +1,4 @@
-// 伪 Odoo 17 — 敦煌金加工车间 ERP 离线预览
+﻿// 伪 Odoo 17 — 敦煌金车间MES 离线预览
 // 导航 + 页面切换 (Phase 3.2 优化: 9 sections 按业务流程分组)
 
 const NAV = [
@@ -279,7 +279,7 @@ function updateBreadcrumb() {
         <span class="crumb-sep"> / </span>
         <span class="crumb-current">${escapeHtml(page.name)}</span>
     `;
-    document.title = `敦煌金加工车间 ERP - ${page.name}`;
+    document.title = `敦煌金车间MES - ${page.name}`;
 }
 
 async function loadPage(itemId) {

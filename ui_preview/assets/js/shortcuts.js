@@ -1,4 +1,4 @@
-// 敦煌金 ERP - 全局快捷键 / 命令面板 / Toast / 网络状态
+﻿// 敦煌金 MES - 全局快捷键 / 命令面板 / Toast / 网络状态
 // 加载: <script src="assets/js/shortcuts.js"></script>
 // 依赖: window.UI(可选), window.API(可选)
 

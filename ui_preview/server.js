@@ -1,4 +1,4 @@
-// 敦煌金 ERP - 前端预览服务器 (静态文件 + Mock REST API 一体)
+﻿// 敦煌金 MES - 前端预览服务器 (静态文件 + Mock REST API 一体)
 // 启动: node server.js  →  http://localhost:8080
 // 前端页面从 /pages/* 加载, 数据从 /api/v1/* 读写 (内存 mock)
 const http = require('http');
@@ -522,7 +522,7 @@ async function apiHandler(req, res, pathname, queryParams) {
             piece_count: 10,
             sealed_time: '2026-08-05 14:35',
             state: 'sealed',
-            verification: '正品,敦煌金加工车间 ERP 出品',
+            verification: '正品,敦煌金车间MES 出品',
         });
     }
 
@@ -616,7 +616,7 @@ http.createServer((req, res) => {
         serveStatic(res, req.url);
     }
 }).listen(PORT, () => {
-    console.log(`敦煌金 ERP 预览已启动: http://localhost:${PORT}`);
+    console.log(`敦煌金 MES 预览已启动: http://localhost:${PORT}`);
     console.log(`  - 静态页面: http://localhost:${PORT}/`);
     console.log(`  - Mock API: http://localhost:${PORT}/api/v1/dashboard/kpi`);
 });

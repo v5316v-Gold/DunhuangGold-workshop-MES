@@ -1,4 +1,4 @@
-// 敦煌金 ERP - API 封装 + 通用渲染辅助
+﻿// 敦煌金 MES - API 封装 + 通用渲染辅助
 // 数据来自本机 mock API (/api/v1/*)，结构对齐 Odoo REST 契约
 
 const API_BASE = '/api/v1';

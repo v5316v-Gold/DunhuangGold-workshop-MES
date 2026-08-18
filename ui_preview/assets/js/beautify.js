@@ -1,4 +1,4 @@
-// 敦煌金 ERP - UI 美化辅助
+﻿// 敦煌金 MES - UI 美化辅助
 // 数字格式化 / 滚动动画 / 加载态 / 空状态
 // 加载: <script src="assets/js/beautify.js"></script>
 // 依赖: 无

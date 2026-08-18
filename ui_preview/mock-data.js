@@ -1,4 +1,4 @@
-// 敦煌金 ERP - Mock 数据层 (内存存储)
+﻿// 敦煌金 MES - Mock 数据层 (内存存储)
 // 模拟 Odoo 后端数据, 结构对齐 REST API 返回字段 (snake_case)
 // 前端通过 /api/* 读写这里的数据
 

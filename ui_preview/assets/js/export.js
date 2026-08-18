@@ -1,4 +1,4 @@
-// 敦煌金 ERP - 报表导出 (Excel / PDF)
+﻿// 敦煌金 MES - 报表导出 (Excel / PDF)
 // 依赖: SheetJS (XLSX), jsPDF, jsPDF-AutoTable (CDN 引入)
 //
 // 工具函数:
@@ -200,7 +200,7 @@
             pdf.setFontSize(8);
             pdf.setTextColor(150, 150, 150);
             pdf.text(
-                `${i} / ${pageCount}  ·  敦煌金加工车间 ERP`,
+                `${i} / ${pageCount}  ·  敦煌金车间MES`,
                 pageW / 2, pdf.internal.pageSize.getHeight() - 6,
                 { align: 'center' }
             );
@@ -262,7 +262,7 @@
             const ts = new Date().toISOString().slice(0, 19).replace(/[T:]/g, '-');
             const fn = `${base}-${ts}`;
             if (fmt === 'xlsx') {
-                exportToExcel(t, fn, { title, creator: '敦煌金 ERP' });
+                exportToExcel(t, fn, { title, creator: '敦煌金 MES' });
             } else {
                 exportToPDF(t, fn, { title, subtitle: `导出时间: ${new Date().toLocaleString('zh-CN')}` });
             }
