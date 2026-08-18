@@ -157,7 +157,7 @@ function renderMenu() {
     // 收藏夹(如果非空)
     if (favorites.length > 0) {
         html += `<div class="menu-section">`;
-        html += `<div class="menu-section-title recent" data-section-toggle="⭐ 收藏夹">⭐ 收藏夹 <span class="section-count">${favorites.length}</span></div>`;
+        html += `<div class="menu-section-title recent" data-section-toggle="收藏夹">收藏夹 <span class="section-count">${favorites.length}</span></div>`;
         favorites.forEach(pageId => {
             const item = findPage(pageId);
             if (!item) return;
@@ -170,7 +170,7 @@ function renderMenu() {
     // 最近访问(如果非空)
     if (recent.length > 0) {
         html += `<div class="menu-section">`;
-        html += `<div class="menu-section-title recent" data-section-toggle="⏱ 最近访问">⏱ 最近访问 <span class="section-count">${recent.length}</span></div>`;
+        html += `<div class="menu-section-title recent" data-section-toggle="最近访问">最近访问 <span class="section-count">${recent.length}</span></div>`;
         recent.forEach(pageId => {
             const item = findPage(pageId);
             if (!item) return;

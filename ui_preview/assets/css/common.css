@@ -320,7 +320,11 @@ pre { padding: 12px 16px; overflow-x: auto; }
     text-align: left;
 }
 .menu-section-title:hover { color: var(--gold-bright); }
-.menu-section-title.recent { color: var(--info); }
+/* 收藏夹/最近访问 - 与普通 section 完全一致 */
+.menu-section-title.recent {
+    color: var(--gold);
+}
+.menu-section-title.recent:hover { color: var(--gold-bright); }
 .menu-section-title .section-count {
     background: var(--bg-tertiary);
     color: var(--text-muted);
