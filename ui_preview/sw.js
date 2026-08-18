@@ -5,12 +5,14 @@
 //   - API GET: network-first, 失败回 cache
 //   - API POST: network-only(写操作不入缓存)
 
-const CACHE_NAME = 'dunhuang-mes-v5';  // 递增失效旧缓存
+const CACHE_NAME = 'dunhuang-mes-v7';  // 递增失效旧缓存
 // v1: 初始
 // v2: 改字号 + KPI 132px
 // v3: 字号阶 + 间距阶 + 按钮 + 表格
 // v4: 侧栏 v3(字号回退,240 宽)
 // v5: 字体规范(16px body + Tailwind 默认字号阶)
+// v6: 侧栏分类栏加大(11→15px)
+// v7: 继续加大(15→17px) + 菜单名 14→16px
 const PRECACHE = [
     '/',
     '/index.html',
