@@ -125,3 +125,7 @@ access_gold_package_line_warehouse,gold.package.line.warehouse,model_gold_packag
 access_gold_package_line_director,gold.package.line.director,model_gold_package_line,group_dunhuanggold_workshop_mes_director,1,1,1,1
 access_gold_audit_log_director,gold.audit.log.director,model_gold_audit_log,group_dunhuanggold_workshop_mes_director,1,0,0,0
 access_gold_audit_log_leader,gold.audit.log.leader,model_gold_audit_log,group_dunhuanggold_workshop_mes_leader,1,0,0,0
+# Phase 3.2 增强: 损耗监控预警(3 层)
+access_gold_loss_alert_user,gold.loss.alert.user,model_gold_loss_alert,group_dunhuanggold_workshop_mes_user,1,0,0,0
+access_gold_loss_alert_leader,gold.loss.alert.leader,model_gold_loss_alert,group_dunhuanggold_workshop_mes_leader,1,1,1,0
+access_gold_loss_alert_director,gold.loss.alert.director,model_gold_loss_alert,group_dunhuanggold_workshop_mes_director,1,1,1,1

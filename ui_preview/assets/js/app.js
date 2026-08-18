@@ -36,6 +36,7 @@ const NAV = [
         {id: "piece_trace", name: "件级追溯", icon: "🔍", file: "page_piece_trace.html"},
         {id: "workorder_report", name: "工序报工", icon: "📝", file: "page_workorder_report.html"},
         {id: "loss_trace", name: "损耗追溯", icon: "📉", file: "page_loss_trace.html"},
+        {id: "loss_monitor", name: "损耗监控预警", icon: "🚨", file: "page_loss_monitor.html"},
         {id: "ncr", name: "NCR 不合格品", icon: "⚠️", file: "page_ncr.html"},
         {id: "piece", name: "件级 SN", icon: "🔖", file: "page_piece.html"},
         {id: "finished_goods", name: "成品入库单", icon: "📦", file: "page_finished_goods.html"},

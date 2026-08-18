@@ -54,6 +54,7 @@ from . import gold_piece_flow_card  # Phase 3.1: 工序间交接卡
 
 # ---- Phase 3.2: NCR 不合格品处理 ----
 from . import gold_ncr
+from . import gold_loss_alert  # 损耗监控预警(3 层)
 
 # ---- Phase 3.3: 包装 ----
 from . import gold_package

@@ -179,13 +179,65 @@ const packages = [
   { id: 1, name: 'PKG20260805-00001', package_no: 'PKG20260805-00001', package_kind: 'box', package_time: '2026-08-05 14:30', production_name: 'MO-00425', piece_count: 10, total_weight_g: 51.8, total_value: 30184.0, ngtc_cert_no: 'NGTC-2026-000123', state: 'sealed', sealed_time: '2026-08-05 14:35' },
 ];
 
+// ============ Phase 3.2 增强: 损耗监控预警 (3 层) ============
+const lossAlerts = [
+  // Layer 1: 工序级(操作员张三执模损耗过大)
+  { id: 1, name: 'LA20260805-00001', alert_type: 'operation', severity: 'warning', status: 'open',
+    triggered_at: '2026-08-05 10:25:00',
+    workorder_report_id: 2, production_id: 1, operation_id: 6, operator_id: 1,
+    actual_loss_g: 0.115, expected_loss_g: 0.040,
+    actual_loss_rate: 2.20, expected_loss_rate: 0.76, deviation_pct: 1.44,
+    description: '工序 OWP06 执模 损耗 2.20% (定额 0.76%, 偏差 +1.44%)',
+    suggestion: '建议检查: 1) 操作员张三资质 2) 设备精度 3) 模具磨损' },
+  // Layer 1: 工序级(红色-超过 1g 绝对偏差)
+  { id: 2, name: 'LA20260805-00002', alert_type: 'operation', severity: 'danger', status: 'open',
+    triggered_at: '2026-08-05 11:42:00',
+    workorder_report_id: 4, production_id: 2, operation_id: 8, operator_id: 2,
+    actual_loss_g: 1.250, expected_loss_g: 0.500,
+    actual_loss_rate: 12.50, expected_loss_rate: 5.00, deviation_pct: 7.50,
+    description: '工序 OWP08 印记 损耗 12.50% (定额 5.00%, 偏差 +7.50%) 🔴 严重',
+    suggestion: '🔴 严重: 偏差 > 50% + 绝对值 > 1g, 自动建 NCR 待处置' },
+  // Layer 2: 累积级(MO-00422 总损耗超定额)
+  { id: 3, name: 'LA20260805-00003', alert_type: 'cumulative', severity: 'danger', status: 'acknowledged',
+    triggered_at: '2026-08-05 12:10:00',
+    production_id: 2,
+    cumulative_loss_g: 4.85, cumulative_standard_g: 3.50,
+    actual_loss_rate: 13.86, expected_loss_rate: 10.00,
+    description: '生产订单 MO-00422 累积损耗 4.85g 超定额 3.50g',
+    acknowledged_at: '2026-08-05 12:30:00', acknowledged_by_id: 3,
+    suggestion: '订单总损耗超定额,需班组长/主任 review 工艺与每道工序' },
+  // Layer 3: 趋势级(操作员王五 Z-Score > 3)
+  { id: 4, name: 'LA20260805-00004', alert_type: 'trend', severity: 'warning', status: 'open',
+    triggered_at: '2026-08-05 22:00:00',
+    operator_id: 2,
+    actual_loss_rate: 5.20, baseline_avg: 3.50, baseline_std: 0.45, z_score: 3.78,
+    description: 'Z-Score = 3.78 (超过 3σ 阈值)',
+    suggestion: '操作员 王五 过去 30 天平均 3.50% 标准差 0.45, 当前 5.20% 偏离 Z=3.78' },
+  // Layer 3: 趋势级(设备 OBP-001 异常)
+  { id: 5, name: 'LA20260805-00005', alert_type: 'trend', severity: 'danger', status: 'open',
+    triggered_at: '2026-08-05 22:00:00',
+    equipment_id: 1,
+    actual_loss_rate: 6.80, baseline_avg: 2.80, baseline_std: 0.60, z_score: 6.67,
+    description: 'Z-Score = 6.67 (超过 5σ 严重)',
+    suggestion: '设备 OBP-001 过去 30 天平均 2.80% 标准差 0.60, 当前 6.80% 偏离 Z=6.67 🔴 设备需校准' },
+  // 已解决
+  { id: 6, name: 'LA20260804-00001', alert_type: 'operation', severity: 'warning', status: 'resolved',
+    triggered_at: '2026-08-04 14:30:00',
+    workorder_report_id: 1, production_id: 1, operation_id: 5, operator_id: 1,
+    actual_loss_g: 0.080, expected_loss_g: 0.060,
+    actual_loss_rate: 1.50, expected_loss_rate: 1.13, deviation_pct: 0.37,
+    description: '工序 OWP05 切边 损耗 1.50% (定额 1.13%, 偏差 +0.37%)',
+    resolved_at: '2026-08-04 15:00:00', resolved_by_id: 3,
+    resolve_note: '已查实为操作员首次操作不熟练,指导后已正常' },
+];
+
 const db = {
   batches, equipment, workorderReports,
   environmentSensors, environmentReadings,
   hazardousChemicals, maintenanceOrders, spareParts,
   inventoryCounts, finishedGoods, materialReturns,
   certificates, attendance, energyMeters, sops, ecns,
-  productions, flowCards, ncrs, packages,
+  productions, flowCards, ncrs, packages, lossAlerts,
   nextId, computeKpi,
 };
 

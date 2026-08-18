@@ -413,6 +413,80 @@ async function apiHandler(req, res, pathname, queryParams) {
     }
 
     // ============================================================
+    // Phase 3.2 增强: 损耗监控预警
+    // ============================================================
+    if (p === 'loss/alerts' && method === 'GET') {
+        const severity = query.severity;
+        const status = query.status;
+        const type = query.alert_type;
+        let rows = db.lossAlerts.slice();
+        if (severity) rows = rows.filter(a => a.severity === severity);
+        if (status) rows = rows.filter(a => a.status === status);
+        if (type) rows = rows.filter(a => a.alert_type === type);
+        return ok(res, rows);
+    }
+    if (p === 'loss/alerts/acknowledge' && method === 'POST') {
+        const b = await readBody(req);
+        const alert = db.lossAlerts.find(a => a.id === Number(b.alert_id));
+        if (!alert) return err(res, '预警不存在', 404);
+        alert.status = 'acknowledged';
+        alert.acknowledged_at = new Date().toISOString();
+        alert.acknowledged_by_id = 3;
+        return ok(res, { id: alert.id, name: alert.name, status: alert.status });
+    }
+    if (p === 'loss/alerts/resolve' && method === 'POST') {
+        const b = await readBody(req);
+        const alert = db.lossAlerts.find(a => a.id === Number(b.alert_id));
+        if (!alert) return err(res, '预警不存在', 404);
+        alert.status = 'resolved';
+        alert.resolved_at = new Date().toISOString();
+        alert.resolved_by_id = 3;
+        alert.resolve_note = b.note || '已处理';
+        return ok(res, { id: alert.id, name: alert.name, status: alert.status });
+    }
+    if (p === 'loss/dashboard' && method === 'GET') {
+        const alerts = db.lossAlerts;
+        const open = alerts.filter(a => a.status === 'open');
+        const ack = alerts.filter(a => a.status === 'acknowledged');
+        const resolved = alerts.filter(a => a.status === 'resolved');
+        const by_type = { operation: 0, cumulative: 0, trend: 0 };
+        const by_severity = { info: 0, warning: 0, danger: 0 };
+        alerts.forEach(a => { by_type[a.alert_type]++; by_severity[a.severity]++; });
+        return ok(res, {
+            total: alerts.length,
+            open_count: open.length,
+            acknowledged_count: ack.length,
+            resolved_count: resolved.length,
+            by_type, by_severity,
+            open_recent: open.slice(0, 5).map(a => ({
+                id: a.id, name: a.name, type: a.alert_type, severity: a.severity,
+                description: a.description, triggered_at: a.triggered_at,
+            })),
+        });
+    }
+    if (p === 'loss/trend' && method === 'GET') {
+        const days = Number(query.days || 30);
+        const dimension = query.dimension || 'operator';
+        return ok(res, {
+            dimension, days,
+            baseline_avg: 3.5,
+            baseline_std: 0.45,
+            current: 5.2,
+            z_score: 3.78,
+            items: [
+                { name: '张三', current: 4.1, avg: 3.2, std: 0.4, z: 2.25, status: 'normal' },
+                { name: '李四', current: 2.8, avg: 3.0, std: 0.5, z: -0.4, status: 'normal' },
+                { name: '王五', current: 5.2, avg: 3.5, std: 0.45, z: 3.78, status: 'warning' },
+                { name: '赵六', current: 4.5, avg: 3.8, std: 0.6, z: 1.17, status: 'normal' },
+                { name: 'OBP-001 油压机', current: 6.8, avg: 2.8, std: 0.6, z: 6.67, status: 'danger' },
+                { name: 'OBP-002 油压机', current: 3.1, avg: 3.0, std: 0.5, z: 0.2, status: 'normal' },
+                { name: 'MLD-001 模具', current: 3.5, avg: 3.4, std: 0.3, z: 0.33, status: 'normal' },
+                { name: 'MLD-002 模具', current: 4.2, avg: 3.6, std: 0.4, z: 1.5, status: 'normal' },
+            ].filter(i => !dimension || dimension === 'all' || i.name.toLowerCase().includes(dimension)),
+        });
+    }
+
+    // ============================================================
     // Phase 3.3: 包装
     // ============================================================
     if (p === 'package/list' && method === 'GET') {

@@ -207,5 +207,14 @@
             <field name="padding">5</field>
             <field name="company_id" eval="False"/>
         </record>
+
+        <!-- Phase 3.2 增强: 损耗监控预警 -->
+        <record id="seq_gold_loss_alert" model="ir.sequence">
+            <field name="name">损耗预警</field>
+            <field name="code">gold.loss.alert</field>
+            <field name="prefix">LA</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
     </data>
 </odoo>

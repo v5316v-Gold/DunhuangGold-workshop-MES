@@ -300,6 +300,16 @@ class GoldWorkorderReport(models.Model):
             if rec.production_id and rec.production_id.gold_mold_id:
                 rec.production_id.gold_mold_id.action_add_usage(rec.output_piece_count)
             rec.state = "confirmed"
+            # Phase 3.2: 工序级损耗监控 (Layer 1)
+            # 自动检测偏差 > 20% / > 50% 触发预警
+            if rec.production_id and rec.operation_id:
+                self.env["gold.loss.alert"]._auto_check_operation_loss(rec)
+                # Phase 3.2: 累积损耗监控 (Layer 2)
+                if rec.production_id.gold_planned_weight_g:
+                    new_cum_loss = (rec.production_id.gold_actual_loss_g or 0)
+                    self.env["gold.loss.alert"]._auto_check_cumulative_loss(
+                        rec.production_id, new_cum_loss
+                    )
 
     def action_cancel(self):
         """作废报工。
