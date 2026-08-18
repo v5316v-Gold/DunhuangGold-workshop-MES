@@ -328,7 +328,8 @@ function toggleSidebar() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    // 不需要显式 renderMenu, navigate() 内部会调用
+    // 首次加载显式渲染菜单(navigate 有短路条件可能不触发)
+    renderMenu();
     updateBreadcrumb();
     // 绑定菜单点击
     document.querySelector(".sidebar").addEventListener("click", (e) => {
