@@ -1258,7 +1258,10 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
     align-items: center;
     padding: 8px 0;
     margin-bottom: 4px;
+    flex-wrap: wrap;
 }
+.table-tools .table-search { flex: 1 1 200px; min-width: 200px; max-width: 360px; }
+.table-tools .table-export-btns { margin-left: auto; display: inline-flex; gap: 6px; flex-shrink: 0; }
 .table-search {
     flex: 1;
     max-width: 360px;

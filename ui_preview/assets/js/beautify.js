@@ -258,12 +258,12 @@
     // ============================================================
 
     /**
-     * 给容器内所有 table 加可过滤 + 可排序工具条
-     * @param {string|HTMLElement} container - 容器选择器或元素
-     * @param {object} opts - { searchable, sortable, pageSize }
+     * 给容器内所有 table 加可过滤 + 可排序 + 导出 工具条
+     * @param {string|HTMLElement} container - 容器选择符或元素
+     * @param {object} opts - { searchable, sortable, exportable, filenameBase }
      */
     function setupTableTools(container, opts = {}) {
-        const { searchable = true, sortable = true, pageSize = 0 } = opts;
+        const { searchable = true, sortable = true, exportable = true } = opts;
         const c = typeof container === 'string' ? document.querySelector(container) : container;
         if (!c) return;
         const tables = c.querySelectorAll('table');
@@ -272,6 +272,24 @@
             t.dataset.tooled = '1';
             if (searchable) attachSearch(t, c);
             if (sortable) attachSort(t);
+            // 导出按钮: 等 export.js (CDN) 加载后再加
+            if (exportable) {
+                const tryAttach = () => {
+                    if (window.exporter) {
+                        const base = opts.filenameBase
+                            || t.closest('.card')?.querySelector('h3')?.textContent
+                            || c.querySelector('.page-header h1')?.textContent
+                            || 'export';
+                        const title = base.replace(/[^\w\u4e00-\u9fa5-]+/g, '-');
+                        if (!t.dataset.exportAttached) {
+                            window.exporter.attachExportButtons(t, title);
+                        }
+                    } else {
+                        setTimeout(tryAttach, 200);
+                    }
+                };
+                tryAttach();
+            }
         });
     }
 
