@@ -82,7 +82,39 @@ function pushRecent(pageId) {
     localStorage.setItem(RECENT_KEY, JSON.stringify(arr));
 }
 
-// 渲染菜单(支持搜索过滤 + 最近访问)
+// 收藏夹(localStorage)
+const FAV_KEY = "gold_mes_favorites";
+function getFavorites() {
+    try { return JSON.parse(localStorage.getItem(FAV_KEY) || "[]"); }
+    catch (e) { return []; }
+}
+function toggleFavorite(pageId) {
+    let arr = getFavorites();
+    if (arr.includes(pageId)) {
+        arr = arr.filter(id => id !== pageId);
+    } else {
+        arr.unshift(pageId);
+    }
+    localStorage.setItem(FAV_KEY, JSON.stringify(arr));
+    return arr.includes(pageId);
+}
+
+// Section 折叠状态(localStorage)
+const COLLAPSE_KEY = "gold_mes_collapsed_sections";
+function getCollapsed() {
+    try { return JSON.parse(localStorage.getItem(COLLAPSE_KEY) || "[]"); }
+    catch (e) { return []; }
+}
+function toggleCollapse(section) {
+    let arr = getCollapsed();
+    if (arr.includes(section)) {
+        arr = arr.filter(s => s !== section);
+    } else {
+        arr.push(section);
+    }
+    localStorage.setItem(COLLAPSE_KEY, JSON.stringify(arr));
+    return arr.includes(section);
+}
 function renderMenu() {
     const sidebar = document.querySelector(".sidebar");
     if (!sidebar) return;
@@ -119,25 +151,40 @@ function renderMenu() {
     }
 
     // 正常模式: 分组渲染
+    const favorites = getFavorites();
     let html = "";
 
-    // 最近访问(如果非空)
-    if (recent.length > 0) {
+    // 收藏夹(如果非空)
+    if (favorites.length > 0) {
         html += `<div class="menu-section">`;
-        html += `<div class="menu-section-title recent">⏱ 最近访问</div>`;
-        recent.forEach(pageId => {
+        html += `<div class="menu-section-title recent" data-section-toggle="⭐ 收藏夹">⭐ 收藏夹 <span class="section-count">${favorites.length}</span></div>`;
+        favorites.forEach(pageId => {
             const item = findPage(pageId);
             if (!item) return;
             const active = item.id === currentPage ? "active" : "";
-            html += renderMenuItem(item, active, '最近');
+            html += renderMenuItem(item, active, '⭐ 收藏');
         });
         html += `</div>`;
     }
 
-    NAV.forEach(section => {
-        // 计算该 section 有多少个匹配项(空搜索)
+    // 最近访问(如果非空)
+    if (recent.length > 0) {
         html += `<div class="menu-section">`;
-        html += `<div class="menu-section-title">${section.section} <span class="section-count">${section.items.length}</span></div>`;
+        html += `<div class="menu-section-title recent" data-section-toggle="⏱ 最近访问">⏱ 最近访问 <span class="section-count">${recent.length}</span></div>`;
+        recent.forEach(pageId => {
+            const item = findPage(pageId);
+            if (!item) return;
+            const active = item.id === currentPage ? "active" : "";
+            html += renderMenuItem(item, active, '⏱ 最近');
+        });
+        html += `</div>`;
+    }
+
+    const collapsed = getCollapsed();
+    NAV.forEach(section => {
+        const isCollapsed = collapsed.includes(section.section);
+        html += `<div class="menu-section ${isCollapsed ? 'collapsed' : ''}" data-section="${escapeHtml(section.section)}">`;
+        html += `<div class="menu-section-title" data-section-toggle="${escapeHtml(section.section)}">${section.section} <span class="section-count">${section.items.length}</span></div>`;
         section.items.forEach(item => {
             const active = item.id === currentPage ? "active" : "";
             html += renderMenuItem(item, active, section.section);
@@ -151,12 +198,14 @@ function renderMenu() {
 function renderMenuItem(item, active, section) {
     const badgeHtml = getBadgeHtml(item.id);
     const descHtml = (item.desc && !active) ? `<span class="item-desc">${escapeHtml(item.desc)}</span>` : '';
+    const favActive = getFavorites().includes(item.id) ? 'active' : '';
     return `<a class="menu-item ${active}" href="#${item.id}" data-id="${item.id}" data-section="${escapeHtml(section)}" title="${escapeHtml(item.desc || item.name)}">
         <span class="icon">${item.icon}</span>
         <div class="item-main">
             <span class="item-name">${highlightKeyword(item.name, menuSearchKeyword)}</span>
             ${descHtml}
         </div>
+        <button class="fav-star ${favActive}" data-fav-toggle="${item.id}" title="收藏/取消">★</button>
         ${badgeHtml}
     </a>`;
 }
@@ -215,10 +264,20 @@ function findPage(itemId) {
 function updateBreadcrumb() {
     const page = findPage(currentPage);
     if (!page) return;
+    // 找当前页所在 section
+    let section = '其他';
+    for (const sec of NAV) {
+        if (sec.items.find(i => i.id === currentPage)) {
+            section = sec.section;
+            break;
+        }
+    }
     document.querySelector(".breadcrumb").innerHTML = `
-        <a href="#dashboard">车间</a>
-        <span> / </span>
-        <span>${page.name}</span>
+        <a href="#dashboard" data-crumb="dashboard">🏠 车间</a>
+        <span class="crumb-sep"> / </span>
+        <a href="#${section.replace(/[^\w]/g, '_')}" data-crumb-section="${escapeHtml(section)}">${escapeHtml(section)}</a>
+        <span class="crumb-sep"> / </span>
+        <span class="crumb-current">${escapeHtml(page.name)}</span>
     `;
     document.title = `敦煌金加工车间 ERP - ${page.name}`;
 }
@@ -246,6 +305,10 @@ async function loadPage(itemId) {
             // 给主区域加交错入场
             const cards = main.querySelectorAll('.kpi-cards, tbody, .menu-section');
             cards.forEach(c => c.classList.add('stagger-in'));
+            // 表格工具条(搜索 + 排序)
+            if (window.UI && window.UI.setupTableTools) {
+                window.UI.setupTableTools(main);
+            }
         }, 50);
     } catch (e) {
         main.innerHTML = `
@@ -269,15 +332,40 @@ document.addEventListener("DOMContentLoaded", () => {
     updateBreadcrumb();
     // 绑定菜单点击
     document.querySelector(".sidebar").addEventListener("click", (e) => {
+        // 收藏按钮
+        const favBtn = e.target.closest('[data-fav-toggle]');
+        if (favBtn) {
+            e.preventDefault();
+            e.stopPropagation();
+            const pageId = favBtn.dataset.favToggle;
+            toggleFavorite(pageId);
+            renderMenu();
+            window.toast && window.toast('success', toggleFavorite.last ? '⭐ 已添加收藏' : '✓ 已取消收藏');
+            return;
+        }
+        // Section 折叠
+        const secTitle = e.target.closest('[data-section-toggle]');
+        if (secTitle) {
+            e.preventDefault();
+            e.stopPropagation();
+            const sectionEl = secTitle.closest('.menu-section');
+            const sec = sectionEl.dataset.section;
+            if (sec) {
+                toggleCollapse(sec);
+                renderMenu();
+            }
+            return;
+        }
+        // 菜单项点击
         const link = e.target.closest(".menu-item");
         if (link) {
             e.preventDefault();
             navigate(link.dataset.id);
         }
     });
-    // 绑定顶栏菜单切换
+    // 顶栏菜单切换
     document.querySelector(".menu-toggle").addEventListener("click", toggleSidebar);
-    // 绑定搜索框(实时过滤菜单)
+    // 搜索框(实时过滤菜单)
     const searchInput = document.querySelector(".navbar .search");
     if (searchInput) {
         let searchTimer = null;
@@ -298,6 +386,20 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
+    // 面包屑点击(可跳转到 section 第一个页)
+    document.querySelector(".breadcrumb").addEventListener("click", (e) => {
+        const link = e.target.closest('a');
+        if (!link) return;
+        e.preventDefault();
+        const section = link.dataset.crumbSection;
+        if (section) {
+            // 跳到该 section 的第一个页面
+            const sec = NAV.find(s => s.section === section);
+            if (sec) navigate(sec.items[0].id);
+        } else if (link.dataset.crumb === 'dashboard') {
+            navigate('dashboard');
+        }
+    });
     // 加载当前页
     navigate(currentPage);
 });

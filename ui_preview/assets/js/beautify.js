@@ -254,6 +254,88 @@
     }
 
     // ============================================================
+    // 页面内快速搜索:表格过滤 + 列排序
+    // ============================================================
+
+    /**
+     * 给容器内所有 table 加可过滤 + 可排序工具条
+     * @param {string|HTMLElement} container - 容器选择器或元素
+     * @param {object} opts - { searchable, sortable, pageSize }
+     */
+    function setupTableTools(container, opts = {}) {
+        const { searchable = true, sortable = true, pageSize = 0 } = opts;
+        const c = typeof container === 'string' ? document.querySelector(container) : container;
+        if (!c) return;
+        const tables = c.querySelectorAll('table');
+        tables.forEach(t => {
+            if (t.dataset.tooled === '1') return;
+            t.dataset.tooled = '1';
+            if (searchable) attachSearch(t, c);
+            if (sortable) attachSort(t);
+        });
+    }
+
+    function attachSearch(table, container) {
+        // 在 table 上方加一个搜索条
+        const wrap = document.createElement('div');
+        wrap.className = 'table-tools';
+        wrap.innerHTML = `
+            <input type="text" class="table-search" placeholder="🔍 在表格内筛选 (行内任意字段)">
+            <span class="table-search-count">${table.tBodies[0]?.rows.length || 0} 行</span>
+        `;
+        table.parentNode.insertBefore(wrap, table);
+        const input = wrap.querySelector('.table-search');
+        const count = wrap.querySelector('.table-search-count');
+        const originalBg = table.tBodies[0] ? Array.from(table.tBodies[0].rows).map(r => r.style.display) : [];
+        input.addEventListener('input', () => {
+            const k = input.value.toLowerCase().trim();
+            let visible = 0;
+            if (!table.tBodies[0]) return;
+            Array.from(table.tBodies[0].rows).forEach((row, i) => {
+                const text = row.textContent.toLowerCase();
+                const match = !k || text.includes(k);
+                row.style.display = match ? '' : 'none';
+                if (match) visible++;
+            });
+            count.textContent = `${visible} / ${table.tBodies[0].rows.length} 行`;
+        });
+    }
+
+    function attachSort(table) {
+        // 给 thead th 加点击排序
+        if (!table.tHead) return;
+        const ths = table.tHead.querySelectorAll('th');
+        ths.forEach((th, idx) => {
+            // 跳过 checkbox / action 列
+            if (th.querySelector('input[type=checkbox]')) return;
+            th.classList.add('sortable-th');
+            th.addEventListener('click', () => sortBy(table, idx, th));
+        });
+    }
+
+    let lastSortCol = -1, lastSortDir = 1;
+    function sortBy(table, colIdx, th) {
+        if (!table.tBodies[0]) return;
+        const rows = Array.from(table.tBodies[0].rows);
+        const dir = (lastSortCol === colIdx) ? -lastSortDir : 1;
+        rows.sort((a, b) => {
+            const ac = a.cells[colIdx]?.textContent.trim() || '';
+            const bc = b.cells[colIdx]?.textContent.trim() || '';
+            // 尝试数字
+            const an = parseFloat(ac.replace(/[^\d.-]/g, ''));
+            const bn = parseFloat(bc.replace(/[^\d.-]/g, ''));
+            if (!isNaN(an) && !isNaN(bn)) return (an - bn) * dir;
+            return ac.localeCompare(bc) * dir;
+        });
+        rows.forEach(r => table.tBodies[0].appendChild(r));
+        lastSortCol = colIdx;
+        lastSortDir = dir;
+        // 视觉指示
+        th.parentNode.querySelectorAll('th').forEach(t => t.classList.remove('sort-asc', 'sort-desc'));
+        th.classList.add(dir > 0 ? 'sort-asc' : 'sort-desc');
+    }
+
+    // ============================================================
     // 8. 暴露公共 API
     // ============================================================
 
@@ -264,6 +346,7 @@
         emptyStateHTML,
         statusBadgeHTML, diffColor,
         delay, escapeHtml,
+        setupTableTools,
     };
 
     // 兼容老代码: window.UI 提供这些函数

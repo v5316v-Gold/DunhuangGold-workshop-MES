@@ -1250,8 +1250,102 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
 .skip-link:focus { top: 0; color: var(--text-inverse); }
 
 /* ===================================================================
-   快捷键提示徽章
+   表格工具条 (Phase 菜单优化 v2)
    =================================================================== */
+.table-tools {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 8px 0;
+    margin-bottom: 4px;
+}
+.table-search {
+    flex: 1;
+    max-width: 360px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 8px 12px;
+    border-radius: var(--radius-md);
+    font-size: 13px;
+    min-height: 36px;
+}
+.table-search:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px var(--gold-muted);
+    outline: none;
+}
+.table-search-count {
+    font-size: 12px;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+
+/* 表头可点击排序 */
+table thead th.sortable-th {
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    transition: color var(--transition-fast);
+}
+table thead th.sortable-th:hover { color: var(--gold); }
+table thead th.sortable-th::after {
+    content: ' ⇅';
+    opacity: 0.3;
+    font-size: 10px;
+}
+table thead th.sort-asc { color: var(--gold-bright); }
+table thead th.sort-asc::after { content: ' ▲'; opacity: 1; }
+table thead th.sort-desc { color: var(--gold-bright); }
+table thead th.sort-desc::after { content: ' ▼'; opacity: 1; }
+
+/* 菜单 section 折叠 */
+.menu-section { margin-bottom: 4px; }
+.menu-section-title {
+    cursor: pointer;
+    user-select: none;
+    transition: color var(--transition-fast);
+    position: relative;
+}
+.menu-section-title:hover { color: var(--gold-bright); }
+.menu-section-title::before {
+    content: '▾';
+    display: inline-block;
+    margin-right: 6px;
+    transition: transform var(--transition-fast);
+    font-size: 9px;
+    opacity: 0.7;
+}
+.menu-section.collapsed .menu-section-title::before { transform: rotate(-90deg); }
+.menu-section.collapsed .menu-section > a,
+.menu-section.collapsed .menu-item { display: none; }
+
+/* 收藏夹(⭐) */
+.menu-item .fav-star {
+    position: absolute;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 14px;
+    padding: 4px 6px;
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+}
+.menu-item:hover .fav-star { opacity: 0.6; }
+.menu-item .fav-star:hover { color: var(--gold); }
+.menu-item .fav-star.active { color: var(--gold-bright); opacity: 1; }
+.menu-item .fav-star.active::before { content: '★'; }
+.menu-item .fav-star:not(.active)::before { content: '☆'; }
+.menu-item .fav-star { font-size: 0; }
+.menu-item .fav-star::before { font-size: 14px; }
+
+/* 面包屑(可点击) */
+.navbar .breadcrumb a { cursor: pointer; }
+.navbar .breadcrumb a:hover { color: var(--gold); text-decoration: underline; }
 .kbd-hint {
     display: inline-block;
     background: var(--bg-tertiary);

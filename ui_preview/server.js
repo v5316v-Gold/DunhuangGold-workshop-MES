@@ -583,8 +583,9 @@ function serveStatic(res, pathname) {
     }
     fs.readFile(filePath, (error, data) => {
         if (error) {
+            // 404 时如果是 manifest/sw.js 等关键文件,返回有意义的 404
             res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
-            res.end('404 Not Found');
+            res.end('404 Not Found: ' + urlPath);
             return;
         }
         const ext = path.extname(filePath).toLowerCase();
