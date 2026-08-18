@@ -5,10 +5,11 @@
 //   - API GET: network-first, 失败回 cache
 //   - API POST: network-only(写操作不入缓存)
 
-const CACHE_NAME = 'dunhuang-mes-v3';  // 递增失效旧缓存
+const CACHE_NAME = 'dunhuang-mes-v4';  // 递增失效旧缓存
 // v1: 初始
 // v2: 改字号 + KPI 132px
 // v3: 字号阶 + 间距阶 + 按钮 + 表格
+// v4: 侧栏 v3(字号回退,240 宽)
 const PRECACHE = [
     '/',
     '/index.html',
