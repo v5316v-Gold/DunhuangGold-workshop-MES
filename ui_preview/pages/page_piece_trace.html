@@ -1,0 +1,65 @@
+<!-- Phase 3.1: 件级 SN 完整追溯 -->
+<div class="page-header">
+    <h1>🔖 件级追溯</h1>
+    <div class="actions">
+        <input type="text" id="trace-sn" placeholder="输入 SN (如 GLD-20260805-RING-001)" style="width:280px">
+        <button class="btn btn-primary btn-ripple" onclick="traceSN()">🔍 查询</button>
+    </div>
+</div>
+
+<div id="trace-result"></div>
+
+<style>
+.trace-step {
+    display: flex;
+    gap: 16px;
+    padding: 12px;
+    border-left: 3px solid var(--gold);
+    margin-bottom: 8px;
+    background: var(--bg-tertiary);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    position: relative;
+}
+.trace-step.completed { border-left-color: var(--success); }
+.trace-step.in_transit { border-left-color: var(--info); }
+.trace-step.at_station {
+    border-left-color: var(--gold);
+    background: var(--gold-muted);
+}
+.trace-step::before {
+    content: '';
+    position: absolute;
+    left: -8px; top: 16px;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 12px var(--gold-glow);
+}
+.trace-step.completed::before { background: var(--success); box-shadow: 0 0 8px var(--success); }
+.trace-step.at_station::before { background: var(--gold-bright); animation: animate-pulse 1.5s infinite; }
+.trace-step .step-num {
+    font-size: 24px;
+    color: var(--gold);
+    font-weight: 700;
+    min-width: 36px;
+}
+.trace-step .step-content { flex: 1; }
+.trace-step .step-title { font-size: 16px; font-weight: 600; color: var(--text-primary); }
+.trace-step .step-meta { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+.trace-step .step-stats { display: flex; gap: 16px; margin-top: 8px; font-size: 13px; }
+.trace-step .step-stats .stat-label { color: var(--text-muted); }
+.trace-step .step-stats .stat-value { color: var(--gold-bright); font-weight: 600; }
+</style>
+
+<script>
+function traceSN() {
+    const sn = document.getElementById('trace-sn').value.trim();
+    if (!sn) { window.toast('warning', '请输入 SN'); return; }
+    window.RENDERERS.piece_trace(document.getElementById('trace-result'), sn);
+}
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('trace-sn').addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') traceSN();
+    });
+});
+</script>

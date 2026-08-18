@@ -1,0 +1,170 @@
+<!-- Phase 3: 车间大屏 - 65寸车间屏 -->
+<div class="page-header">
+    <h1>🏭 车间大屏</h1>
+    <div class="actions">
+        <button class="btn btn-ripple" onclick="window.RENDERERS.bigscreen(document.querySelector('.main'))">🔄 刷新</button>
+    </div>
+</div>
+
+<!-- 顶部 KPI 条 -->
+<div class="bigscreen-top">
+    <div class="kpi-card success">
+        <div class="label">今日完工</div>
+        <div class="value" data-count="28">0</div>
+    </div>
+    <div class="kpi-card">
+        <div class="label">进行中</div>
+        <div class="value" data-count="5">0</div>
+    </div>
+    <div class="kpi-card warning">
+        <div class="label">待接收</div>
+        <div class="value" data-count="1">0</div>
+    </div>
+    <div class="kpi-card danger">
+        <div class="label">超耗预警</div>
+        <div class="value" data-count="1">0</div>
+    </div>
+    <div class="kpi-card danger">
+        <div class="label">NCR 待处置</div>
+        <div class="value" data-count="1">0</div>
+    </div>
+    <div class="kpi-card success">
+        <div class="label">今日包装</div>
+        <div class="value" data-count="3">0</div>
+    </div>
+    <div class="kpi-card gold">
+        <div class="label">平均损耗率</div>
+        <div class="value" data-count="3.85" data-decimals="2">0<span class="unit">%</span></div>
+    </div>
+</div>
+
+<!-- 工序状态条 -->
+<div class="card card-glow" style="margin-top:16px">
+    <div class="card-header">
+        <h3>🔧 9 道工序实时状态</h3>
+    </div>
+    <div class="card-body">
+        <div id="bigscreen-operations" class="operations-strip"></div>
+    </div>
+</div>
+
+<!-- 中间: 损耗趋势 + 瓶颈工位 -->
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px">
+    <div class="card card-glow">
+        <div class="card-header">
+            <h3>📈 5 天损耗趋势</h3>
+        </div>
+        <div class="card-body">
+            <div id="bigscreen-loss-trend"></div>
+        </div>
+    </div>
+    <div class="card card-glow">
+        <div class="card-header">
+            <h3>🐌 瓶颈工位 TOP 3</h3>
+        </div>
+        <div class="card-body">
+            <div id="bigscreen-bottlenecks"></div>
+        </div>
+    </div>
+</div>
+
+<!-- 底部: 报警滚动条(后续接 SSE) -->
+<div class="card" style="margin-top:16px;background:linear-gradient(90deg,var(--error-bg) 0%,transparent 100%)">
+    <div class="card-body">
+        <span class="text-danger text-bold">⚠ 实时报警:</span>
+        <span class="text-secondary" style="margin-left:12px">
+            [10:35] NCR-20260805-0001 执模工序划痕,已返工
+            &nbsp;&nbsp; [11:15] NCR-20260805-0002 XRF 含量 99.42% 不达标,班组长处置中
+        </span>
+    </div>
+</div>
+
+<style>
+.bigscreen-top {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+}
+.bigscreen-top .kpi-card .value {
+    font-size: 36px;
+    font-weight: 700;
+}
+.operations-strip {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    gap: 8px;
+}
+.op-block {
+    text-align: center;
+    padding: 12px 4px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+    background: var(--bg-tertiary);
+    transition: all var(--transition-fast);
+}
+.op-block .op-name {
+    font-size: 11px;
+    color: var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.op-block .op-state {
+    font-size: 22px;
+    margin: 4px 0;
+}
+.op-block .op-queue {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+.op-block.running { border-left: 3px solid var(--success); }
+.op-block.idle { border-left: 3px solid var(--text-muted); opacity: 0.6; }
+.op-block.warning { border-left: 3px solid var(--warning); background: var(--warning-bg); }
+.op-block.danger { border-left: 3px solid var(--error); background: var(--error-bg); }
+.loss-bars { display: flex; align-items: end; gap: 12px; height: 120px; padding: 8px 0; }
+.loss-bar {
+    flex: 1;
+    background: linear-gradient(180deg, var(--gold) 0%, var(--gold-dark) 100%);
+    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+    position: relative;
+    min-width: 40px;
+    transition: all var(--transition-normal);
+}
+.loss-bar:hover { transform: scaleY(1.05); transform-origin: bottom; }
+.loss-bar .value {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--gold-bright);
+    font-weight: 600;
+    font-size: 13px;
+    padding-bottom: 4px;
+}
+.loss-bar .label {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--text-muted);
+    font-size: 11px;
+    padding-top: 4px;
+    white-space: nowrap;
+}
+.bn-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+.bn-row:last-child { border-bottom: none; }
+.bn-row .bn-rank { font-size: 20px; color: var(--gold); font-weight: 700; margin-right: 12px; }
+.bn-row .bn-info { flex: 1; }
+.bn-row .bn-stats { text-align: right; color: var(--text-secondary); font-size: 13px; }
+.bn-row .bn-stats .wait { font-size: 20px; color: var(--warning); font-weight: 700; }
+</style>
+
+<script>
+// 由 bigscreen renderer 填充数据
+</script>

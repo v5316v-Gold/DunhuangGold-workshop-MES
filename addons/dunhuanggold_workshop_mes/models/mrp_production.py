@@ -105,6 +105,7 @@ class MrpProduction(models.Model):
         [
             ("draft", "草稿"),
             ("confirmed", "已确认"),
+            ("received", "已接收"),  # Phase 3.1: 车间班长接收
             ("in_progress", "进行中"),
             ("to_close", "待关闭"),
             ("done", "已完成"),
@@ -113,6 +114,20 @@ class MrpProduction(models.Model):
         string="车间状态",
         default="draft",
         tracking=True,
+    )
+    # Phase 3.1: 任务单接收记录
+    received_at = fields.Datetime(
+        string="接收时间",
+        readonly=True,
+    )
+    received_by_id = fields.Many2one(
+        "res.users",
+        string="接收人(班组长)",
+        readonly=True,
+    )
+    reception_note = fields.Text(
+        string="接收备注",
+        readonly=True,
     )
     gold_current_operation_id = fields.Many2one(
         "gold.process.operation",
@@ -200,7 +215,39 @@ class MrpProduction(models.Model):
 
     def action_start(self):
         for rec in self:
-            rec.gold_state = "in_progress"
+            if rec.gold_state == "received":
+                rec.gold_state = "in_progress"
+            else:
+                rec.gold_state = "in_progress"
+
+    def action_receive(self, user_id=None, note=None):
+        """Phase 3.1: 车间班组长接收任务单。
+
+        接收前自动校验:
+          1. 工艺路线已指定
+          2. 计划金料已计算
+          3. (软校验) 模具 / 设备 / 人员 — 仅警告不阻断
+        """
+        for rec in self:
+            if rec.gold_state != "confirmed":
+                raise UserError(_("仅已确认订单可被接收 (当前: %s)") % rec.gold_state)
+            if not rec.gold_route_id:
+                raise UserError(_("订单 %s 缺少工艺路线,无法接收") % rec.name)
+            if rec.gold_planned_weight_g <= 0:
+                raise UserError(_("订单 %s 计划金料未计算,无法接收") % rec.name)
+            rec.write({
+                "gold_state": "received",
+                "received_at": fields.Datetime.now(),
+                "received_by_id": user_id or self.env.user.id,
+                "reception_note": note or "",
+            })
+        return True
+
+    def action_start_after_received(self):
+        """Phase 3.1: 接收后开始第一道工序(由 workorder_report.create 隐式触发)"""
+        for rec in self:
+            if rec.gold_state == "received":
+                rec.gold_state = "in_progress"
 
     def action_done(self):
         for rec in self:

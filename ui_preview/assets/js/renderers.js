@@ -294,205 +294,244 @@ window.RENDERERS.equipment = async function (main) {
         );
 };
 
-// ============ 环境监测 ============
-window.RENDERERS.environment = async function (main) {
-    const rows = await safeFetch(main, '/environment/latest');
+// ============ Phase 3: 车间作业全流程 ============
+
+// 任务单接收列表
+window.RENDERERS.production_list = async function (main) {
+    const rows = await safeFetch(main, '/production/list');
     if (!rows) return;
-    const alarms = rows.filter((r) => r.state === 'alarm').length;
-    main.innerHTML = U.pageHeader('环境监测', '<button class="btn" onclick="window.window.RENDERERS.environment(document.querySelector(\'.main\'))">🔄 刷新</button>') +
+    main.innerHTML = U.pageHeader('📥 任务单接收', '<button class="btn btn-ripple" onclick="window.RENDERERS.production_list(document.querySelector(\'.main\'))">🔄 刷新</button>') +
+        '<div class="stagger-in">' +
+        rows.map(r => {
+            const stateBadge = U.statusBadgeHTML(r.gold_state, ({received:'已接收',in_progress:'进行中',done:'已完成',cancelled:'已取消'})[r.gold_state] || r.gold_state);
+            return `
+            <div class="card" style="margin-bottom:12px">
+                <div class="card-body flex gap-3" style="align-items:center">
+                    <div style="flex:1">
+                        <div class="flex gap-2" style="align-items:center;margin-bottom:4px">
+                            <span class="text-bold text-gold" style="font-size:18px">${r.name}</span>
+                            ${stateBadge}
+                            <span class="text-muted">·</span>
+                            <span class="text-secondary">${r.process_type === 'oil_press' ? '油压' : '失蜡'}</span>
+                        </div>
+                        <div class="text-secondary">${r.product} × ${r.qty} 件</div>
+                        <div class="text-muted" style="font-size:12px;margin-top:4px">
+                            接收: ${r.received_at || '—'} · 当前工位: ${r.current_workstation || '—'}
+                        </div>
+                    </div>
+                    ${r.gold_state === 'received' ? `<button class="btn btn-primary btn-ripple" onclick="window.apiPost('/production/receive', {production_id:${r.id}, note:'班组长已确认材料'}).then(()=>{window.toast('success','已开工'); window.RENDERERS.production_list(document.querySelector('.main'))})">▶ 开工</button>` : `<span class="text-muted">${r.gold_state === 'done' ? '✓ 完成' : '⏵ 进行中'}</span>`}
+                </div>
+            </div>
+        `}).join('') + '</div>';
+};
+
+// 工序交接卡列表
+window.RENDERERS.flow_card = async function (main) {
+    const rows = await safeFetch(main, '/flow_card/list');
+    if (!rows) return;
+    main.innerHTML = U.pageHeader('🔄 工序交接卡', '<button class="btn btn-ripple" onclick="window.RENDERERS.flow_card(document.querySelector(\'.main\'))">🔄 刷新</button>') +
+        U.renderTable([
+            { label: '交接卡号', key: 'name' },
+            { label: '件级 SN', key: 'sn' },
+            { label: '接收工序', key: 'in_operation' },
+            { label: '接收工位', key: 'in_workstation' },
+            { label: '发送人', key: 'sender' },
+            { label: '接收人', key: 'receiver' },
+            { label: '交接时间', key: 'handover_time' },
+            { label: '状态', key: 'state', badge: true },
+        ], rows);
+};
+
+// 件级追溯查询
+window.RENDERERS.piece_trace = async function (main, sn) {
+    sn = sn || 'GLD-20260805-RING-001';
+    main.innerHTML = `<div class="loading-state"><div class="spinner-gold"></div><div class="loading-text">追溯 SN ${sn}...</div></div>`;
+    const data = await safeFetch(main, `/piece/trace?sn=${encodeURIComponent(sn)}`);
+    if (!data || !data.found) {
+        main.innerHTML = U.emptyStateHTML({ icon: '🔍', title: 'SN 不存在', desc: `未找到 SN ${sn} 的记录`, actionLabel: '重试', actionOnClick: `document.getElementById('trace-sn').focus()` });
+        return;
+    }
+    main.innerHTML = U.pageHeader('🔖 件级追溯: ' + data.sn) + `
+        <div class="card card-glow" style="margin-bottom:16px">
+            <div class="card-body">
+                <div class="flex gap-4" style="align-items:center;flex-wrap:wrap">
+                    <div>
+                        <div class="text-muted" style="font-size:12px">件级 SN</div>
+                        <div class="text-gold text-bold" style="font-size:20px">${data.sn}</div>
+                    </div>
+                    <div>
+                        <div class="text-muted" style="font-size:12px">产品</div>
+                        <div>${data.product}</div>
+                    </div>
+                    <div>
+                        <div class="text-muted" style="font-size:12px">当前状态</div>
+                        <div>${U.statusBadgeHTML(data.current_state, data.current_state)}</div>
+                    </div>
+                    <div>
+                        <div class="text-muted" style="font-size:12px">当前工位</div>
+                        <div>${data.current_workstation || '—'}</div>
+                    </div>
+                    <div>
+                        <div class="text-muted" style="font-size:12px">当前工序</div>
+                        <div>${data.current_operation || '—'}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h3 style="margin:16px 0 8px">🛤 完整旅程 (${data.flow_cards.length} 道交接)</h3>
+        <div class="stagger-in">
+            ${data.flow_cards.map((c, i) => `
+                <div class="trace-step ${c.state}">
+                    <div class="step-num">${i + 1}</div>
+                    <div class="step-content">
+                        <div class="step-title">${c.out_operation || '(首道)'} → ${c.in_operation}</div>
+                        <div class="step-meta">${c.handover_time} · ${c.in_workstation} · ${c.sender} → ${c.receiver || '待接收'}</div>
+                        <div class="step-stats">
+                            <span><span class="stat-label">进入:</span> <span class="stat-value">${c.weight_in_g}g</span></span>
+                            <span><span class="stat-label">发出:</span> <span class="stat-value">${c.weight_out_g || '—'}g</span></span>
+                            <span><span class="stat-label">本工序损耗:</span> <span class="stat-value">${c.weight_loss_g}g</span></span>
+                            <span><span class="stat-label">状态:</span> ${U.statusBadgeHTML(c.state, c.state)}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('')}
+        </div>
+    `;
+};
+
+// NCR 不合格品处理
+window.RENDERERS.ncr = async function (main) {
+    const [ncrs, dash] = await Promise.all([
+        safeFetch(main, '/ncr/list'),
+        safeFetch(main, '/ncr/dashboard'),
+    ]);
+    if (!ncrs) return;
+    const d = dash.data || {};
+    main.innerHTML = U.pageHeader('⚠ NCR 不合格品处理', '<button class="btn btn-ripple" onclick="window.RENDERERS.ncr(document.querySelector(\'.main\'))">🔄 刷新</button>') +
         U.kpiCards([
-            { label: '超限报警', value: alarms, sub: '需处理', danger: alarms > 0 },
-            { label: '在线传感器', value: rows.length, sub: '实时读数' },
+            { label: '7天 NCR', value: d.total_7days || 0, sub: '本周期', success: true },
+            { label: '待处置', value: d.pending || 0, sub: '需立即处理', danger: d.pending > 0 },
+            { label: '返工中', value: d.rework || 0, sub: '重做中' },
+            { label: '报废', value: d.scrap || 0, sub: '已销毁', danger: d.scrap > 0 },
+            { label: '让步放行', value: d.concession || 0, sub: '降级销售' },
+            { label: '估计损失', value: '¥ ' + U.num(d.total_loss_amount || 0, 0), sub: '本周期', danger: d.total_loss_amount > 0 },
         ]) +
-        `<div class="card"><div class="card-header"><h3>上报读数</h3></div><div class="card-body">
-            <div class="row" style="gap:12px; flex-wrap:wrap;">
-                <label>传感器 <select id="env-code" style="width:200px">${rows.map((r) => `<option value="${r.sensor_code}">${r.sensor_code} ${r.sensor_name}</option>`).join('')}</select></label>
-                <label>读数 <input id="env-value" type="number" step="0.01" value="25.0" style="width:100px"></label>
-                <button class="btn btn-primary" id="env-submit">📡 上报</button>
+        U.renderTable([
+            { label: 'NCR 编号', key: 'name' },
+            { label: '发现时间', key: 'ncr_time' },
+            { label: '来源', key: 'source' },
+            { label: '缺陷类型', key: 'defect_type' },
+            { label: '关联件 SN', key: 'piece_sn' },
+            { label: '重量 (g)', key: 'defect_weight_g', num: true, digits: 3 },
+            { label: '处置', key: 'disposition', render: (v) => `<span class="ncr-disp ${v}">${({pending:'待处置',rework:'返工',concession:'让步',scrap:'报废',closed:'已关'})[v] || v}</span>` },
+            { label: '处置人', key: 'disposition_by' },
+            { label: '估计损失', key: 'estimated_loss_amount', num: true, digits: 0, render: (v) => '¥ ' + U.num(v || 0, 0) },
+        ], ncrs);
+};
+
+// 包装
+window.RENDERERS.package = async function (main) {
+    const rows = await safeFetch(main, '/package/list');
+    if (!rows) return;
+    main.innerHTML = U.pageHeader('📦 包装', '<button class="btn btn-ripple" onclick="window.RENDERERS.package(document.querySelector(\'.main\'))">🔄 刷新</button>') +
+        rows.map(r => `
+        <div class="pkg-card">
+            <div style="flex:1">
+                <div class="pkg-no">📦 ${r.name}</div>
+                <div class="pkg-meta">${r.package_kind === 'box' ? '盒装' : '箱装'} · ${r.production_name || '—'} · ${r.package_time}</div>
+                <div class="pkg-cert">🛡 NGTC 证书号: ${r.ngtc_cert_no || '—'}</div>
+                <div class="pkg-stats">
+                    <div><div class="stat-label">件数</div><div class="stat-value">${r.piece_count}</div></div>
+                    <div><div class="stat-label">总重量</div><div class="stat-value">${U.num(r.total_weight_g, 1)}g</div></div>
+                    <div><div class="stat-label">总价值</div><div class="stat-value">¥ ${U.num(r.total_value, 0)}</div></div>
+                    <div><div class="stat-label">封箱时间</div><div class="stat-value" style="font-size:14px">${r.sealed_time || '—'}</div></div>
+                </div>
             </div>
-        </div></div>` +
-        U.renderTable(
-            [
-                { label: '传感器', key: 'sensor_code' }, { label: '点位', key: 'sensor_name' }, { label: '类型', key: 'sensor_type' },
-                { label: '读数', key: 'value', num: true, digits: 2 }, { label: '单位', key: 'unit' }, { label: '状态', key: 'state', badge: true },
-                { label: '说明', key: 'alarm_desc' }, { label: '时间', key: 'reading_time' },
-            ],
-            rows.map((r) => ({ ...r, _danger: r.state === 'alarm' }))
-        );
-    document.getElementById('env-submit').onclick = async () => {
-        try {
-            const res = await post('/environment/reading', { sensor_code: document.getElementById('env-code').value, value: Number(document.getElementById('env-value').value) });
-            U.toast('读数已上报，状态：' + res.state + (res.alarm_desc ? '（' + res.alarm_desc + '）' : ''));
-            window.RENDERERS.environment(main);
-        } catch (e) { U.toast(e.message, 'error'); }
-    };
-};
-
-// ============ 危化品 ============
-window.RENDERERS.hazardous_chemical = async function (main) {
-    const rows = await safeFetch(main, '/hazchem/list');
-    if (!rows) return;
-    main.innerHTML = U.pageHeader('危化品管理', '<button class="btn" onclick="window.window.RENDERERS.hazardous_chemical(document.querySelector(\'.main\'))">🔄 刷新</button>') +
-        `<div class="card"><div class="card-header"><h3>领用出库 (双人双锁)</h3></div><div class="card-body">
-            <div class="row" style="gap:12px; flex-wrap:wrap;">
-                <label>危化品 <select id="hc-code" style="width:200px">${rows.map((c) => `<option value="${c.code}">${c.code} ${c.name}</option>`).join('')}</select></label>
-                <label>数量 <input id="hc-qty" type="number" step="0.1" value="10" style="width:100px"></label>
-                <label><input type="checkbox" id="hc-dual" checked> 双人确认</label>
-                <button class="btn btn-primary" id="hc-submit">🔒 领用</button>
+            <div style="text-align:right">
+                ${U.statusBadgeHTML(r.state, ({draft:'草稿',sealed:'已封箱',stored:'已入库',shipped:'已发货',opened:'已拆封'})[r.state] || r.state)}
             </div>
-        </div></div>` +
-        U.renderTable(
-            [
-                { label: '编号', key: 'code' }, { label: '名称', key: 'name' }, { label: '类别', key: 'category' }, { label: '危险等级', key: 'danger_level', badge: true },
-                { label: '双人双锁', key: 'lock_required', render: (v) => v ? '🔒' : '—' }, { label: '库存', key: 'stock_qty', num: true, digits: 1 }, { label: '单位', key: 'stock_unit' },
-                { label: '安全库存', key: 'safety_stock', num: true, digits: 1 },
-            ],
-            rows.map((r) => {
-                if (r.stock_qty < r.safety_stock) return { ...r, _danger: true };
-                if (r.stock_qty < r.safety_stock * 1.2) return { ...r, _warning: true };
-                return r;
-            })
-        );
-    document.getElementById('hc-submit').onclick = async () => {
-        try {
-            const res = await post('/hazchem/issue', { chemical_code: document.getElementById('hc-code').value, qty: Number(document.getElementById('hc-qty').value), dual_custody_confirmed: document.getElementById('hc-dual').checked });
-            U.toast('领用成功 ' + res.name);
-            window.RENDERERS.hazardous_chemical(main);
-        } catch (e) { U.toast(e.message, 'error'); }
-    };
+        </div>
+    `).join('');
 };
 
-// ============ 能耗 ============
-window.RENDERERS.energy = async function (main) {
-    const rows = await safeFetch(main, '/energy/latest');
-    if (!rows) return;
-    main.innerHTML = U.pageHeader('能耗管理', '<button class="btn" onclick="window.window.RENDERERS.energy(document.querySelector(\'.main\'))">🔄 刷新</button>') +
-        U.renderTable(
-            [
-                { label: '表计编号', key: 'code' }, { label: '名称', key: 'name' }, { label: '能源', key: 'energy_type' }, { label: '层级', key: 'meter_level' },
-                { label: '累计读数', key: 'cumulative_value', num: true, digits: 1 }, { label: '本期用量', key: 'period_consumption', num: true, digits: 1 },
-                { label: '本期金额', key: 'period_amount', money: true }, { label: '单位', key: 'unit' },
-            ],
-            rows
-        );
-};
+// 车间大屏 (Phase 3 核心)
+window.RENDERERS.bigscreen = async function (main) {
+    const d = await safeFetch(main, '/workshop/bigscreen');
+    if (!d || !d.summary) {
+        main.innerHTML = U.emptyStateHTML({ icon: '🖥️', title: '大屏数据加载失败', desc: '请检查网络或刷新重试', actionLabel: '重试', actionOnClick: 'window.RENDERERS.bigscreen(document.querySelector(\'.main\'))' });
+        return;
+    }
+    const s = d.summary;
+    const ops = d.operations;
+    const bns = d.bottlenecks;
+    const lt = d.loss_trend;
 
-// ============ 设备维护工单 ============
-window.RENDERERS.maintenance = async function (main) {
-    const rows = await safeFetch(main, '/maintenance/list');
-    if (!rows) return;
-    main.innerHTML = U.pageHeader('设备维护工单', '<button class="btn" onclick="window.window.RENDERERS.maintenance(document.querySelector(\'.main\'))">🔄 刷新</button>') +
-        `<div class="card"><div class="card-header"><h3>新建工单</h3></div><div class="card-body">
-            <div class="row" style="gap:12px; flex-wrap:wrap;">
-                <label>设备 <input id="mt-equip" value="OBP-001" style="width:120px"></label>
-                <label>类型 <select id="mt-type" style="width:120px"><option value="bm">故障检修</option><option value="cm">纠正性</option><option value="pm">预防性</option></select></label>
-                <label>优先级 <select id="mt-pri" style="width:100px"><option>1</option><option>2</option><option value="3">紧急</option></select></label>
-                <button class="btn btn-primary" id="mt-submit">🔧 新建</button>
+    main.innerHTML = U.pageHeader('🖥️ 车间大屏 (65寸实时)', '<button class="btn btn-ripple" onclick="window.RENDERERS.bigscreen(document.querySelector(\'.main\'))">🔄 刷新</button>') + `
+        <div class="bigscreen-top stagger-in">
+            <div class="kpi-card success"><div class="label">今日完工</div><div class="value" data-count="${s.done_today}">0</div></div>
+            <div class="kpi-card"><div class="label">进行中</div><div class="value" data-count="${s.in_progress}">0</div></div>
+            <div class="kpi-card warning"><div class="label">待接收</div><div class="value" data-count="${s.pending_receive}">0</div></div>
+            <div class="kpi-card danger"><div class="label">超耗预警</div><div class="value" data-count="${s.over_loss_alerts}">0</div></div>
+            <div class="kpi-card danger"><div class="label">NCR 待处置</div><div class="value" data-count="${s.ncr_pending}">0</div></div>
+            <div class="kpi-card success"><div class="label">今日包装</div><div class="value" data-count="${s.packages_today}">0</div></div>
+            <div class="kpi-card gold"><div class="label">平均损耗率</div><div class="value" data-count="${s.avg_loss_rate}" data-decimals="2">0<span class="unit">%</span></div></div>
+        </div>
+        <div class="card card-glow" style="margin-top:16px">
+            <div class="card-header"><h3>🔧 9 道工序实时状态</h3></div>
+            <div class="card-body">
+                <div class="operations-strip stagger-in">
+                    ${ops.map(op => {
+                        const stateEmoji = {running:'🟢',idle:'⚪',warning:'🟡',danger:'🔴'}[op.state] || '⚪';
+                        return `<div class="op-block ${op.state}">
+                            <div class="op-name">${op.name}</div>
+                            <div class="op-state">${stateEmoji}</div>
+                            <div class="op-queue">积压 ${op.queue}</div>
+                        </div>`;
+                    }).join('')}
+                </div>
             </div>
-        </div></div>` +
-        U.renderTable(
-            [
-                { label: '工单号', key: 'name' }, { label: '设备', key: 'equipment' }, { label: '类型', key: 'maintenance_type' }, { label: '优先级', key: 'priority', badge: true },
-                { label: '状态', key: 'state', badge: true }, { label: '责任人', key: 'assignee' }, { label: '计划日期', key: 'planned_date' },
-            ],
-            rows.map((r) => ({ ...r, _danger: r.priority === '3' }))
-        );
-    document.getElementById('mt-submit').onclick = async () => {
-        try {
-            const res = await post('/maintenance/order', { equipment_code: document.getElementById('mt-equip').value, maintenance_type: document.getElementById('mt-type').value, priority: document.getElementById('mt-pri').value });
-            U.toast('工单 ' + res.name + ' 已创建');
-            window.RENDERERS.maintenance(main);
-        } catch (e) { U.toast(e.message, 'error'); }
-    };
-};
-
-// ============ 备品备件 ============
-window.RENDERERS.spare_part = async function (main) {
-    const rows = await safeFetch(main, '/spare_part/list');
-    if (!rows) return;
-    main.innerHTML = U.pageHeader('备品备件', '<button class="btn" onclick="window.window.RENDERERS.spare_part(document.querySelector(\'.main\'))">🔄 刷新</button>') +
-        U.renderTable(
-            [
-                { label: '编号', key: 'code' }, { label: '名称', key: 'name' }, { label: '类别', key: 'category' }, { label: '适用设备', key: 'equipment' },
-                { label: '库存', key: 'stock_qty', num: true, digits: 0 }, { label: '安全库存', key: 'min_stock_qty', num: true, digits: 0 }, { label: '单位', key: 'unit' },
-                { label: '供应商', key: 'supplier' }, { label: '状态', key: 'is_low_stock', render: (v) => v ? U.stateBadge('低库存', 'danger') : U.stateBadge('充足', 'success') },
-            ],
-            rows.map((r) => ({ ...r, _danger: r.is_low_stock }))
-        );
-};
-
-// ============ 资质证书 ============
-window.RENDERERS.certificate = async function (main) {
-    const rows = await safeFetch(main, '/certificate/list');
-    if (!rows) return;
-    const expiring = rows.filter((r) => r.is_valid && r.days_to_expire <= 30).length;
-    const expired = rows.filter((r) => !r.is_valid).length;
-    main.innerHTML = U.pageHeader('员工资质证书', '<button class="btn" onclick="window.window.RENDERERS.certificate(document.querySelector(\'.main\'))">🔄 刷新</button>') +
-        U.kpiCards([
-            { label: '持证有效', value: rows.filter((r) => r.is_valid).length, sub: '有效证书', success: true },
-            { label: '即将到期', value: expiring, sub: '30 天内', danger: expiring > 0 },
-            { label: '已过期', value: expired, sub: '自动停工', danger: expired > 0 },
-        ]) +
-        U.renderTable(
-            [
-                { label: '证书', key: 'name' }, { label: '编号', key: 'cert_no' }, { label: '类型', key: 'cert_type' }, { label: '等级', key: 'cert_level' },
-                { label: '持证人', key: 'holder' }, { label: '到期日期', key: 'expiry_date' }, { label: '距到期(天)', key: 'days_to_expire', num: true, digits: 0 },
-                { label: '状态', key: 'is_valid', render: (v) => v ? U.stateBadge('有效', 'success') : U.stateBadge('已过期', 'danger') },
-            ],
-            rows.map((r) => {
-                if (!r.is_valid) return { ...r, _danger: true };  // 已过期
-                if (r.days_to_expire <= 30) return { ...r, _warning: true };  // 即将到期
-                return r;
-            })
-        );
-};
-
-// ============ 考勤 / 工时 ============
-window.RENDERERS.attendance = async function (main) {
-    const rows = await safeFetch(main, '/attendance/list');
-    if (!rows) return;
-    main.innerHTML = U.pageHeader('考勤 / 工时', '<button class="btn" onclick="window.window.RENDERERS.attendance(document.querySelector(\'.main\'))">🔄 刷新</button>') +
-        U.renderTable(
-            [
-                { label: '员工', key: 'employee' }, { label: '班次', key: 'shift_type' }, { label: '工位', key: 'workstation' },
-                { label: '上班', key: 'check_in' }, { label: '下班', key: 'check_out' }, { label: '工时 (h)', key: 'work_hours', num: true, digits: 1 },
-                { label: '报工数', key: 'report_count', num: true, digits: 0 }, { label: '产出 (g)', key: 'output_weight_g', num: true, digits: 3 },
-                { label: '状态', key: 'attendance_state', badge: true },
-            ],
-            rows.map((r) => {
-                if (r.attendance_state === 'absent') return { ...r, _danger: true };
-                if (r.attendance_state === 'late') return { ...r, _warning: true };
-                return r;
-            })
-        );
-};
-
-// ============ SOP ============
-window.RENDERERS.sop = async function (main) {
-    const rows = await safeFetch(main, '/sop/list');
-    if (!rows) return;
-    main.innerHTML = U.pageHeader('SOP 作业指导书', '<button class="btn" onclick="window.window.RENDERERS.sop(document.querySelector(\'.main\'))">🔄 刷新</button>') +
-        U.renderTable(
-            [
-                { label: '编号', key: 'code' }, { label: '名称', key: 'name' }, { label: '关联工序', key: 'operation' }, { label: '版本', key: 'version' },
-                { label: '类型', key: 'document_type' }, { label: '状态', key: 'state', badge: true }, { label: '生效日期', key: 'effective_date', render: (v) => v || '—' },
-                { label: '编写人', key: 'author' },
-            ],
-            rows
-        );
-};
-
-// ============ ECN ============
-window.RENDERERS.ecn = async function (main) {
-    const rows = await safeFetch(main, '/ecn/list');
-    if (!rows) return;
-    main.innerHTML = U.pageHeader('工程变更单 (ECN)', '<button class="btn" onclick="window.window.RENDERERS.ecn(document.querySelector(\'.main\'))">🔄 刷新</button>') +
-        U.renderTable(
-            [
-                { label: '变更单号', key: 'name' }, { label: '标题', key: 'title' }, { label: '类型', key: 'change_type' }, { label: '状态', key: 'state', badge: true },
-                { label: '关联路线', key: 'route', render: (v) => v || '—' }, { label: '关联 BOM', key: 'bom', render: (v) => v || '—' },
-                { label: '提出人', key: 'proposed_by' }, { label: '批准人', key: 'approved_by', render: (v) => v || '—' }, { label: '生效日期', key: 'effective_date', render: (v) => v || '—' },
-            ],
-            rows
-        );
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px">
+            <div class="card card-glow">
+                <div class="card-header"><h3>📈 5 天损耗趋势</h3></div>
+                <div class="card-body">
+                    <div class="loss-bars">
+                        ${lt.map((d, i) => {
+                            const heightPct = Math.max(20, Math.min(100, d.avg_loss_rate * 20));
+                            return `<div class="loss-bar" style="height:${heightPct}%">
+                                <div class="value">${d.avg_loss_rate}%</div>
+                                <div class="label">${d.date.slice(5)}</div>
+                            </div>`;
+                        }).join('')}
+                    </div>
+                </div>
+            </div>
+            <div class="card card-glow">
+                <div class="card-header"><h3>🐌 瓶颈工位 TOP 3</h3></div>
+                <div class="card-body">
+                    ${bns.map((b, i) => `<div class="bn-row">
+                        <div class="bn-rank">#${i + 1}</div>
+                        <div class="bn-info">
+                            <div class="text-bold">${b.workstation}</div>
+                            <div class="text-muted" style="font-size:12px">积压 ${b.queue_count} 件</div>
+                        </div>
+                        <div class="bn-stats">
+                            <div>平均等待</div>
+                            <div class="wait">${b.avg_wait_min} 分钟</div>
+                        </div>
+                    </div>`).join('')}
+                </div>
+            </div>
+        </div>
+        <div class="card" style="margin-top:16px;background:linear-gradient(90deg,var(--error-bg) 0%,transparent 100%)">
+            <div class="card-body">
+                <span class="text-danger text-bold">⚠ 实时报警:</span>
+                <span class="text-secondary" style="margin-left:12px">
+                    [10:35] NCR-20260805-0001 执模工序划痕,已返工
+                    &nbsp;&nbsp; [11:15] NCR-20260805-0002 XRF 含量 99.42% 不达标,班组长处置中
+                </span>
+            </div>
+        </div>
+    `;
+    setTimeout(() => window.UI && window.UI.autoCountUp(), 80);
 };

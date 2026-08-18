@@ -180,6 +180,25 @@ class GoldMaterialBatch(models.Model):
         index=True,
         help="金库 / 半成品库 / 不良品库",
     )
+    # Phase 3.2: 累积损耗监控
+    cumulative_consumed_g = fields.Float(
+        string="累积消耗 (g)",
+        digits=(18, 6),
+        default=0.0,
+        help="从该批次累计消耗的金料重量(含损耗)",
+    )
+    cumulative_loss_g = fields.Float(
+        string="累积损耗 (g)",
+        digits=(18, 6),
+        default=0.0,
+        help="从该批次累计损耗的金料重量",
+    )
+    cumulative_loss_rate = fields.Float(
+        string="累积损耗率 (%)",
+        digits=(6, 4),
+        compute="_compute_cumulative_loss",
+        store=True,
+    )
     company_id = fields.Many2one(
         "res.company",
         string="公司",
@@ -221,6 +240,14 @@ class GoldMaterialBatch(models.Model):
     def _compute_total_value(self):
         for rec in self:
             rec.total_value = rec.net_weight_g * rec.unit_price
+
+    @api.depends("cumulative_consumed_g", "cumulative_loss_g")
+    def _compute_cumulative_loss(self):
+        for rec in self:
+            if rec.cumulative_consumed_g > 0:
+                rec.cumulative_loss_rate = (rec.cumulative_loss_g / rec.cumulative_consumed_g) * 100
+            else:
+                rec.cumulative_loss_rate = 0.0
 
     @api.depends("available_weight_g", "current_price")
     def _compute_current_value(self):

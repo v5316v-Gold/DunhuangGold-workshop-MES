@@ -154,12 +154,38 @@ function computeKpi() {
   };
 }
 
+// ============ Phase 3: 生产订单 ============
+const productions = [
+  { id: 1, name: 'MO-00425', product: '古法金素圈戒指', process_type: 'oil_press', qty: 100, gold_state: 'in_progress', received_at: '2026-08-05 08:30', current_workstation: 'WS-OWP' },
+  { id: 2, name: 'MO-00422', product: '18K金钻石戒指', process_type: 'lost_wax', qty: 50, gold_state: 'in_progress', received_at: '2026-08-05 09:00', current_workstation: 'WS-LWC' },
+  { id: 3, name: 'MO-00430', product: '足金手镯', process_type: 'oil_press', qty: 30, gold_state: 'received', received_at: '2026-08-05 10:00', current_workstation: null },
+];
+
+// ============ Phase 3: 工序交接卡 ============
+const flowCards = [
+  { id: 1, name: 'FC20260805-00001', sn: 'GLD-20260805-RING-001', in_operation: 'OWP03 落料', in_workstation: 'WS-OWP-01', sender: '李四', receiver: '王五', handover_time: '2026-08-05 09:15', weight_in_g: 5.250, weight_out_g: 5.235, state: 'completed' },
+  { id: 2, name: 'FC20260805-00002', sn: 'GLD-20260805-RING-001', in_operation: 'OWP04 油压成形', in_workstation: 'WS-OWP-02', sender: '王五', receiver: '张三', handover_time: '2026-08-05 09:50', weight_in_g: 5.235, weight_out_g: 5.180, state: 'completed' },
+  { id: 3, name: 'FC20260805-00003', sn: 'GLD-20260805-RING-001', in_operation: 'OWP06 执模', in_workstation: 'WS-OWP-04', sender: '张三', receiver: '张三', handover_time: '2026-08-05 10:25', weight_in_g: 5.180, weight_out_g: null, state: 'at_station' },
+];
+
+// ============ Phase 3.2: NCR 不合格品处理单 ============
+const ncrs = [
+  { id: 1, name: 'NCR20260805-00001', ncr_time: '2026-08-05 10:35', source: 'workorder_report', defect_type: '划痕', defect_description: '执模工序发现表面划痕', production_name: 'MO-00425', piece_sn: 'GLD-20260805-RING-003', defect_weight_g: 5.18, disposition: 'rework', disposition_time: '2026-08-05 10:50', disposition_by: '班组长-菩提老祖', estimated_loss_amount: 0.0 },
+  { id: 2, name: 'NCR20260805-00002', ncr_time: '2026-08-05 11:15', source: 'xrf', defect_type: '含量不足', defect_description: 'XRF 检测金含量 99.42% < 标准 99.50%', production_name: 'MO-00422', piece_sn: 'GLD-20260805-DIA-007', defect_weight_g: 8.30, disposition: 'pending', estimated_loss_amount: 250.0 },
+];
+
+// ============ Phase 3.3: 包装 ============
+const packages = [
+  { id: 1, name: 'PKG20260805-00001', package_no: 'PKG20260805-00001', package_kind: 'box', package_time: '2026-08-05 14:30', production_name: 'MO-00425', piece_count: 10, total_weight_g: 51.8, total_value: 30184.0, ngtc_cert_no: 'NGTC-2026-000123', state: 'sealed', sealed_time: '2026-08-05 14:35' },
+];
+
 const db = {
   batches, equipment, workorderReports,
   environmentSensors, environmentReadings,
   hazardousChemicals, maintenanceOrders, spareParts,
   inventoryCounts, finishedGoods, materialReturns,
   certificates, attendance, energyMeters, sops, ecns,
+  productions, flowCards, ncrs, packages,
   nextId, computeKpi,
 };
 

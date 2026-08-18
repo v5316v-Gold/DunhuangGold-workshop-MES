@@ -107,5 +107,21 @@ access_gold_finished_goods_line_director,gold.finished.goods.line.director,model
 access_gold_material_return_user,gold.material.return.user,model_gold_material_return,group_dunhuanggold_workshop_mes_user,1,1,1,0
 access_gold_material_return_warehouse,gold.material.return.warehouse,model_gold_material_return,group_dunhuanggold_workshop_mes_warehouse,1,1,1,0
 access_gold_material_return_director,gold.material.return.director,model_gold_material_return,group_dunhuanggold_workshop_mes_director,1,1,1,1
+# Phase 3.1: 工序交接卡
+access_gold_piece_flow_card_user,gold.piece.flow.card.user,model_gold_piece_flow_card,group_dunhuanggold_workshop_mes_user,1,1,1,0
+access_gold_piece_flow_card_leader,gold.piece.flow.card.leader,model_gold_piece_flow_card,group_dunhuanggold_workshop_mes_leader,1,1,1,0
+access_gold_piece_flow_card_director,gold.piece.flow.card.director,model_gold_piece_flow_card,group_dunhuanggold_workshop_mes_director,1,1,1,1
+# Phase 3.2: NCR 不合格品处理
+access_gold_ncr_user,gold.ncr.user,model_gold_ncr,group_dunhuanggold_workshop_mes_user,1,0,0,0
+access_gold_ncr_qc,gold.ncr.qc,model_gold_ncr,group_dunhuanggold_workshop_mes_qc,1,1,1,0
+access_gold_ncr_leader,gold.ncr.leader,model_gold_ncr,group_dunhuanggold_workshop_mes_leader,1,1,1,0
+access_gold_ncr_director,gold.ncr.director,model_gold_ncr,group_dunhuanggold_workshop_mes_director,1,1,1,1
+# Phase 3.3: 包装
+access_gold_package_user,gold.package.user,model_gold_package,group_dunhuanggold_workshop_mes_user,1,0,0,0
+access_gold_package_warehouse,gold.package.warehouse,model_gold_package,group_dunhuanggold_workshop_mes_warehouse,1,1,1,0
+access_gold_package_director,gold.package.director,model_gold_package,group_dunhuanggold_workshop_mes_director,1,1,1,1
+access_gold_package_line_user,gold.package.line.user,model_gold_package_line,group_dunhuanggold_workshop_mes_user,1,0,0,0
+access_gold_package_line_warehouse,gold.package.line.warehouse,model_gold_package_line,group_dunhuanggold_workshop_mes_warehouse,1,1,1,0
+access_gold_package_line_director,gold.package.line.director,model_gold_package_line,group_dunhuanggold_workshop_mes_director,1,1,1,1
 access_gold_audit_log_director,gold.audit.log.director,model_gold_audit_log,group_dunhuanggold_workshop_mes_director,1,0,0,0
 access_gold_audit_log_leader,gold.audit.log.leader,model_gold_audit_log,group_dunhuanggold_workshop_mes_leader,1,0,0,0

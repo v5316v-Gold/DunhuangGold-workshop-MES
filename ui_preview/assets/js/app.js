@@ -31,11 +31,16 @@ const NAV = [
         {id: "spare_part", name: "备品备件", icon: "🔩", file: "page_spare_part.html"},
     ]},
     {section: "生产执行", items: [
+        {id: "production_list", name: "任务单接收", icon: "📥", file: "page_production_list.html"},
+        {id: "flow_card", name: "工序交接卡", icon: "🔄", file: "page_flow_card.html"},
+        {id: "piece_trace", name: "件级追溯", icon: "🔍", file: "page_piece_trace.html"},
         {id: "workorder_report", name: "工序报工", icon: "📝", file: "page_workorder_report.html"},
-        {id: "loss_trace", name: "损耗追溯", icon: "🔍", file: "page_loss_trace.html"},
-        {id: "outsource", name: "委外加工", icon: "🤝", file: "page_outsource.html"},
+        {id: "loss_trace", name: "损耗追溯", icon: "📉", file: "page_loss_trace.html"},
+        {id: "ncr", name: "NCR 不合格品", icon: "⚠️", file: "page_ncr.html"},
         {id: "piece", name: "件级 SN", icon: "🔖", file: "page_piece.html"},
         {id: "finished_goods", name: "成品入库单", icon: "📦", file: "page_finished_goods.html"},
+        {id: "package", name: "包装", icon: "🎁", file: "page_package.html"},
+        {id: "outsource", name: "委外加工", icon: "🤝", file: "page_outsource.html"},
     ]},
     {section: "质量与印记", items: [
         {id: "qc", name: "质检记录", icon: "✅", file: "page_quality.html"},
@@ -49,6 +54,7 @@ const NAV = [
     ]},
     {section: "看板", items: [
         {id: "dashboard", name: "车间看板", icon: "📊", file: "page_dashboard.html"},
+        {id: "bigscreen", name: "车间大屏 (65寸)", icon: "🖥️", file: "page_bigscreen.html"},
     ]},
     {section: "采购/销售(预留)", items: [
         {id: "procurement", name: "采购订单 (预留)", icon: "📦", file: "page_procurement.html"},

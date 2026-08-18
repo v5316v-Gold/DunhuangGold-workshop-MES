@@ -50,6 +50,13 @@ from . import gold_outsource_order
 
 # 件级 SN
 from . import gold_piece
+from . import gold_piece_flow_card  # Phase 3.1: 工序间交接卡
+
+# ---- Phase 3.2: NCR 不合格品处理 ----
+from . import gold_ncr
+
+# ---- Phase 3.3: 包装 ----
+from . import gold_package
 
 # ---- 人机料法环补全 (作业指导书) ----
 # 人 (Man): 资质证书 / 考勤工时

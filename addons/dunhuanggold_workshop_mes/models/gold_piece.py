@@ -25,7 +25,12 @@ from odoo.exceptions import UserError, ValidationError
 PIECE_STATE = [
     ("draft", "草稿"),
     ("in_process", "生产中"),
+    ("at_station", "工位上"),  # Phase 3.1: 在某个工位上
     ("finished", "已完工"),
+    ("qc_pending", "待质检"),  # Phase 3.2: 完工后等质检
+    ("qc_passed", "质检合格"),  # Phase 3.2
+    ("ncr_open", "NCR 处理中"),  # Phase 3.2: 不合格
+    ("packaged", "已包装"),  # Phase 3.3
     ("stored", "已入库"),
     ("sold", "已销售"),
     ("redeemed", "已以旧换新"),
@@ -134,6 +139,25 @@ class GoldPiece(models.Model):
         "res.company",
         string="公司",
         default=lambda self: self.env.company,
+    )
+    # Phase 3.1: WIP 当前位置(由 flow_card 自动更新)
+    current_workstation_id = fields.Many2one(
+        "gold.workstation",
+        string="当前工位",
+        index=True,
+        help="件级 SN 当前所在工位(由 flow_card 自动更新)",
+    )
+    current_operation_id = fields.Many2one(
+        "gold.process.operation",
+        string="当前工序",
+        index=True,
+        help="件级 SN 当前所在工序",
+    )
+    # Phase 3.1: 关联所有 flow_card
+    flow_card_ids = fields.One2many(
+        "gold.piece.flow.card",
+        "piece_id",
+        string="工序交接卡",
     )
     # 备注
     note = fields.Text(string="备注")

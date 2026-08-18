@@ -47,7 +47,14 @@ function readBody(req) {
 }
 
 // ---------- API 路由 ----------
-async function apiHandler(req, res, pathname, query) {
+async function apiHandler(req, res, pathname, queryParams) {
+    // 兼容 URLSearchParams 对象 / 旧 url.parse() 字典
+    let query = queryParams;
+    if (queryParams && typeof queryParams.entries === 'function') {
+        query = Object.fromEntries(queryParams.entries());
+    } else if (!queryParams) {
+        query = {};
+    }
     const method = req.method;
     const p = pathname.replace(/^\/api\/v1\//, '');
     const parts = p.split('/').filter(Boolean);
@@ -296,6 +303,196 @@ async function apiHandler(req, res, pathname, query) {
         return ok(res, { id: rec.id, name: rec.name, state: rec.state, batch_id: db.nextId() });
     }
 
+    // ============================================================
+    // Phase 3.1: 任务单接收
+    // ============================================================
+    if (p === 'production/receive' && method === 'POST') {
+        const b = await readBody(req);
+        const prod = db.productions.find(p => p.id === Number(b.production_id)) || { id: b.production_id, name: 'MO-' + b.production_id };
+        return ok(res, {
+            production_id: prod.id,
+            production_name: prod.name || 'MO-00425',
+            gold_state: 'received',
+            received_at: new Date().toISOString(),
+            received_by: '班组长-菩提老祖',
+            note: b.note || '',
+            next_step: 'in_progress',
+        });
+    }
+    if (p === 'production/list' && method === 'GET') {
+        // 返回模拟生产订单(车间大屏用)
+        return ok(res, [
+            { id: 1, name: 'MO-00425', product: '古法金素圈戒指', gold_process_type: 'oil_press', qty: 100, gold_state: 'in_progress', received_at: '2026-08-05 08:30', current_workstation: 'WS-OWP' },
+            { id: 2, name: 'MO-00422', product: '18K金钻石戒指', gold_process_type: 'lost_wax', qty: 50, gold_state: 'in_progress', received_at: '2026-08-05 09:00', current_workstation: 'WS-LWC' },
+            { id: 3, name: 'MO-00430', product: '足金手镯', gold_process_type: 'oil_press', qty: 30, gold_state: 'received', received_at: '2026-08-05 10:00', current_workstation: null },
+            { id: 4, name: 'MO-00418', product: 'PT950吊坠', gold_process_type: 'lost_wax', qty: 20, gold_state: 'done', received_at: '2026-08-04 14:00', current_workstation: null },
+        ]);
+    }
+
+    // ============================================================
+    // Phase 3.1: 工序间交接
+    // ============================================================
+    if (p === 'piece/trace' && method === 'GET') {
+        const sn = query.sn;
+        if (!sn) return err(res, 'sn required', 400);
+        // 模拟完整追溯链
+        return ok(res, {
+            found: true,
+            sn: sn,
+            product: '古法金素圈戒指',
+            current_state: 'at_station',
+            current_workstation: 'WS-OWP-04',
+            current_operation: 'OWP06 执模',
+            total_pieces: 1,
+            flow_cards: [
+                { in_operation: 'OWP03 落料', in_workstation: 'WS-OWP-01', sender: '李四', receiver: '王五', handover_time: '2026-08-05 09:15', received_time: '2026-08-05 09:16', completed_time: '2026-08-05 09:45', weight_in_g: 5.250, weight_out_g: 5.235, weight_loss_g: 0.015, state: 'completed' },
+                { in_operation: 'OWP04 油压成形', in_workstation: 'WS-OWP-02', sender: '王五', receiver: '张三', handover_time: '2026-08-05 09:50', received_time: '2026-08-05 09:51', completed_time: '2026-08-05 10:20', weight_in_g: 5.235, weight_out_g: 5.180, weight_loss_g: 0.055, state: 'completed' },
+                { in_operation: 'OWP06 执模', in_workstation: 'WS-OWP-04', sender: '张三', receiver: '张三', handover_time: '2026-08-05 10:25', received_time: '2026-08-05 10:26', completed_time: null, weight_in_g: 5.180, weight_out_g: null, weight_loss_g: 0.0, state: 'at_station' },
+            ],
+        });
+    }
+    if (p === 'piece/handover' && method === 'POST') {
+        const b = await readBody(req);
+        return ok(res, {
+            id: db.nextId(),
+            name: 'FC20260805-' + String(db.nextId()).padStart(5, '0'),
+            sn: b.sn || 'GLD-20260805-RING-001',
+            from_workstation: b.from_workstation || 'WS-OWP-04',
+            to_workstation: b.to_workstation || 'WS-OWP-05',
+            operation: b.operation || 'OWP07 抛光',
+            weight_in_g: b.weight_in_g || 5.18,
+            state: 'in_transit',
+            qr_payload: 'https://handover.dunhuang-gold-mes.com/?sn=' + b.sn,
+        });
+    }
+    if (p === 'flow_card/list' && method === 'GET') {
+        return ok(res, [
+            { id: 1, name: 'FC20260805-00001', sn: 'GLD-20260805-RING-001', in_operation: 'OWP03 落料', in_workstation: 'WS-OWP-01', sender: '李四', receiver: '王五', handover_time: '2026-08-05 09:15', state: 'completed' },
+            { id: 2, name: 'FC20260805-00002', sn: 'GLD-20260805-RING-001', in_operation: 'OWP04 油压成形', in_workstation: 'WS-OWP-02', sender: '王五', receiver: '张三', handover_time: '2026-08-05 09:50', state: 'completed' },
+            { id: 3, name: 'FC20260805-00003', sn: 'GLD-20260805-RING-001', in_operation: 'OWP06 执模', in_workstation: 'WS-OWP-04', sender: '张三', receiver: '张三', handover_time: '2026-08-05 10:25', state: 'at_station' },
+        ]);
+    }
+
+    // ============================================================
+    // Phase 3.2: NCR 不合格品处理
+    // ============================================================
+    if (p === 'ncr/list' && method === 'GET') {
+        return ok(res, [
+            { id: 1, name: 'NCR20260805-00001', ncr_time: '2026-08-05 10:35', source: 'workorder_report', defect_type: '划痕', defect_description: '执模工序发现表面划痕', production_name: 'MO-00425', piece_sn: 'GLD-20260805-RING-003', defect_weight_g: 5.18, disposition: 'rework', disposition_time: '2026-08-05 10:50', disposition_by: '班组长-菩提老祖', estimated_loss_amount: 0.0 },
+            { id: 2, name: 'NCR20260805-00002', ncr_time: '2026-08-05 11:15', source: 'xrf', defect_type: '含量不足', defect_description: 'XRF 检测金含量 99.42% < 标准 99.50%', production_name: 'MO-00422', piece_sn: 'GLD-20260805-DIA-007', defect_weight_g: 8.30, disposition: 'pending', disposition_time: null, estimated_loss_amount: 250.0 },
+        ]);
+    }
+    if (p === 'ncr/create' && method === 'POST') {
+        const b = await readBody(req);
+        return ok(res, {
+            id: db.nextId(),
+            name: 'NCR20260805-' + String(db.nextId()).padStart(5, '0'),
+            source: b.source || 'manual',
+            defect_type: b.defect_type || '未指定',
+            defect_description: b.defect_description || '',
+            piece_sn: b.piece_sn,
+            production_id: b.production_id,
+            defect_weight_g: b.defect_weight_g || 0,
+            disposition: 'pending',
+            ncr_time: new Date().toISOString(),
+        });
+    }
+    if (p === 'ncr/dashboard' && method === 'GET') {
+        return ok(res, {
+            total_7days: 2,
+            pending: 1,
+            rework: 1,
+            scrap: 0,
+            concession: 0,
+            total_loss_amount: 250.0,
+            recent: [
+                { name: 'NCR20260805-00001', defect_type: '划痕', disposition: 'rework' },
+                { name: 'NCR20260805-00002', defect_type: '含量不足', disposition: 'pending' },
+            ],
+        });
+    }
+
+    // ============================================================
+    // Phase 3.3: 包装
+    // ============================================================
+    if (p === 'package/list' && method === 'GET') {
+        return ok(res, [
+            { id: 1, name: 'PKG20260805-00001', package_no: 'PKG20260805-00001', package_kind: 'box', package_time: '2026-08-05 14:30', production_name: 'MO-00425', piece_count: 10, total_weight_g: 51.8, total_value: 30184.0, ngtc_cert_no: 'NGTC-2026-000123', state: 'sealed', sealed_time: '2026-08-05 14:35' },
+        ]);
+    }
+    if (p === 'package/create' && method === 'POST') {
+        const b = await readBody(req);
+        const sns = b.piece_sns || [];
+        return ok(res, {
+            id: db.nextId(),
+            name: 'PKG20260805-' + String(db.nextId()).padStart(5, '0'),
+            package_kind: b.package_kind || 'box',
+            piece_count: sns.length,
+            total_weight_g: sns.length * 5.18,
+            state: 'draft',
+            package_time: new Date().toISOString(),
+            qr_payload: 'https://verify.dunhuang-gold-mes.com/package/PKG' + Date.now(),
+        });
+    }
+    if (p === 'package/seal' && method === 'POST') {
+        const b = await readBody(req);
+        return ok(res, { id: b.package_id, state: 'sealed', sealed_time: new Date().toISOString() });
+    }
+    if (p === 'package/verify' && method === 'GET') {
+        const qr = query.qr;
+        if (!qr) return err(res, 'qr required', 400);
+        return ok(res, {
+            found: true,
+            package_name: 'PKG20260805-00001',
+            ngtc_cert_no: 'NGTC-2026-000123',
+            piece_count: 10,
+            sealed_time: '2026-08-05 14:35',
+            state: 'sealed',
+            verification: '正品,敦煌金加工车间 ERP 出品',
+        });
+    }
+
+    // ============================================================
+    // Phase 3: 车间大屏数据
+    // ============================================================
+    if (p === 'workshop/bigscreen' && method === 'GET') {
+        return ok(res, {
+            today: '2026-08-05',
+            summary: {
+                in_progress: 5,
+                done_today: 28,
+                pending_receive: 1,
+                over_loss_alerts: 1,
+                ncr_pending: 1,
+                packages_today: 3,
+                avg_loss_rate: 3.85,
+            },
+            operations: [
+                { name: 'OWP01 设计开模', state: 'idle', queue: 0 },
+                { name: 'OWP02 备料', state: 'running', queue: 1 },
+                { name: 'OWP03 落料', state: 'running', queue: 2 },
+                { name: 'OWP04 油压成形', state: 'running', queue: 3 },
+                { name: 'OWP05 切边', state: 'idle', queue: 0 },
+                { name: 'OWP06 执模', state: 'warning', queue: 5 },
+                { name: 'OWP07 抛光', state: 'running', queue: 2 },
+                { name: 'OWP08 印记', state: 'idle', queue: 0 },
+                { name: 'OWP09 检验入库', state: 'running', queue: 1 },
+            ],
+            bottlenecks: [
+                { workstation: 'WS-OWP-04 (执模)', avg_wait_min: 45, queue_count: 5 },
+                { workstation: 'WS-LWC-02 (熔金)', avg_wait_min: 32, queue_count: 3 },
+                { workstation: 'WS-OWP-02 (油压)', avg_wait_min: 18, queue_count: 2 },
+            ],
+            loss_trend: [
+                { date: '2026-08-01', avg_loss_rate: 3.5 },
+                { date: '2026-08-02', avg_loss_rate: 3.8 },
+                { date: '2026-08-03', avg_loss_rate: 4.1 },
+                { date: '2026-08-04', avg_loss_rate: 3.6 },
+                { date: '2026-08-05', avg_loss_rate: 3.85 },
+            ],
+        });
+    }
+
     // 未匹配
     return err(res, '接口不存在: ' + pathname, 404);
 }
@@ -332,9 +529,14 @@ http.createServer((req, res) => {
         res.end();
         return;
     }
-    const parsed = url.parse(req.url, true);
+    let parsed;
+    try {
+        parsed = new URL(req.url, `http://${req.headers.host}`);
+    } catch (e) {
+        return err(res, 'Invalid URL: ' + e.message, 400);
+    }
     if (parsed.pathname.startsWith('/api/')) {
-        apiHandler(req, res, parsed.pathname, parsed.query).catch((e) => err(res, String(e), 500));
+        apiHandler(req, res, parsed.pathname, parsed.searchParams).catch((e) => err(res, String(e), 500));
     } else {
         serveStatic(res, req.url);
     }
